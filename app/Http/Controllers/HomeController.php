@@ -35,13 +35,13 @@ class HomeController extends Controller
     {
         return view("Template.pages.shop");
     }
-    public function shopsingle()
+    public function blogsingle()
     {
-        return view("Template.pages.shopsingle");
+        return view("Template.pages.blog_single");
     }
     public function productsingle()
     {
-        return view("Template.pages.productsingle");
+        return view("Template.pages.product_single");
     }
     public function wishlist()
     {

@@ -11,7 +11,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/shop', 'shop')->name('shop');
     Route::get('/cart', 'cart')->name('cart');
-    Route::get('/shopsingle', 'shopsingle')->name('shopsingle');
+    Route::get('/blogsingle', 'blogsingle')->name('blogsingle');
     Route::get('/productsingle', 'productsingle')->name('productsingle');
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/about', 'about')->name('about');
