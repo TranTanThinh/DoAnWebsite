@@ -55,7 +55,7 @@ class Inventory extends Model
     }
 
     public function getUpdatedAt(){
-        return $this->attributes['created_at'];
+        return $this->attributes['updated_at'];
     }
 
     public function setUpdatedAt($updatedAt) {
