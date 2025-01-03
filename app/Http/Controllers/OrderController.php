@@ -23,7 +23,7 @@ class OrderController extends Controller
 
         $order = new Order();
         $order->uid = auth()->id() ?? 1;
-        $order->shippingAddressId = 1; 
+        $order->shippingAddressId = 1;
         $order->status = 'Pending';
         $order->totalPrice = $request->total;
         $order->save();
@@ -38,6 +38,11 @@ class OrderController extends Controller
         }
 
         return redirect()->route('index')->with('success', 'Order placed successfully.');
+    }
+    public function index()
+    {
+        $orders = Order::paginate(10); // Lấy danh sách đơn hàng và phân trang
+        return view('Template.pages.order', compact('orders'));
     }
     public function update(Request $request, $id)
     {
