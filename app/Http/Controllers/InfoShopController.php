@@ -5,11 +5,10 @@ use App\Models\InfoShop;
 
 abstract class InfoShopController
 {
-    abstract public function getInfo();
-
-    // Một phương thức chung để tìm cửa hàng theo ID
-    public function findShopById($id)
+    public function index()
     {
-        return InfoShop::find($id);
+        $shops = InfoShop::all();
+
+        return view('footer');
     }
 }

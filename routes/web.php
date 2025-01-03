@@ -18,3 +18,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/wishlist', 'wishlist')->name('wishlist');
 });
 Route::resource('/admin', AdminController::class);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
