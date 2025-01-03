@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
