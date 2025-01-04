@@ -24,10 +24,10 @@
           <div class="ftco-footer-widget mb-4 ml-md-5">
             <h2 class="ftco-heading-2">Menu</h2>
             <ul class="list-unstyled">
-              <li><a href="#" class="py-2 d-block">Shop</a></li>
-              <li><a href="#" class="py-2 d-block">About</a></li>
+              <li><a href="shop" class="py-2 d-block">Shop</a></li>
+              <li><a href="about" class="py-2 d-block">About</a></li>
               <li><a href="#" class="py-2 d-block">Journal</a></li>
-              <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+              <li><a href="contact" class="py-2 d-block">Contact Us</a></li>
             </ul>
           </div>
         </div>
@@ -43,7 +43,7 @@
                 </ul>
                 <ul class="list-unstyled">
                   <li><a href="#" class="py-2 d-block">FAQs</a></li>
-                  <li><a href="#" class="py-2 d-block">Contact</a></li>
+                  <li><a href="contact">Contact</a></li>
                 </ul>
               </div>
           </div>
@@ -64,18 +64,18 @@
       <div class="row">
         <div class="col-md-12 text-center">
 
-          <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          <p><! Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. >
                         Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        <! Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. >
                       </p>
         </div>
       </div>
     </div>
   </footer>
-  @endforeach
+@endforeach
 
 
-<!-- loader -->
+<! loader >
 <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 

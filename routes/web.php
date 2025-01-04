@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InfoShopController;
 use Illuminate\Support\Facades\Auth;
 
 Route::controller(HomeController::class)->group(function () {
@@ -23,3 +24,7 @@ Route::resource('/admin', AdminController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::controller(InfoShopController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+});
