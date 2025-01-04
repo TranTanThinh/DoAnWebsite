@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-     /**
+    /**
      * PRODUCT ATTRIBUTES
-     * $this->attributes['id'] - int - contains the product primary key (id)
+     * $this->attributes['productId'] - int - contains the product primary key (id)
      * $this->attributes['name'] - string - contains the product name
      * $this->attributes['iamge'] - string -  contains the product image 
      * $this->attributes['description'] - string - contains the product description
@@ -16,7 +16,7 @@ class Product extends Model
      * $this->attributes['slug'] - string - contains the product slug
      * $this->attributes['created_at'] - timestamp - contains the product creation date
      * $this->attributes['updated_at'] - timestamp - contains the product update date
-    **/
+     **/
 
     protected $fillable = [
         'name',
@@ -24,71 +24,94 @@ class Product extends Model
         'description',
         'price',
         'slug',
-        
+
     ];
 
+    protected $primaryKey = 'productId';
 
-    public function getId() {
-        return $this->attributes['id'];
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class, 'productID', 'productId');
     }
 
-    public function setId($id) {
-        $this->attributes['id'] = $id;
+
+    public function getProductId()
+    {
+        return $this->attributes['productId'];
     }
 
-    public function getName() {
+    public function setProductId($id)
+    {
+        $this->attributes['productId'] = $id;
+    }
+
+    public function getName()
+    {
         return $this->attributes['name'];
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->attributes['name'] = $name;
     }
 
-    public function getImage() {
+    public function getImage()
+    {
         return $this->attributes['image'];
     }
 
-    public function setImage($image) {
+    public function setImage($image)
+    {
         $this->attributes['image'] = $image;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->attributes['description'];
     }
 
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->attributes['description'] = $description;
     }
 
-    public function getPrice() {
+    public function getPrice()
+    {
         return $this->attributes['price'];
     }
 
-    public function setPrice($price) {
+    public function setPrice($price)
+    {
         $this->attributes['price'] = $price;
     }
 
-    public function getSlug() {
+    public function getSlug()
+    {
         return $this->attributes['slug'];
     }
 
-    public function setSlug($slug) {
+    public function setSlug($slug)
+    {
         $this->attributes['slug'] = $slug;
     }
 
-    public function getCreatedAt(){
+    public function getCreatedAt()
+    {
         return $this->attributes['created_at'];
     }
 
-    public function setCreatedAt($createdAt) {
+    public function setCreatedAt($createdAt)
+    {
         $this->attributes['created_at'] = $createdAt;
     }
 
-    public function getUpdatedAt(){
+    public function getUpdatedAt()
+    {
         return $this->attributes['updated_at'];
     }
 
-    public function setUpdatedAt($updatedAt) {
+    public function setUpdatedAt($updatedAt)
+    {
         $this->attributes['updated_at'] = $updatedAt;
     }
 }
