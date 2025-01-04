@@ -7,6 +7,5 @@ use Illuminate\Database\Eloquent\HasFactory;
 
 class Admin extends Model
 {
-    use HasFactory;
     
 }
