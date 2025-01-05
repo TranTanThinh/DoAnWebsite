@@ -1,18 +1,27 @@
 @extends('Dashboard.layouts.app')
 @section('main')
 
-
-
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Basic</h4>
+            <div class="card-header d-flex justify-content-between align-items-center" style="margin-top: 120px;">
+                <h4 class="card-title">Danh sách sản phẩm</h4>
+                <form action="{{ route('products.search') }}" method="GET" class="d-flex">
+                    <input
+                        type="text"
+                        name="query"
+                        class="form-control me-2"
+                        placeholder="Tìm kiếm theo ID, Name hoặc Price..."
+                        value="{{ request('query') }}"
+                    />
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </form>
             </div>
+            
+
             <div class="card-body">
                 <div class="table-responsive">
                     <table id="basic-datatables" class="display table table-striped table-hover">
                         <head>
-                            <title>Danh sách sản phẩm</title>
                             <style>
                                 table {
                                     width: 100%;
@@ -32,7 +41,7 @@
                             </style>
                         </head>
                         <body>
-                            <h1>Danh sách sản phẩm</h1>
+                           
                             <table>
                                 <tr>
                                     <th>ID</th>

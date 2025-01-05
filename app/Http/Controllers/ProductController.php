@@ -18,6 +18,27 @@ class ProductController extends Controller
         return view('Dashboard.pages.addproduct', compact('products'));
     }
 
+    
+    public function search(Request $request)
+    {
+        $query = $request->input('query'); // Từ khóa tìm kiếm cho ID, Name và Price
+    
+        $products = Product::query(); // Khởi tạo truy vấn
+    
+        if (!empty($query)) {
+            // Tìm kiếm theo ID, Name hoặc Price
+            $products->where(function($q) use ($query) {
+                $q->where('productId', 'LIKE', "%{$query}%")
+                  ->orWhere('name', 'LIKE', "%{$query}%")
+                  ->orWhere('price', 'LIKE', "%{$query}%"); // Tìm kiếm theo Price
+            });
+        }
+    
+        $products = $products->get(); // Thực hiện truy vấn
+    
+        return view('Dashboard.pages.index', compact('products', 'query')); // Trả về kết quả tìm kiếm
+    }
+    
     /**
      * Show the form for creating a new resource.
      */
