@@ -34,7 +34,7 @@
                             <td>{{ $contact->updated_at }}</td>
                             
                             <!-- Nút chỉnh sửa -->
-                            <<td>
+                            <td>
                                 <!-- Group both icons together in a div or span -->
                                 <div class="d-flex justify-content-start">
                                     
