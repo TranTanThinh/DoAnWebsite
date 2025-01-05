@@ -45,7 +45,8 @@ class ContactController extends Controller
      */
     public function edit($id)
     {
-        
+        $contact = Contact::findOrFail($id);
+        return view('Dashboard.pages.contact.editcontact', compact('contact'));
     }
 
 
@@ -54,7 +55,20 @@ class ContactController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $contact = Contact::findOrFail($id);
+
+        // Validate input nếu cần
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'subject' => 'nullable|string|max:255',
+            'message' => 'nullable|string',
+        ]);
+
+        // Cập nhật thông tin
+        $contact->update($request->all());
+
+        return redirect()->route('contacts.index')->with('success', 'Contact updated successfully!');
     }
     
 

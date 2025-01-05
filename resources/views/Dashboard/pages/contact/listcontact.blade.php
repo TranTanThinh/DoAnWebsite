@@ -37,8 +37,11 @@
                             <<td>
                                 <!-- Group both icons together in a div or span -->
                                 <div class="d-flex justify-content-start">
-                                    <!-- Nút chỉnh sửa -->
                                     
+                                    <!-- Nút chỉnh sửa -->
+                                    <a href="{{ route('contacts.edit', $contact->id) }}" class="btn btn-primary btn-sm me-2">
+                                        <i class="fa fa-edit"></i> <!-- Biểu tượng chỉnh sửa -->
+                                    </a>
                             
                                     <!-- Nút xóa -->
                                     <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this contact?')">
