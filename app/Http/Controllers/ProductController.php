@@ -101,17 +101,54 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+        public function edit($id)
     {
-        //
+        // Tìm sản phẩm theo productId thay vì id
+        $product = Product::where('productId', $id)->first();
+
+        if (!$product) {
+            return redirect()->route('products.index')->with('error', 'Product not found.');
+        }
+
+        return view('Dashboard.pages.editproduct', compact('product'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+        public function update(Request $request, $id)
     {
-        //
+        // Xác thực dữ liệu đầu vào
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'description' => 'required',
+            'slug' => 'required',
+            'image' => 'nullable|image',
+        ]);
+
+        // Tìm sản phẩm
+        $product = Product::where('productId', $id)->first();
+
+        if (!$product) {
+            return redirect()->route('products.index')->with('error', 'Product not found.');
+        }
+
+        // Cập nhật thông tin sản phẩm
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->slug = $request->slug;
+
+        // Xử lý hình ảnh (nếu có)
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $product->image = $imagePath;
+        }
+
+        $product->save(); // Lưu thay đổi
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
     /**
