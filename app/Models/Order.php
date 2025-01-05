@@ -72,9 +72,5 @@ class Order extends Model
     {
         return $this->hasMany(Order_Item::class, 'orderId');
     }
-    public function userAddress()
-    {
-        return $this->belongsTo(UserAddress::class, 'addressId', 'addressID');
-    }
     use SoftDeletes;
 }
