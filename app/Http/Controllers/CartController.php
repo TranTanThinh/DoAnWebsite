@@ -9,7 +9,8 @@ class CartController extends Controller
 {
     public function index()
     {
-        $carts = Cart::with('product')->where('user_id', auth()->id())->get();
+        $carts = Cart::with('product')->get(); // Tạm thời bỏ điều kiện để kiểm tra
         return view('Template.pages.cart', compact('carts'));
     }
 }
+
