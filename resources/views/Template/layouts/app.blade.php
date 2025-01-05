@@ -1,4 +1,4 @@
 @include('Template.partials.header')
 @yield('main')
-@include('Template.partials.footer'3)
+@include('Template.partials.footer')
 

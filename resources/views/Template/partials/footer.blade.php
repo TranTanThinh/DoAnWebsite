@@ -1,4 +1,4 @@
-@foreach ($shops as $shop)
+{{-- @foreach ($shops as $shop)
 <footer class="ftco-footer ftco-section">
     <div class="container">
         <div class="row">
@@ -72,10 +72,10 @@
       </div>
     </div>
   </footer>
-@endforeach
+{{-- @endforeach --}}
 
 
-<! loader >
+{{-- <! loader >
 <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 
@@ -96,5 +96,5 @@
 <script src="{{ asset ('Template/js/google-map.js')}}"></script>
 <script src="{{ asset ('Template/js/main.js')}}"></script>
 
-</body>
-</html>
+</body> --}}
+{{-- </html> --}}

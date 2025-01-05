@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\InfoShopController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
@@ -22,9 +23,13 @@ Route::controller(HomeController::class)->group(function () {
 Route::resource('/admin', AdminController::class);
 
 Auth::routes();
+use App\Http\Controllers\Auth\LoginController;
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
+//Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
-Route::controller(InfoShopController::class)->group(function () {
-    Route::get('/', 'index')->name('index');
-});
+
+
