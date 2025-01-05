@@ -9,20 +9,26 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->integer('productId')->autoIncrement()->primary();
-            $table->integer('categoryId');
+            $table->unsignedInteger('productId')->autoIncrement();
+            $table->unsignedInteger('categoryId');
             $table->string('name');
             $table->string('image');
             $table->text('description');
-            $table->decimal('price', total: 9, places: 2);
+            $table->decimal('price', 9, 2);
             $table->string('slug');
             $table->timestamps();
-            $table->softDeletes()->nullable();
+            $table->softDeletes();
+        });
+
+        // Chỉ mục cho bảng products
+        Schema::table('products', function (Blueprint $table) {
+            $table->primary('productId');
         });
     }
+
 
     /**
      * Reverse the migrations.
