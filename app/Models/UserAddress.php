@@ -53,4 +53,8 @@ class UserAddress extends Model
     public function setUpdatedAt($updatedAt) {
         $this->attributes['updated_at'] = $updatedAt;
     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'addressId', 'addressID');
+    }
 }
