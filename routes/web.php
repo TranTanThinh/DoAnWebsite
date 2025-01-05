@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -27,4 +28,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::controller(ProductController::class)->group(function () {
     route::get('/shop', 'index')->name('product.index');
     route::get('products/{slug}/{id}', 'show')->name('product.show');
+});
+
+Route::controller(CartController::class)->group(function() {
+    route::get('/cart', 'index')->name('cart.index');
+    route::get('/cart/delete','delete')->name('cart.delete');
+    route::post('/cart/add/{id}','add')->name('cart.add');
 });

@@ -29,6 +29,15 @@ class Product extends Model
 
     protected $primaryKey = 'productId';
 
+    public static function sumPricesByQuantities($products, $productsInSession) {
+        $total = 0;
+        foreach($products as $product) {
+            $total = $total + ($product->getPrice() * $productsInSession[$product->getProductId()]);
+        }
+
+        return $total;
+    }
+
     public function inventories()
     {
         return $this->hasMany(Inventory::class, 'productID', 'productId');

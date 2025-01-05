@@ -45,7 +45,7 @@
                         </div> -->
                     </div>
                     <div class="w-100"></div>
-                    <div class="input-group col-md-6 d-flex mb-3">
+                    <!-- <div class="input-group col-md-6 d-flex mb-3">
                         <span class="input-group-btn mr-2">
                             <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
                                 <i class="ion-ios-remove"></i>
@@ -57,7 +57,7 @@
                                 <i class="ion-ios-add"></i>
                             </button>
                         </span>
-                    </div>
+                    </div> -->
                     <div class="w-100"></div>
                     <div class="col-md-12">
                         @foreach ($viewData['quantity'] as $inventory)
@@ -65,7 +65,29 @@
                         @endforeach
                     </div>
                 </div>
-                <p><a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a></p>
+                <!-- <a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a> -->
+                <p>
+                    <form method="post" action="{{route('cart.add', ['id' => $viewData['product']->getProductId()]) }}">
+                        @csrf
+
+                        <div class="input-group col-md-6 d-flex mb-3">
+                            <span class="input-group-btn mr-2">
+                                <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
+                                    <i class="ion-ios-remove"></i>
+                                </button>
+                            </span>
+                            <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                            <span class="input-group-btn ml-2">
+                                <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+                                    <i class="ion-ios-add"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn bg-black px-5">Add to Cart</button>
+                        </div>
+                    </form>
+                </p>
             </div>
         </div>
     </div>
