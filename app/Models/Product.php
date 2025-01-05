@@ -17,7 +17,13 @@ class Product extends Model
      * $this->attributes['created_at'] - timestamp - contains the product creation date
      * $this->attributes['updated_at'] - timestamp - contains the product update date
     **/
+     // Nếu khóa chính của bạn là productId thay vì id, bạn cần khai báo như sau:
+     protected $primaryKey = 'productId';  // Đặt khóa chính đúng
 
+     // Nếu bạn không muốn sử dụng timestamps (created_at, updated_at)
+     // bạn có thể tắt timestamps:
+     public $timestamps = true;  // Thực tế là mặc định, nếu bạn không muốn timestamp thì đặt false
+     
     protected $fillable = [
         'name',
         'image',

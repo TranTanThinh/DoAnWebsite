@@ -75,6 +75,18 @@
                                     <td>{{ $product->slug }}</td>
                                     <td>{{ $product->created_at }}</td>
                                     <td>{{ $product->updated_at }}</td>
+
+                                    <td>
+                                        <!-- Nút xóa -->
+                                        <form action="{{ route('products.destroy', $product->productId) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-trash"></i> <!-- Biểu tượng xóa -->
+                                            </button>
+                                        </form>
+                                    </td>
+                                    
                                 </tr>
                             @endforeach
                         @endif

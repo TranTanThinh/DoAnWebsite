@@ -117,8 +117,19 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+    public function destroy($id)
+{
+    // Tìm sản phẩm theo productId thay vì id
+    $product = Product::where('productId', $id)->first();
+
+    if (!$product) {
+        return redirect()->route('products.index')->with('error', 'Product not found.');
     }
+
+    // Xóa sản phẩm
+    $product->delete();
+
+    return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+}
+
 }
