@@ -25,13 +25,13 @@
                         <tbody>
                             @foreach ($orders as $order)
                                 <tr>
-                                    <td>{{ $order->getId() }}</td>
-                                    <td>{{ $order->getUId() }}</td>
-                                    <td>{{ $order->getShippingAddressId() }}</td>
-                                    <td>{{ $order->getStatus() }}</td>
-                                    <td>${{ $order->getTotalPrice() }}</td>
-                                    <td>{{ $order->getCreatedAt() }}</td>
-                                    <td>{{ $order->getUpdatedAt() }}</td>
+                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->uid }}</td>
+                                <td>{{ $order->shippingAddressId }}</td>
+                                <td>{{ $order->status }}</td>
+                                <td>${{ $order->totalPrice }}</td>
+                                <td>{{ $order->created_at }}</td>
+                                <td>{{ $order->updated_at }}</td>
                                     <td>
                                         <a href="{{ route('orders.show', $order->getId()) }}" class="btn btn-info btn-sm">View</a>
                                         <a href="{{ route('orders.edit', $order->getId()) }}" class="btn btn-warning btn-sm">Edit</a>
