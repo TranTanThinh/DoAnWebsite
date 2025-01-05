@@ -13,7 +13,6 @@ class ProductController extends Controller
     public function index()
     {
         // return view("Dashboard.pages.addproduct");
-
         $products = Product::all(); // Lấy tất cả dữ liệu từ bảng products
         return view('Dashboard.pages.product.listproduct', compact('products'));
     }

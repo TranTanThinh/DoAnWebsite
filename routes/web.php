@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ContactController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
@@ -27,3 +28,10 @@ Route::get('/products/create', [ProductController::class, 'create'])->name('prod
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 
 Route::resource('products', ProductController::class);
+
+Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+
+Route::resource('contacts', ContactController::class);
+
+
+Route::get('contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
