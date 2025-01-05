@@ -176,20 +176,7 @@
               <a href="#" class="tag-cloud-link">eggplant</a>
             </div>
           </div>
-
-          <div class="sidebar-box ftco-animate">
-            <h3 class="heading">Tag Cloud</h3>
-            <div class="tagcloud">
-              <a href="#" class="tag-cloud-link">fruits</a>
-              <a href="#" class="tag-cloud-link">tomatoe</a>
-              <a href="#" class="tag-cloud-link">mango</a>
-              <a href="#" class="tag-cloud-link">apple</a>
-              <a href="#" class="tag-cloud-link">carrots</a>
-              <a href="#" class="tag-cloud-link">orange</a>
-              <a href="#" class="tag-cloud-link">pepper</a>
-              <a href="#" class="tag-cloud-link">eggplant</a>
-            </div>
-          </div>
+          
 
           <div class="sidebar-box ftco-animate">
             <h3 class="heading">Paragraph</h3>
