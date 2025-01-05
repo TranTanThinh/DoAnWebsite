@@ -23,3 +23,4 @@ Route::resource('/admin', AdminController::class);
 
 Route::resource('/product', ProductController::class);
 
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
