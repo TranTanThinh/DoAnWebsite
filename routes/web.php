@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\Auth\RegisterController;
 
 Route::controller(HomeController::class)->group(function () {
@@ -30,6 +30,4 @@ Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('r
 Route::post('register', [RegisterController::class, 'register']);
 //Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
-
-
 
