@@ -15,7 +15,7 @@ class ProductController extends Controller
         // return view("Dashboard.pages.addproduct");
 
         $products = Product::all(); // Lấy tất cả dữ liệu từ bảng products
-        return view('Dashboard.pages.addproduct', compact('products'));
+        return view('Dashboard.pages.listproduct', compact('products'));
     }
 
     
@@ -36,7 +36,7 @@ class ProductController extends Controller
     
         $products = $products->get(); // Thực hiện truy vấn
     
-        return view('Dashboard.pages.index', compact('products', 'query')); // Trả về kết quả tìm kiếm
+        return view('Dashboard.pages.searchproduct', compact('products', 'query')); // Trả về kết quả tìm kiếm
     }
     
     /**
