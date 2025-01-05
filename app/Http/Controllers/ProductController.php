@@ -15,7 +15,7 @@ class ProductController extends Controller
         // return view("Dashboard.pages.addproduct");
 
         $products = Product::all(); // Lấy tất cả dữ liệu từ bảng products
-        return view('Dashboard.pages.listproduct', compact('products'));
+        return view('Dashboard.pages.product.listproduct', compact('products'));
     }
 
     
@@ -36,7 +36,7 @@ class ProductController extends Controller
     
         $products = $products->get(); // Thực hiện truy vấn
     
-        return view('Dashboard.pages.searchproduct', compact('products', 'query')); // Trả về kết quả tìm kiếm
+        return view('Dashboard.pages.product.searchproduct', compact('products', 'query')); // Trả về kết quả tìm kiếm
     }
     
     /**
@@ -44,7 +44,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('Dashboard.pages.addproduct');
+        return view('Dashboard.pages.product.addproduct');
     }
 
     /**
@@ -110,7 +110,7 @@ class ProductController extends Controller
             return redirect()->route('products.index')->with('error', 'Product not found.');
         }
 
-        return view('Dashboard.pages.editproduct', compact('product'));
+        return view('Dashboard.pages.product.editproduct', compact('product'));
     }
 
     /**
