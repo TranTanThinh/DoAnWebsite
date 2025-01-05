@@ -12,16 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id('productId'); // Khóa chính
-            $table->unsignedBigInteger('categoryId'); // ID danh mục
-            $table->string('name'); // Tên sản phẩm
-            $table->string('image'); // Đường dẫn ảnh
-            $table->text('description')->nullable(); // Mô tả sản phẩm (có thể rỗng)
-            $table->decimal('price', 10, 2); // Giá sản phẩm
-            $table->string('slug')->unique(); // Slug duy nhất
-            $table->timestamps(); // created_at và updated_at
-            $table->softDeletes(); // deleted_at (dùng soft delete)
+            $table->id('productId');
+            $table->unsignedBigInteger('categoryId');
+            $table->string('name');
+            $table->string('image')->nullable();
+            $table->text('description');
+            $table->decimal('price', 10, 2);
+            $table->string('slug')->unique();
+            $table->timestamps();
+            $table->softDeletes(); // Để hỗ trợ xóa mềm
         });
+        
     }
 
     /**

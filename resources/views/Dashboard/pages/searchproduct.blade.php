@@ -4,7 +4,11 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center" style="margin-top: 120px;">
-            <h4 class="card-title">Danh sách sản phẩm</h4>
+            <div class="d-flex justify-content-end mb-3">
+                <a href="{{ route('products.create') }}" class="btn btn-primary">
+                    <i class="fa fa-plus"></i> Add
+                </a>
+            </div>
             <form action="{{ route('products.search') }}" method="GET" class="d-flex">
                 <input
                     type="text"
@@ -21,6 +25,7 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table id="basic-datatables" class="display table table-striped table-hover">
+                    <h4 class="card-title">Danh sách sản phẩm</h4>
                     <head>
                         <style>
                             table {

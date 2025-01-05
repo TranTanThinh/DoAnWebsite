@@ -20,9 +20,8 @@ Route::controller(HomeController::class)->group(function () {
     
 });
 Route::resource('/admin', AdminController::class);
-
-Route::resource('/product', ProductController::class);
-
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
