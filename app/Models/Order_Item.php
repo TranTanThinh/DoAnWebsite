@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 class Order_Item extends Model
 {
     public function getId() {
@@ -72,4 +72,5 @@ class Order_Item extends Model
     {
         return $this->belongsTo(Order::class, 'orderId');
     }
+    use SoftDeletes;
 }
