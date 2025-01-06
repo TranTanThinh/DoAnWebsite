@@ -8,10 +8,7 @@ abstract class InfoShopController
 {
     public function index()
     {
-        // $shops = [];
         $shops = InfoShop::all();
-        // dd(InfoShop::all());
-        // dd($shops);
-        return view('Template.layouts.app', ['shops' => $shops]);
+        return view('Template.layouts.app', compact('shops'));
     }
 }
