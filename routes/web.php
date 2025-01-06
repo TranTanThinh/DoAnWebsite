@@ -13,7 +13,8 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/blog', 'blog')->name('blog');
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/shop', [ProductController::class, 'index'])->name('shop');
-    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::get('/blogsingle', 'blogsingle')->name('blogsingle');
     Route::get('/productsingle', 'productsingle')->name('productsingle');
     Route::get('/checkout', 'checkout')->name('checkout');
