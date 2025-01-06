@@ -69,6 +69,7 @@
         </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+
         <div class="container">
             <a class="navbar-brand" href="{{ route('index') }}">Vegefoods</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
@@ -82,7 +83,7 @@
                     <li class="nav-item"><a href="{{ route('shop') }}" class="nav-link">Shop</a></li>
                     <li class="nav-item"><a href="{{ route('about') }}" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
-                    <li class="nav-item cta cta-colored"><a href="cart" class="nav-link"><span
+                    <li class="nav-item cta cta-colored"><a href="{{route('cart.index')}}" class="nav-link"><span
                                 class="icon-shopping_cart"></span>[0]</a></li>
                     @guest
                         <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#loginModal">Login</a>
@@ -177,3 +178,4 @@
             </div>
         </div>
     </div>
+
