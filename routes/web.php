@@ -5,13 +5,14 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PersonalInfoController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/index', 'index');
     Route::get('/blog', 'blog')->name('blog');
     Route::get('/contact', 'contact')->name('contact');
-    Route::get('/shop', 'shop')->name('shop');
+    Route::get('/shop', [ProductController::class, 'index'])->name('shop');
     Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::get('/blogsingle', 'blogsingle')->name('blogsingle');
     Route::get('/productsingle', 'productsingle')->name('productsingle');
