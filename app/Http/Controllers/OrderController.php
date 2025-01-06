@@ -44,6 +44,8 @@ class OrderController extends Controller
         $orders = Order::paginate(10); // Lấy danh sách đơn hàng và phân trang
         return view('Template.pages.order', compact('orders'));
     }
+
+
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
@@ -57,12 +59,12 @@ class OrderController extends Controller
         return view('Template.pages.order_detail', compact('order')); // Trả về view chi tiết
     }
     public function edit($id)
-{
-    // Tìm đơn hàng theo ID
-    $order = Order::findOrFail($id);
-    // Trả về view với đơn hàng để chỉnh sửa
-    return view('Template.pages.order_edit', compact('order'));
-}
+    {
+        // Tìm đơn hàng theo ID
+        $order = Order::findOrFail($id);
+        // Trả về view với đơn hàng để chỉnh sửa
+        return view('Template.pages.order_edit', compact('order'));
+    }
 
 public function update(Request $request, $id)
 {
