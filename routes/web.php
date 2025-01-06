@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductController;
 
+use App\Http\Controllers\Auth\RegisterController;
+
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/index', 'index');
@@ -22,6 +24,14 @@ Route::controller(HomeController::class)->group(function () {
 
 
 Auth::routes();
+use App\Http\Controllers\Auth\LoginController;
+
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
+//Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -35,3 +45,4 @@ Route::controller(CartController::class)->group(function() {
     route::get('/cart/delete','delete')->name('cart.delete');
     route::post('/cart/add/{id}','add')->name('cart.add');
 });
+
