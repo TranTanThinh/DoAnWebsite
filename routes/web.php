@@ -23,3 +23,4 @@ Route::controller(HomeController::class)->group(function () {
 
 Route::resource('/admin', AdminController::class);
 Route::resource('/orders', OrderController::class);
+
