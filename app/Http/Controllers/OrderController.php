@@ -44,15 +44,6 @@ class OrderController extends Controller
         $orders = Order::paginate(10); // Lấy danh sách đơn hàng và phân trang
         return view('Template.pages.order', compact('orders'));
     }
-    public function update(Request $request, $id)
-    {
-        $order = Order::findOrFail($id);
-        $order->status = $request->status;
-        $order->save();
-
-        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
-    }
-
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
@@ -60,4 +51,34 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
     }
+    public function show($id)
+    {
+        $order = Order::with('orderItems')->findOrFail($id); // Lấy đơn hàng và các sản phẩm liên quan
+        return view('Template.pages.order_detail', compact('order')); // Trả về view chi tiết
+    }
+    public function edit($id)
+{
+    // Tìm đơn hàng theo ID
+    $order = Order::findOrFail($id);
+    // Trả về view với đơn hàng để chỉnh sửa
+    return view('Template.pages.order_edit', compact('order'));
+}
+
+public function update(Request $request, $id)
+{
+    // Validate dữ liệu từ form
+    $validated = $request->validate([
+        'status' => 'required|string|max:255',
+        'totalPrice' => 'required|numeric',
+    ]);
+
+    // Tìm đơn hàng theo ID và cập nhật thông tin
+    $order = Order::findOrFail($id);
+    $order->status = $request->status;
+    $order->totalPrice = $request->totalPrice;
+    $order->save();
+
+    // Chuyển hướng lại trang danh sách đơn hàng với thông báo thành công
+    return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
+}
 }
