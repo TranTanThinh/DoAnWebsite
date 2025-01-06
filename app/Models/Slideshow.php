@@ -9,7 +9,7 @@ class Slideshow extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'image', 'description', 'price', 
+        'name', 'image', 'description', 'price','slug' 
     ];
 }
 
