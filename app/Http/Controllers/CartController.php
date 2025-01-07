@@ -16,7 +16,7 @@ class CartController extends Controller
 
     public function addToCart($productId)
     {
-        $product = Product::findOrFail($productId);
+        $product = Product::findOrFail($productId); // Sử dụng productId thay vì id
 
         $cart = Cart::where('product_id', $productId)->where('user_id', auth()->id())->first();
 
@@ -24,7 +24,7 @@ class CartController extends Controller
             $cart->quantity += 1;
         } else {
             $cart = new Cart();
-            $cart->product_id = $product->productId;
+            $cart->product_id = $product->productId; // Sử dụng productId thay vì id
             $cart->user_id = auth()->id(); // Đảm bảo người dùng đã đăng nhập
             $cart->quantity = 1;
         }
@@ -34,4 +34,3 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Product added to cart');
     }
 }
-
