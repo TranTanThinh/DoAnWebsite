@@ -46,3 +46,7 @@ Route::controller(CartController::class)->group(function() {
     route::post('/cart/add/{id}','add')->name('cart.add');
 });
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

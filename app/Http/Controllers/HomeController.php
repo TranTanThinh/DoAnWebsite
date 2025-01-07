@@ -48,5 +48,5 @@ class HomeController extends Controller
     public function wishlist()
     {
         return view("Template.pages.wishlist");
-    }
+        }
 }
