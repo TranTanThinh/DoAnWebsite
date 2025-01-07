@@ -18,6 +18,7 @@ class Product extends Model
      * $this->attributes['updated_at'] - timestamp - contains the product update date
     **/
     protected $table = 'products';
+    protected $primaryKey = 'productId'; // Đặt khóa chính là productId
     protected $fillable = [
         'name',
         'image',
@@ -28,4 +29,5 @@ class Product extends Model
         'updated_at',
         'deleted_at'
     ];
+    protected $dates = ['deleted_at'];
 }
