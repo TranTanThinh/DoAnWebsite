@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\UserReviewController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
@@ -35,3 +36,6 @@ Route::resource('contacts', ContactController::class);
 
 
 Route::get('contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+
+Route::resource('user_reviews', UserReviewController::class);
+Route::get('/reviews', [UserReviewController::class, 'index'])->name('user_reviews.index');
