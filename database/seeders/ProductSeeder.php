@@ -27,5 +27,5 @@ class ProductSeeder extends Seeder
             ['categoryId' => 1 ,'name'=> 'Garlic', 'image' => 'product-11.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'garlic', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
             ['categoryId' => 1 ,'name'=> 'Chilli', 'image' => 'product-12.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'chilli', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
         ]);
-    }
+    }//
 }
