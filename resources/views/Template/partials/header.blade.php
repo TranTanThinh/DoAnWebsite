@@ -80,7 +80,7 @@
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a href="{{ route('index') }}" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="{{ route('shop') }}" class="nav-link">Shop</a></li>
+                    <li class="nav-item"><a href="{{ route('product.index') }}" class="nav-link">Shop</a></li>
                     <li class="nav-item"><a href="{{ route('about') }}" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
                     <li class="nav-item cta cta-colored"><a href="{{route('cart.index')}}" class="nav-link"><span
@@ -151,10 +151,10 @@
                     <!-- Form Đăng Ký -->
                     <form action="{{ url('register') }}" method="POST">
                         @csrf
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
+                        </div> -->
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>

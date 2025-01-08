@@ -38,6 +38,13 @@ class Product extends Model
         return $total;
     }
 
+    public function userReviews() {
+        return $this->hasMany(UserReview::class);
+    }
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public function inventories()
     {
         return $this->hasMany(Inventory::class, 'productID', 'productId');
