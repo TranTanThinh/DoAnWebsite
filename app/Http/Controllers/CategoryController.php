@@ -13,7 +13,6 @@ class CategoryController extends Controller
         return view('Template.pages.category.index', compact('category'));
     }
 
-
     public function create()
     {
         $category = Category::all();
