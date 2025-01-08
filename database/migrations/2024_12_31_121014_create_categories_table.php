@@ -15,8 +15,9 @@ return new class extends Migration
             $table->integer('categoryId')->autoIncrement()->primary();
             $table->string('name');
             $table->string('slug');
+            $table->integer('parent_id')->nullable();
             $table->timestamps();
-            $table->softDeletes()->nullable();
+            $table->foreign('parent_id')->references('categoryId')->on('categories')->onDelete('cascade');
         });
     }
 
