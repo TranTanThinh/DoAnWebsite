@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Order extends Model
 {
     public function getId() {
@@ -72,5 +72,4 @@ class Order extends Model
     {
         return $this->hasMany(Order_Item::class, 'orderId');
     }
-    use SoftDeletes;
 }
