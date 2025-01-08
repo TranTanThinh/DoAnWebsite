@@ -23,6 +23,7 @@ class ProductController extends Controller
         $viewData['title'] = 'Shop Products';
         $viewData['products'] = $products;
 
+
         return view('Template.product.index')->with('viewData', $viewData);
     }
 
@@ -52,12 +53,18 @@ class ProductController extends Controller
         $product = Product::where('slug', 'like',$slug)
                             ->where('productId','=' , $id)
                             ->firstOrFail();
-        
+        // $product = Product::where('productId', '=', $id)->firstOrFail();
+        // $relatedProducts = Product::where('categoryId', $product->getCategoryId())
+        //                     ->where('productId', '!=', $product->getProductId())
+        //                     ->limit(4)
+        //                     ->get();
+        // dd($relatedProducts);
         $status = $product->inventories->sum('quantity');
         
         $viewData['product'] = $product;
         $viewData['status'] = $status > 0 ? 'In stock' : 'Out of Stock';
         $viewData['quantity'] = $product->inventories;
+
 
         // dd($viewData);
         return view('Template.product.show')->with('viewData', $viewData);
