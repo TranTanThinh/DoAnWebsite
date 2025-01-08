@@ -48,22 +48,18 @@ class ProductController extends Controller
     public function show(string $slug, string $id)
     {
         $viewData = [];
-        // $product = Product::findOrFail($id);
+        
         $product = Product::where('slug', 'like',$slug)
                             ->where('productId','=' , $id)
                             ->firstOrFail();
-        // $product = DB::table('products')
-        //         ->join('inventories', 'products.productID', '=', 'inventories.productID')
-        //         ->select('products.*', 'inventories.quantity')
-        //         ->where('products.productID', '=', $id)
-        //         ->get();
-
-        // $quantity = Inventory::where('productID','=', $id)
-        //             ->get();
+        
+        $status = $product->inventories->sum('quantity');
+        
         $viewData['product'] = $product;
-        // $viewData['quantity'] = $quantity;
+        $viewData['status'] = $status > 0 ? 'In stock' : 'Out of Stock';
         $viewData['quantity'] = $product->inventories;
-        // return $viewData;
+
+        // dd($viewData);
         return view('Template.product.show')->with('viewData', $viewData);
     }
 

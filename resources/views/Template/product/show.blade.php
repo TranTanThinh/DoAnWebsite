@@ -25,27 +25,29 @@
                         <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
                     </p>
                 </div>
+                <div class="m-2">
+                        <div class="badge badge-info p-2" id="pStatus">loading...</div>
+                    </div>
                 <p class="price"><span>{{$viewData['product']->getPrice() }}&#8363;</span></p>
                 <p>
                     {{ $viewData['product']->getDescription() }}
                     <!-- A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until. -->
                 </p>
                 <div class="row mt-4">
-                    <div class="col-md-6">
-                        <!-- <div class="form-group d-flex">
-                            <div class="select-wrap">
-                                <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                <select name="" id="" class="form-control">
-                                    <option value="">Small</option>
-                                    <option value="">Medium</option>
-                                    <option value="">Large</option>
-                                    <option value="">Extra Large</option>
-                                </select>
-                            </div>
-                        </div> -->
-                    </div>
                     <div class="w-100"></div>
-                    <!-- <div class="input-group col-md-6 d-flex mb-3">
+                    <div class="col-md-12">
+                        <!-- @foreach ($viewData['quantity'] as $inventory)
+                            <p id="dquantity" style="color: #000;">{{$inventory->getQuantity()}} kg available</p>
+                        @endforeach -->
+                        <p id="dquantity" style="color: #000;">loading...</p>
+                    </div>
+                </div>
+                <!-- <a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a> -->
+                <p>
+                <form method="post" action="{{route('cart.add', ['id' => $viewData['product']->getProductId()]) }}">
+                    @csrf
+
+                    <div class="input-group col-md-6 d-flex mb-3">
                         <span class="input-group-btn mr-2">
                             <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
                                 <i class="ion-ios-remove"></i>
@@ -57,36 +59,11 @@
                                 <i class="ion-ios-add"></i>
                             </button>
                         </span>
-                    </div> -->
-                    <div class="w-100"></div>
-                    <div class="col-md-12">
-                        @foreach ($viewData['quantity'] as $inventory)
-                            <p id="dquantity" style="color: #000;">{{$inventory->getQuantity()}} kg available</p>
-                        @endforeach
                     </div>
-                </div>
-                <!-- <a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a> -->
-                <p>
-                    <form method="post" action="{{route('cart.add', ['id' => $viewData['product']->getProductId()]) }}">
-                        @csrf
-
-                        <div class="input-group col-md-6 d-flex mb-3">
-                            <span class="input-group-btn mr-2">
-                                <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
-                                    <i class="ion-ios-remove"></i>
-                                </button>
-                            </span>
-                            <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
-                            <span class="input-group-btn ml-2">
-                                <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
-                                    <i class="ion-ios-add"></i>
-                                </button>
-                            </span>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn bg-black px-5">Add to Cart</button>
-                        </div>
-                    </form>
+                    <div>
+                        <button id="add_to_cart" type="submit" class="btn bg-black px-5" >Add to Cart</button>
+                    </div>
+                </form>
                 </p>
             </div>
         </div>
@@ -247,6 +224,41 @@
 
         minusButton.addEventListener("click", () => updateQuantity(-1));
         plusButton.addEventListener("click", () => updateQuantity(1));
+    });
+
+    $(document).ready(function() {
+        function updateQuantity() {
+            let id = `{{$viewData['product']->getProductId() }}`;
+            console.log('id: ', id);
+
+            $.ajax({
+                url: `http://127.0.0.1:8000/api/products/${id}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.product && response.product.inventories[0].quantity > 0) {
+                        let quantity = response.qty;
+                        let status = quantity > 0 ? 'In stock' : 'Out of stock';
+                        console.log('Qty: ', quantity);
+                        console.log('status: ', status);
+                        console.log('res: ', response);
+                        $('#pStatus').text(status);
+                        $('#dquantity').text(quantity + ' kg có sẵn');
+
+                        if(quantity <= 0) {
+                            $('#add_to_cart')
+                                .prop('disabled', true)
+                        }
+                    } else {
+                        console.log('No inventories found.');
+                    }
+                },
+                error: (error) => console.error('Error: ', error)
+            });
+        }
+
+        updateQuantity();
+        setInterval(updateQuantity, 10000);
     });
 </script>
 
