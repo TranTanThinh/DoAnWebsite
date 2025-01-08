@@ -72,7 +72,6 @@ class CategoryController extends Controller
     if ($category->childCategories()->exists()) {
         return redirect()->route('category.index')->with('error', 'Cannot delete category with child categories.');
     }
-
     $category->delete();
 
     return redirect()->route('category.index')->with('success', 'Category deleted successfully!');
