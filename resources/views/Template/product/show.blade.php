@@ -9,6 +9,7 @@
             </div>
             <div class="col-lg-6 product-details pl-md-5 ftco-animate">
                 <h3>{{ $viewData['product']->getName() }}</h3>
+
                 <div class="rating d-flex">
                     <p class="text-left mr-4">
                         <a href="#" class="mr-2">5.0</a>
@@ -26,9 +27,9 @@
                     </p>
                 </div>
                 <div class="m-2">
-                        <div class="badge badge-info p-2" id="pStatus">loading...</div>
-                    </div>
-                <p class="price"><span>{{$viewData['product']->getPrice() }}&#8363;</span></p>
+                    <div class="badge badge-info p-2" id="pStatus">loading...</div>
+                </div>
+                <p class="price"><span>{{ number_format($viewData['product']->getPrice(), 0, '.', ',') }}&#8363;</span></p>
                 <p>
                     {{ $viewData['product']->getDescription() }}
                     <!-- A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until. -->
@@ -60,8 +61,13 @@
                             </button>
                         </span>
                     </div>
-                    <div>
-                        <button id="add_to_cart" type="submit" class="btn bg-black px-5" >Add to Cart</button>
+                    <div class="d-flex px-3">
+                        <button id="add_to_cart" type="submit" class="btn bg-black px-5">Add to Cart</button>
+                        <div class="p-2 ml-3">
+                            <a href="#" class="heart d-flex justify-content-center align-items-center text-center btn">
+                                Add to Wishlist &nbsp;<i class="ion-ios-heart"></i>
+                            </a>
+                        </div>
                     </div>
                 </form>
                 </p>
@@ -81,8 +87,8 @@
         </div>
     </div>
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-lg-3 ftco-animate">
+        <div class="row" id="related_products">
+            <!-- <div class="col-md-6 col-lg-3 ftco-animate">
                 <div class="product">
                     <a href="#" class="img-prod"><img class="img-fluid" src="images/product-1.jpg" alt="Colorlib Template">
                         <span class="status">30%</span>
@@ -194,7 +200,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
@@ -245,7 +251,7 @@
                         $('#pStatus').text(status);
                         $('#dquantity').text(quantity + ' kg có sẵn');
 
-                        if(quantity <= 0) {
+                        if (quantity <= 0) {
                             $('#add_to_cart')
                                 .prop('disabled', true)
                         }
@@ -260,6 +266,76 @@
         updateQuantity();
         setInterval(updateQuantity, 10000);
     });
+
+    $(document).ready(function() {
+
+        let id = `{{$viewData['product']->getProductId() }}`;
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/products/${id}/related`,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                if (!response || response.length === 0) {
+                    $('#related_products').html('<p>No related products found</p>');
+                    return;
+                }
+                $('#related_products').empty();
+                response.forEach(product => {
+                    if(product.productId == 6) {
+                        $('#related_products').append(productHtml(product, price_dc = 200000));
+                    }
+                    else{
+                        $('#related_products').append(productHtml(product));
+                    }
+                });
+            },
+            error: (error) => console.error('Error: ', error)
+        });
+    });
+
+    const productHtml = (product, price_dc) => `
+        <div class="col-md-6 col-lg-3">
+            <div class="product">
+                <a href="#" class="img-prod">
+                    <img class="img-fluid" src="{{ asset('Template/images') }}/${product.image}" alt=" ${product.name}">
+                    <span class="status"></span>
+                    <div class="overlay"></div>
+                </a>
+                <div class="text py-3 pb-4 px-3 text-center">
+                    <h3><a href="#">${product.name}</a></h3>
+                    <div class="d-flex">
+                        <div class="pricing">
+                            <p class="price">
+                                <span class="mr-2 price-dc">${price_dc === undefined ? '': formatMoney(price_dc)}</span>
+                                <span class="price-sale">${formatMoney(product.price)}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bottom-area d-flex px-3">
+                        <div class="m-auto d-flex">
+                            <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                <span><i class="ion-ios-menu"></i></span>
+                            </a>
+                            <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                <span><i class="ion-ios-cart"></i></span>
+                            </a>
+                            <a href="#" class="heart d-flex justify-content-center align-items-center ">
+                                <span><i class="ion-ios-heart"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const formatMoney = (price) => new Intl.NumberFormat('en-US', {
+        style: 'currency', 
+        currency: 'VND',
+        trailingZeroDisplay: 'stripIfInteger'
+    }).format(price); 
+
 </script>
 
 @endsection
