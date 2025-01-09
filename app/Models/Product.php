@@ -24,7 +24,7 @@ class Product extends Model
         'description',
         'price',
         'slug',
-
+        'categoryId',
     ];
 
     protected $primaryKey = 'productId';
@@ -36,6 +36,13 @@ class Product extends Model
         }
 
         return $total;
+    }
+
+    public function userReviews() {
+        return $this->hasMany(UserReview::class);
+    }
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 
     public function inventories()
@@ -52,6 +59,16 @@ class Product extends Model
     public function setProductId($id)
     {
         $this->attributes['productId'] = $id;
+    }
+
+    public function setCategoryId($id)
+    {
+        $this->attributes['categoryId'] = $id;
+    }
+
+    public function getCategoryId()
+    {
+        return $this->attributes['categoryId'];
     }
 
     public function getName()
