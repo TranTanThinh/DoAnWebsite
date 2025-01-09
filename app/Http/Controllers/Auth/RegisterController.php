@@ -21,7 +21,7 @@ class RegisterController extends Controller
     {
         // Xác thực dữ liệu
         $validator = Validator::make($request->all(), [
-            'username' => 'required|unique:users,username|max:255',
+            'firstName' => 'required|unique:users,firstName|max:255',
             'email' => 'required|email|unique:users,email|max:255',
             'phone' => 'nullable|numeric',
             'password' => 'required|min:6|confirmed', // 'confirmed' yêu cầu có trường 'password_confirmation'
@@ -33,7 +33,7 @@ class RegisterController extends Controller
 
         // Lưu thông tin người dùng vào cơ sở dữ liệu
         $user = User::create([
-            'username' => $request->username,
+            'firstName' => $request->firstName,
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password), // Mã hóa mật khẩu
@@ -42,6 +42,6 @@ class RegisterController extends Controller
         // Đăng nhập người dùng ngay lập tức (tuỳ chọn)
         //auth()->login($user);
 
-        return redirect()->route('indexindex')->with('success', 'Registration successful!');
+        return redirect()->route('index')->with('success', 'Registration successful!');
     }
 }
