@@ -112,14 +112,23 @@
                 </ul>
             </div>
         </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button>
+                <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search">
+            </button>
+        </div>
     </nav>
+
     <!-- Modal Login -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -145,15 +154,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="registerModalLabel">Register Account</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <!-- Form Đăng Ký -->
                     <form action="{{ url('register') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <label for="firstName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" required>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
