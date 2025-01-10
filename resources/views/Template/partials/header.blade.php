@@ -69,6 +69,7 @@
         </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+
         <div class="container">
             <a class="navbar-brand" href="{{ route('index') }}">{{ $shops->shopName }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
@@ -79,10 +80,10 @@
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a href="{{ route('index') }}" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="{{ route('shop') }}" class="nav-link">Shop</a></li>
+                    <li class="nav-item"><a href="{{ route('product.index') }}" class="nav-link">Shop</a></li>
                     <li class="nav-item"><a href="{{ route('about') }}" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
-                    <li class="nav-item cta cta-colored"><a href="cart" class="nav-link"><span
+                    <li class="nav-item cta cta-colored"><a href="{{route('cart.index')}}" class="nav-link"><span
                                 class="icon-shopping_cart"></span>[0]</a></li>
                     @guest
                         <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#loginModal">Login</a>
@@ -166,10 +167,17 @@
                     <!-- Form Đăng Ký -->
                     <form action="{{ url('register') }}" method="POST">
                         @csrf
+
                         <div class="mb-3">
                             <label for="username" class="form-label">UserName</label>
                             <input type="text" class="form-control" id="username" name="username" required>
                         </div>
+
+                        <!-- <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div> -->
+
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
@@ -193,3 +201,4 @@
             </div>
         </div>
     </div>
+

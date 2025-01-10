@@ -6,6 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserReview extends Model
 {
+
+    protected $fillable = [
+        'userID',
+        'orderedProductID',
+        'rating',
+        'comment',
+    ];
+
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public function getId() {
         return $this->attributes['id'];
     }

@@ -1,3 +1,4 @@
+
 <footer class="ftco-footer ftco-section">
     <div class="container">
         <div class="row">
@@ -7,6 +8,7 @@
                 </a>
             </div>
         </div>
+
         <div class="row mb-5">
             <div class="col-md">
                 <div class="ftco-footer-widget mb-4">
@@ -68,9 +70,14 @@
                     Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved.
                 </p>
             </div>
+
         </div>
     </div>
+
+ 
+
 </footer>
+
 
 <!-- Loader -->
 <div id="ftco-loader" class="show fullscreen">
