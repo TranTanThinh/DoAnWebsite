@@ -4,19 +4,40 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdvertisingAndPromotionController;
+
+
+use App\Http\Controllers\Auth\RegisterController;
+
+
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/index', 'index');
-    Route::get('/blog', 'blog')->name('blog');
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/shop', 'shop')->name('shop');
     Route::get('/cart', 'cart')->name('cart');
+
     Route::get('/blogsingle', 'blogsingle')->name('blogsingle');
     Route::get('/productsingle', 'productsingle')->name('productsingle');
+
+    // Route::get('/productsingle', 'productsingle')->name('productsingle');
+
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/about', 'about')->name('about');
     Route::get('/wishlist', 'wishlist')->name('wishlist');
 });
+Route::get('blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('blogsingle/{slug}', [BlogController::class, 'show'])->name('blogs.show');
+
+//route slideshow
+Route::get('/advertising-1', [AdvertisingAndPromotionController::class, 'showadvertising1'])->name('advertising-1');
+Route::get('/advertising-2', [AdvertisingAndPromotionController::class, 'showadvertising2'])->name('advertising-2');
+Route::get('/promotion-1', [AdvertisingAndPromotionController::class, 'showpromotion1'])->name('promotion-1');
+Route::get('/promotion-2', [AdvertisingAndPromotionController::class, 'showpromotion2'])->name('promotion-2');
+
 
 Route::resource('/admin', AdminController::class);
 
@@ -47,8 +68,14 @@ Route::controller(CartController::class)->group(function() {
 });
 
 
+
 Route::controller(WishlistController::class)->group(function() {
     route::get('/wishlist', 'index')->name('wislist.index');
     route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
