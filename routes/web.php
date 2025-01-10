@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdvertisingAndPromotionController;
 
 
 use App\Http\Controllers\Auth\RegisterController;
@@ -23,6 +24,13 @@ Route::controller(HomeController::class)->group(function () {
 });
 Route::get('blogs', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('blogsingle/{slug}', [BlogController::class, 'show'])->name('blogs.show');
+
+//route slideshow
+Route::get('/advertising-1', [AdvertisingAndPromotionController::class, 'showadvertising1'])->name('advertising-1');
+Route::get('/advertising-2', [AdvertisingAndPromotionController::class, 'showadvertising2'])->name('advertising-2');
+Route::get('/promotion-1', [AdvertisingAndPromotionController::class, 'showpromotion1'])->name('promotion-1');
+Route::get('/promotion-2', [AdvertisingAndPromotionController::class, 'showpromotion2'])->name('promotion-2');
+
 
 
 Auth::routes();
