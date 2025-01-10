@@ -54,7 +54,8 @@ class RegisterController extends Controller
             'firstName' => 'required|unique:users,firstName|max:255',
             'email' => 'required|email|unique:users,email|max:255',
             'phone' => 'nullable|numeric',
-            'password' => 'required|min:6|confirmed', // 'confirmed' yêu cầu có trường 'password_confirmation'
+            'password' => 'required|min:6|confirmed', 
+        ]);
 
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],

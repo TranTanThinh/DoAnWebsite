@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserReviewController;
 
@@ -22,7 +20,6 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdvertisingAndPromotionController;
 
 
-use App\Http\Controllers\Auth\RegisterController;
 
 
 
