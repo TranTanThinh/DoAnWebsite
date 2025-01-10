@@ -10,24 +10,25 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    // Hiển thị trang đăng ký (nếu cần)
     public function showRegisterForm()
     {
         return view('auth.register');
     }
 
-    // Xử lý đăng ký
     public function register(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|unique:users,username|max:255', 
+        $this->validate($request, [
+            'username' => 'required|unique:users,username|max:255',
             'email' => 'required|email|unique:users,email|max:255',
             'phone' => 'nullable|numeric',
-            'password' => 'required|min:6|confirmed', 
+            'password' => 'required|min:6|confirmed',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+        if (User::where('username', $request->username)->exists()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'The username already exists.'
+            ]);
         }
 
         $user = User::create([
@@ -37,6 +38,10 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json(['status' => 'success', 'message' => 'Registration successful!', 'redirect' => route('index')]);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Registration successful!',
+            'redirect' => route('login') 
+        ]);
     }
 }

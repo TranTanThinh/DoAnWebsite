@@ -68,9 +68,9 @@ class LoginController extends Controller
 
         if (Cache::has("login_attempts_lockout_$username")) {
             $secondsRemaining = Cache::get("login_attempts_lockout_$username") - time();
-
-            return back()->withErrors([
-                'email' => "Your account is locked due to too many failed login attempts. Please try again in $secondsRemaining seconds.",
+            return response()->json([
+                'status' => 'error',
+                'message' => "Your account is locked due to too many failed login attempts. Please try again in $secondsRemaining seconds."
             ]);
         }
 
@@ -80,19 +80,25 @@ class LoginController extends Controller
             if ($attempts >= 5) {
                 Cache::put("login_attempts_lockout_$username", time() + 120, 120);
                 Cache::forget("login_attempts_$username");
-                return back()->withErrors([
-                    'username' => 'Too many failed login attempts. Your account is locked for 2 minutes.',
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Too many failed login attempts. Your account is locked for 2 minutes.'
                 ]);
             }
 
             Cache::put("login_attempts_$username", $attempts, 120);
-            return back()->withErrors([
-                'email' => "Invalid credentials. You have " . (5 - $attempts) . " attempts left.",
+            return response()->json([
+                'status' => 'error',
+                'message' => "Invalid credentials. You have " . (5 - $attempts) . " attempts left."
             ]);
         }
 
         Cache::forget("login_attempts_$username");
 
-        return redirect()->intended($this->redirectTo());
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Login successful!',
+            'redirect' => route('home')  // Hoặc route bạn muốn chuyển hướng sau khi đăng nhập thành công
+        ]);
     }
 }
