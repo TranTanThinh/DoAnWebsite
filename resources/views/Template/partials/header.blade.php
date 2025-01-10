@@ -46,6 +46,12 @@
     <link rel="stylesheet" href="{{ asset('Template/css/style.css') }}">
 
 </head>
+<div id="notificationBar" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+    <strong id="notificationMessage"></strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 
 <body class="goto-here">
     <div class="py-1 bg-primary">
@@ -111,7 +117,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="">Profile</a>
-                                <a class="dropdown-item" href="{{ route('wishlist.index') }}">Wishlist <span><i class="ion-ios-heart"></i></span></a>
+                                <a class="dropdown-item" href="{{ route('wishlist.index') }}">Wishlist <span><i
+                                            class="ion-ios-heart"></i></span></a>
                                 <a class="dropdown-item" href=""
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout
@@ -144,14 +151,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="notificationBar" class="alert alert-success alert-dismissible fade show" role="alert"
-                        style="display: none;">
-                        <strong id="notificationMessage"></strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+
                     <form method="POST" action="{{ route('login') }}" id="loginForm">
+                        <div id="notificationBar" class="alert alert-success alert-dismissible fade show"
+                            role="alert" style="display: none;">
+                            <strong id="notificationMessage"></strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
                         @csrf
                         <div class="form-group mb-3">
                             <label for="username">UserName</label>
@@ -233,10 +242,11 @@
                                 </span>
                             </div>
                         </div>
-                        <div id="error-message" style="color: red; display: none;">Confirm Password do not match.</div>
+                        <div id="error-message" style="color: red; display: none;">Confirm Password do not match.
+                        </div>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
-                    
+
                 </div>
             </div>
         </div>
