@@ -1,4 +1,3 @@
-
 <footer class="ftco-footer ftco-section">
     <div class="container">
         <div class="row">
@@ -12,13 +11,18 @@
         <div class="row mb-5">
             <div class="col-md">
                 <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">{{ $shops->shopName }}</h2>
-                    <p>{{ $shops->describe }}</p>
-                    <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                        <li class="ftco-animate"><a href="{{ $shops->twitter }}"><span class="icon-twitter"></span></a></li>
-                        <li class="ftco-animate"><a href="{{ $shops->facebook }}"><span class="icon-facebook"></span></a></li>
-                        <li class="ftco-animate"><a href="{{ $shops->instagram }}"><span class="icon-instagram"></span></a></li>
-                    </ul>
+                    @if($shops)
+                        <h2 class="ftco-heading-2">{{ $shops->shopName }}</h2>
+                        <p>{{ $shops->describe }}</p>
+                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+                            <li class="ftco-animate"><a href="{{ $shops->twitter }}"><span class="icon-twitter"></span></a></li>
+                            <li class="ftco-animate"><a href="{{ $shops->facebook }}"><span class="icon-facebook"></span></a></li>
+                            <li class="ftco-animate"><a href="{{ $shops->instagram }}"><span class="icon-instagram"></span></a></li>
+                        </ul>
+                    @else
+                        <h2 class="ftco-heading-2">Shop Name</h2>
+                        <p>No description available.</p>
+                    @endif
                 </div>
             </div>
             <div class="col-md">
@@ -54,9 +58,15 @@
                     <h2 class="ftco-heading-2">Have a Questions?</h2>
                     <div class="block-23 mb-3">
                         <ul>
-                            <li><span class="icon icon-map-marker"></span><span class="text">{{ $shops->address }}</span></li>
-                            <li><a href="tel:{{ $shops->phone }}"><span class="icon icon-phone"></span><span class="text">{{ $shops->phone }}</span></a></li>
-                            <li><a href="mailto:{{ $shops->email }}"><span class="icon icon-envelope"></span><span class="text">{{ $shops->email }}</span></a></li>
+                            @if($shops)
+                                <li><span class="icon icon-map-marker"></span><span class="text">{{ $shops->address }}</span></li>
+                                <li><a href="tel:{{ $shops->phone }}"><span class="icon icon-phone"></span><span class="text">{{ $shops->phone }}</span></a></li>
+                                <li><a href="mailto:{{ $shops->email }}"><span class="icon icon-envelope"></span><span class="text">{{ $shops->email }}</span></a></li>
+                            @else
+                                <li><span class="icon icon-map-marker"></span><span class="text">Address not available</span></li>
+                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">Phone not available</span></a></li>
+                                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">Email not available</span></a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -68,12 +78,8 @@
                     Copyright &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved.
                 </p>
             </div>
-
         </div>
     </div>
-
- 
-
 </footer>
 
 
