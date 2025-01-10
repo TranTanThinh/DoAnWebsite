@@ -99,6 +99,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="">Profile</a>
+                                <a class="dropdown-item" href="{{ route('wishlist.index') }}">Wishlist <span><i class="ion-ios-heart"></i></span></a>
                                 <a class="dropdown-item" href=""
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout

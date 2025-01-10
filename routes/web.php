@@ -48,7 +48,15 @@ Route::controller(CartController::class)->group(function() {
 });
 
 
-Route::controller(WishlistController::class)->group(function() {
-    route::get('/wishlist', 'index')->name('wislist.index');
-    route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
+// Route::controller(WishlistController::class)->group(function() {
+//     route::get('/wishlist', 'index')->name('wishlist.index');
+//     route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
+// });
+
+Route::middleware('auth')->group(function() {
+    Route::controller(WishlistController::class)->group(function() {
+        route::get('/wishlist', 'index')->name('wishlist.index');
+        route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
+        route::post('/wishlist/remove/{id}', 'removeProductFromWishlist')->name('wishlist.remove');
+    });
 });
