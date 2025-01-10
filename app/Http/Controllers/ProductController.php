@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+<<<<<<< HEAD
 use Illuminate\Http\Request;
+=======
+use App\Models\Inventory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+>>>>>>> 370667e2d9c793ef68da41f30f4bdebe76a604ff
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+<<<<<<< HEAD
      */
     public function index()
     {
@@ -38,18 +45,41 @@ class ProductController extends Controller
         return view('Dashboard.pages.product.searchproduct', compact('products', 'query')); // Trả về kết quả tìm kiếm
     }
     
+=======
+    */
+
+
+
+    public function index()
+    {
+
+        $viewData = [];
+        $products = Product::all();
+        $viewData['title'] = 'Shop Products';
+        $viewData['products'] = $products;
+
+
+        return view('Template.product.index')->with('viewData', $viewData);
+    }
+
+>>>>>>> 370667e2d9c793ef68da41f30f4bdebe76a604ff
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+<<<<<<< HEAD
         return view('Dashboard.pages.product.addproduct');
+=======
+        //
+>>>>>>> 370667e2d9c793ef68da41f30f4bdebe76a604ff
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
+<<<<<<< HEAD
 {
     // Validate incoming request data, excluding 'categoryId'
     $validatedData = $request->validate([
@@ -93,11 +123,14 @@ class ProductController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
+=======
+>>>>>>> 370667e2d9c793ef68da41f30f4bdebe76a604ff
     {
         //
     }
 
     /**
+<<<<<<< HEAD
      * Show the form for editing the specified resource.
      */
         public function edit($id)
@@ -110,11 +143,46 @@ class ProductController extends Controller
         }
 
         return view('Dashboard.pages.product.editproduct', compact('product'));
+=======
+     * Display the specified resource.
+     */
+    public function show(string $slug, string $id)
+    {
+        $viewData = [];
+        
+        $product = Product::where('slug', 'like',$slug)
+                            ->where('productId','=' , $id)
+                            ->firstOrFail();
+        // $product = Product::where('productId', '=', $id)->firstOrFail();
+        // $relatedProducts = Product::where('categoryId', $product->getCategoryId())
+        //                     ->where('productId', '!=', $product->getProductId())
+        //                     ->limit(4)
+        //                     ->get();
+        // dd($relatedProducts);
+        $status = $product->inventories->sum('quantity');
+        
+        $viewData['product'] = $product;
+        $viewData['status'] = $status > 0 ? 'In stock' : 'Out of Stock';
+        $viewData['quantity'] = $product->inventories;
+
+
+        // dd($viewData);
+        return view('Template.product.show')->with('viewData', $viewData);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+>>>>>>> 370667e2d9c793ef68da41f30f4bdebe76a604ff
     }
 
     /**
      * Update the specified resource in storage.
      */
+<<<<<<< HEAD
         public function update(Request $request, $id)
     {
         // Xác thực dữ liệu đầu vào
@@ -148,11 +216,17 @@ class ProductController extends Controller
         $product->save(); // Lưu thay đổi
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+=======
+    public function update(Request $request, string $id)
+    {
+        //
+>>>>>>> 370667e2d9c793ef68da41f30f4bdebe76a604ff
     }
 
     /**
      * Remove the specified resource from storage.
      */
+<<<<<<< HEAD
     public function destroy($id)
 {
     // Tìm sản phẩm theo productId thay vì id
@@ -168,4 +242,10 @@ class ProductController extends Controller
     return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
 }
 
+=======
+    public function destroy(string $id)
+    {
+        //
+    }
+>>>>>>> 370667e2d9c793ef68da41f30f4bdebe76a604ff
 }
