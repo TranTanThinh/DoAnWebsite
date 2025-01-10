@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.content-wrapper {
+    margin-left: 50px; /* Khoảng cách từ bên trái */
+}
