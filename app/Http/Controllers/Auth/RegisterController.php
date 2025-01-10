@@ -19,29 +19,24 @@ class RegisterController extends Controller
     // Xử lý đăng ký
     public function register(Request $request)
     {
-        // Xác thực dữ liệu
         $validator = Validator::make($request->all(), [
-            'firstName' => 'required|unique:users,firstName|max:255',
+            'username' => 'required|unique:users,username|max:255', 
             'email' => 'required|email|unique:users,email|max:255',
             'phone' => 'nullable|numeric',
-            'password' => 'required|min:6|confirmed', // 'confirmed' yêu cầu có trường 'password_confirmation'
+            'password' => 'required|min:6|confirmed', 
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // Lưu thông tin người dùng vào cơ sở dữ liệu
         $user = User::create([
-            'firstName' => $request->firstName,
+            'username' => $request->username,
             'email' => $request->email,
             'phone' => $request->phone,
-            'password' => Hash::make($request->password), // Mã hóa mật khẩu
+            'password' => Hash::make($request->password),
         ]);
 
-        // Đăng nhập người dùng ngay lập tức (tuỳ chọn)
-        //auth()->login($user);
-
-        return redirect()->route('index')->with('success', 'Registration successful!');
+        return response()->json(['status' => 'success', 'message' => 'Registration successful!', 'redirect' => route('index')]);
     }
 }
