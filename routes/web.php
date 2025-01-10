@@ -3,6 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use Illuminate\Support\Facades\Auth;
+
+
+
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
@@ -23,8 +32,6 @@ Route::resource('/admin', AdminController::class);
 
 
 Auth::routes();
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\WishlistController;
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register');
