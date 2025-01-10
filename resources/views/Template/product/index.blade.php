@@ -40,9 +40,16 @@
                                     <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
                                         <span><i class="ion-ios-cart"></i></span>
                                     </a>
-                                    <a href="{{route('wishlist.add', ['id' => $product->getProductId()])}}" class="heart d-flex justify-content-center align-items-center ">
-                                        <span><i class="ion-ios-heart"></i></span>
-                                    </a>
+                                    <form action="{{route('wishlist.add', ['id' => $product->getProductId()])}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $product->getProductId() }}">
+                                        <input type="hidden" name="name" value="{{ $product->getName() }}">
+                                        <input type="hidden" name="image" value="{{ $product->getImage() }}">
+                                        <input type="hidden" name="price" value="{{ $product->getPrice() }}">
+                                        <button type="submit" class="heart d-flex justify-content-center align-items-center ">
+                                            <span><i class="ion-ios-heart"></i></span>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
