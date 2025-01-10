@@ -40,6 +40,7 @@
                                     <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
                                         <span><i class="ion-ios-cart"></i></span>
                                     </a>
+                                    <a href="#" class="heart d-flex justify-content-center align-items-center ">
                                     <form action="{{route('wishlist.add', ['id' => $product->getProductId()])}}" method="post">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $product->getProductId() }}">
@@ -50,6 +51,7 @@
                                             <span><i class="ion-ios-heart"></i></span>
                                         </button>
                                     </form>
+                                    </a>
                                 </div>
                             </div>
                         </div>
