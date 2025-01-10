@@ -4,23 +4,25 @@ use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProductController;
+
 
 use App\Http\Controllers\Auth\RegisterController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/index', 'index');
-    Route::get('/blog', 'blog')->name('blog');
     Route::get('/contact', 'contact')->name('contact');
     // Route::get('/shop', 'shop')->name('shop');
     Route::get('/cart', 'cart')->name('cart');
-    Route::get('/blogsingle', 'blogsingle')->name('blogsingle');
     // Route::get('/productsingle', 'productsingle')->name('productsingle');
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/about', 'about')->name('about');
     Route::get('/wishlist', 'wishlist')->name('wishlist');
 });
+Route::get('blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('blogsingle/{slug}', [BlogController::class, 'show'])->name('blogs.show');
 
 
 Auth::routes();
@@ -50,3 +52,4 @@ Route::controller(CartController::class)->group(function() {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

@@ -13,10 +13,6 @@ class HomeController extends Controller
         
         return view("Template.pages.index");
     }
-    public function blog()
-    {
-        return view("Template.pages.blog");
-    }
     public function about()
     {
         return view("Template.pages.about");
