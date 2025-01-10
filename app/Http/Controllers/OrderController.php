@@ -42,7 +42,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::paginate(10); // Lấy danh sách đơn hàng và phân trang
-        return view('Template.pages.order', compact('orders'));
+        return view('Template.pages.orders.order', compact('orders'));
     }
 
 
@@ -56,14 +56,14 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::with('orderItems')->findOrFail($id); // Lấy đơn hàng và các sản phẩm liên quan
-        return view('Template.pages.order_detail', compact('order')); // Trả về view chi tiết
+        return view('Template.pages.orders.order_detail', compact('order')); // Trả về view chi tiết
     }
     public function edit($id)
     {
         // Tìm đơn hàng theo ID
         $order = Order::findOrFail($id);
         // Trả về view với đơn hàng để chỉnh sửa
-        return view('Template.pages.order_edit', compact('order'));
+        return view('Template.pages.orders.order_edit', compact('order'));
     }
 
 public function update(Request $request, $id)
