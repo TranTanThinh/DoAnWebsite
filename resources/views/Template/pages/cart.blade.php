@@ -25,7 +25,9 @@
                             <tr class="text-center">
                                 <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
 
-                                <td class="image-prod"><div class="img" style="background-image:url({{ asset('images/' . $cart->product->image) }});"></div></td>
+                                <td class="image-prod">
+                                    <div class="img" style="background-image:url('{{ asset('images/' . $cart->product->image) }}');"></div>
+                                </td>
 
                                 <td class="product-name">
                                     <h3>{{ $cart->product->name }}</h3>

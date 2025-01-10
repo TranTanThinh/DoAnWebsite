@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -48,39 +49,13 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-
-        // Xác thực dữ liệu
-        $validator = Validator::make($request->all(), [
-            'firstName' => 'required|unique:users,firstName|max:255',
-            'email' => 'required|email|unique:users,email|max:255',
-            'phone' => 'nullable|numeric',
-            'password' => 'required|min:6|confirmed', // 'confirmed' yêu cầu có trường 'password_confirmation'
-
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'firstName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['nullable', 'numeric'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-
         ]);
     }
-
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        // Lưu thông tin người dùng vào cơ sở dữ liệu
-        $user = User::create([
-            'firstName' => $request->firstName,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password), // Mã hóa mật khẩu
-        ]);
-
-        // Đăng nhập người dùng ngay lập tức (tuỳ chọn)
-        //auth()->login($user);
-
-        return redirect()->route('index')->with('success', 'Registration successful!');
 
     /**
      * Create a new user instance after a valid registration.
@@ -91,10 +66,28 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'firstName' => $data['firstName'],
             'email' => $data['email'],
+            'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
+    }
 
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $user = $this->create($request->all());
+
+        // Đăng nhập người dùng ngay lập tức (tuỳ chọn)
+        // auth()->login($user);
+
+        return redirect($this->redirectPath())->with('success', 'Registration successful!');
     }
 }
