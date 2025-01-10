@@ -80,7 +80,7 @@
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a href="{{ route('index') }}" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="{{ route('shop') }}" class="nav-link">Shop</a></li>
+                    <li class="nav-item"><a href="{{ route('product.index') }}" class="nav-link">Shop</a></li>
                     <li class="nav-item"><a href="{{ route('about') }}" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
                     <li class="nav-item cta cta-colored"><a href="{{route('cart.index')}}" class="nav-link"><span
@@ -112,14 +112,23 @@
                 </ul>
             </div>
         </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search...">
+            <button>
+                <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search">
+            </button>
+        </div>
     </nav>
+
     <!-- Modal Login -->
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -145,16 +154,25 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="registerModalLabel">Register Account</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <!-- Form Đăng Ký -->
                     <form action="{{ url('register') }}" method="POST">
                         @csrf
+
                         <div class="mb-3">
+                            <label for="firstName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        </div>
+
+                        <!-- <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username" required>
-                        </div>
+                        </div> -->
+
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>

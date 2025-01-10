@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdminRequest;
 use App\Http\Requests\UpdateAdminRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -14,7 +15,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view("Dashboard.pages.index");
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return view('Dashboard.pages.index');
+        }
+
+        return redirect('/');
     }
 
     /**
