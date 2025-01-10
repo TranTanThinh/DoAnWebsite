@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
 {
+
+    public function product() {
+        return $this->belongsTo(Product::class, 'productId', 'productID');
+    }
+
     public function getId() {
         return $this->attributes['id'];
     }

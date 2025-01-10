@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('info_shops', function (Blueprint $table) {
             $table->string('shopName');
+            $table->string('describe');
+            $table->string('address');
             $table->string('email');
             $table->string('phone');
-            $table->string('address');
+            $table->string('facebook');
+            $table->string('instagram');
+            $table->string('twitter');
             $table->timestamps();
         });
     }

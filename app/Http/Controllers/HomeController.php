@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\InfoShop;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        
         return view("Template.pages.index");
-    }
-    public function blog()
-    {
-        return view("Template.pages.blog");
     }
     public function about()
     {
@@ -46,5 +44,5 @@ class HomeController extends Controller
     public function wishlist()
     {
         return view("Template.pages.wishlist");
-    }
+        }
 }
