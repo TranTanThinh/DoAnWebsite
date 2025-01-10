@@ -68,4 +68,8 @@ class Order extends Model
     public function setDeletedAt($deletedAt) {
         $this->attributes['deleted_at'] = $deletedAt;
     }
+    public function orderItems()
+    {
+        return $this->hasMany(Order_Item::class, 'orderId');
+    }
 }

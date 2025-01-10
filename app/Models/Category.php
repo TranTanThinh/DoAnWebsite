@@ -6,7 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    protected $primaryKey = 'categoryId';
+    protected $fillable = ['name', 'slug', 'parent_id'];
 
+    // Quan hệ danh mục cha
+    public function parent()
+    {
+        return $this->belongsTo(Category::class, 'parent_id');
+    }
+
+    // Quan hệ danh mục con
+    public function children()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
     public function getCategoryId() {
         return $this->attributes['categoryId'];
     }
@@ -51,5 +64,9 @@ class Category extends Model
     }
     public function setDeteledAt($deletedAt) {
         $this->attributes['deleted_at'] = $deletedAt;
+    }
+    public function childCategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id', 'categoryId');
     }
 }
