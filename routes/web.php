@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CategoryController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
@@ -23,4 +24,4 @@ Route::controller(HomeController::class)->group(function () {
 
 Route::resource('/admin', AdminController::class);
 Route::resource('/orders', OrderController::class);
-
+Route::resource('/category', CategoryController::class);
