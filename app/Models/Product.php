@@ -16,8 +16,22 @@ class Product extends Model
      * $this->attributes['slug'] - string - contains the product slug
      * $this->attributes['created_at'] - timestamp - contains the product creation date
      * $this->attributes['updated_at'] - timestamp - contains the product update date
+<<<<<<< HEAD
+    **/
+<<<<<<< HEAD
+=======
      **/
+>>>>>>> 370667e2d9c793ef68da41f30f4bdebe76a604ff
 
+=======
+     // Nếu khóa chính của bạn là productId thay vì id, bạn cần khai báo như sau:
+     protected $primaryKey = 'productId';  // Đặt khóa chính đúng
+
+     // Nếu bạn không muốn sử dụng timestamps (created_at, updated_at)
+     // bạn có thể tắt timestamps:
+     public $timestamps = true;  // Thực tế là mặc định, nếu bạn không muốn timestamp thì đặt false
+     
+>>>>>>> TienDat
     protected $fillable = [
         'name',
         'image',
@@ -140,4 +154,8 @@ class Product extends Model
     {
         $this->attributes['updated_at'] = $updatedAt;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> TienDat

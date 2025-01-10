@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Admin extends Model
 {
+<<<<<<< HEAD
     use HasFactory;
 
     protected $table = 'admins';
@@ -26,5 +27,7 @@ class Admin extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+=======
+>>>>>>> TienDat
     
 }

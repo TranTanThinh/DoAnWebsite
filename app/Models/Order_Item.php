@@ -68,4 +68,8 @@ class Order_Item extends Model
     public function setDeletedAt($deletedAt) {
         $this->attributes['deleted_at'] = $deletedAt;
     }
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'orderId');
+    }
 }
