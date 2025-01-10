@@ -44,33 +44,44 @@
                     </div>
                 </div>
                 <!-- <a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a> -->
-                <p>
-                <form method="post" action="{{route('cart.add', ['id' => $viewData['product']->getProductId()]) }}">
-                    @csrf
+                <div class="mt-4">
+                    <div>
+                        <form method="post" action="{{route('cart.add', ['id' => $viewData['product']->getProductId()]) }}">
+                            @csrf
 
-                    <div class="input-group col-md-6 d-flex mb-3">
-                        <span class="input-group-btn mr-2">
-                            <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
-                                <i class="ion-ios-remove"></i>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
-                        <span class="input-group-btn ml-2">
-                            <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
-                                <i class="ion-ios-add"></i>
-                            </button>
-                        </span>
+                            <div class="input-group col-md-6 d-flex mb-3">
+                                <span class="input-group-btn mr-2">
+                                    <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
+                                        <i class="ion-ios-remove"></i>
+                                    </button>
+                                </span>
+                                <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                                <span class="input-group-btn ml-2">
+                                    <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+                                        <i class="ion-ios-add"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="d-flex px-3">
+                                <button id="add_to_cart" type="submit" class="btn bg-black px-5">Add to Cart</button>
+
+                            </div>
+                        </form>
                     </div>
-                    <div class="d-flex px-3">
-                        <button id="add_to_cart" type="submit" class="btn bg-black px-5">Add to Cart</button>
-                        <div class="p-2 ml-3">
-                            <a href="#" class="heart d-flex justify-content-center align-items-center text-center btn">
+                    <div class="p-2 ml-3">
+                        <form action="{{route('wishlist.add', ['id' => $viewData['product']->getProductId()])}}" method="post">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $viewData['product']->getProductId() }}">
+                            <input type="hidden" name="name" value="{{ $viewData['product']->getName() }}">
+                            <input type="hidden" name="image" value="{{ $viewData['product']->getImage() }}">
+                            <input type="hidden" name="price" value="{{ $viewData['product']->getPrice() }}">
+                            <button type="submit" class="heart d-flex justify-content-center align-items-center text-center btn">
                                 Add to Wishlist &nbsp;<i class="ion-ios-heart"></i>
-                            </a>
-                        </div>
+                            </button>
+                        </form>
+
                     </div>
-                </form>
-                </p>
+                </div>
             </div>
         </div>
     </div>
@@ -282,10 +293,9 @@
                 }
                 $('#related_products').empty();
                 response.forEach(product => {
-                    if(product.productId == 6) {
+                    if (product.productId == 6) {
                         $('#related_products').append(productHtml(product, price_dc = 200000));
-                    }
-                    else{
+                    } else {
                         $('#related_products').append(productHtml(product));
                     }
                 });
@@ -331,11 +341,10 @@
     `;
 
     const formatMoney = (price) => new Intl.NumberFormat('en-US', {
-        style: 'currency', 
+        style: 'currency',
         currency: 'VND',
         trailingZeroDisplay: 'stripIfInteger'
-    }).format(price); 
-
+    }).format(price);
 </script>
 
 @endsection
