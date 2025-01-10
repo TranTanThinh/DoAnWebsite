@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
+<<<<<<< HEAD
+=======
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+>>>>>>> TienDat
 use Illuminate\Database\Eloquent\Model;
 
 class UserReview extends Model
 {
+<<<<<<< HEAD
     public function getId() {
         return $this->attributes['id'];
     }
@@ -62,4 +67,9 @@ class UserReview extends Model
     public function setUpdatedAt($updatedAt) {
         $this->attributes['updated_at'] = $updatedAt;
     }
+=======
+    use HasFactory;
+
+    protected $table = 'user_reviews'; // Tên bảng trong database
+>>>>>>> TienDat
 }

@@ -3,7 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
+=======
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\UserReviewController;
+>>>>>>> TienDat
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
@@ -17,9 +23,30 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/about', 'about')->name('about');
     Route::get('/wishlist', 'wishlist')->name('wishlist');
+    
 });
 Route::resource('/admin', AdminController::class);
+<<<<<<< HEAD
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+=======
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+
+Route::resource('products', ProductController::class);
+
+Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+
+Route::resource('contacts', ContactController::class);
+
+
+Route::get('contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+
+Route::resource('user_reviews', UserReviewController::class);
+Route::get('/reviews', [UserReviewController::class, 'index'])->name('user_reviews.index');
+>>>>>>> TienDat
