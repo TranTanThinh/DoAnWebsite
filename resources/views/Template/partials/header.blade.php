@@ -46,12 +46,6 @@
     <link rel="stylesheet" href="{{ asset('Template/css/style.css') }}">
 
 </head>
-<div id="notificationBar" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-    <strong id="notificationMessage"></strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
 
 <body class="goto-here">
     <div class="py-1 bg-primary">
@@ -151,7 +145,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
                     <form method="POST" action="{{ route('login') }}" id="loginForm">
                         <div id="notificationBar" class="alert alert-success alert-dismissible fade show"
                             role="alert" style="display: none;">
@@ -160,7 +153,6 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-
                         @csrf
                         <div class="form-group mb-3">
                             <label for="username">UserName</label>
@@ -241,12 +233,12 @@
                                         style="cursor: pointer;"></i>
                                 </span>
                             </div>
+
                         </div>
                         <div id="error-message" style="color: red; display: none;">Confirm Password do not match.
                         </div>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
-
                 </div>
             </div>
         </div>
