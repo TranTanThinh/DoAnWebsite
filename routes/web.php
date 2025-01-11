@@ -6,15 +6,15 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\Auth\RegisterController;
+
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ProductController;
+
+
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserReviewController;
 
@@ -61,6 +61,12 @@ Route::post('register', [RegisterController::class, 'register']);
 //Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
+
+//route slideshow
+Route::get('/advertising-1', [AdvertisingAndPromotionController::class, 'showadvertising1'])->name('advertising-1');
+Route::get('/advertising-2', [AdvertisingAndPromotionController::class, 'showadvertising2'])->name('advertising-2');
+Route::get('/promotion-1', [AdvertisingAndPromotionController::class, 'showpromotion1'])->name('promotion-1');
+Route::get('/promotion-2', [AdvertisingAndPromotionController::class, 'showpromotion2'])->name('promotion-2');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
