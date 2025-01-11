@@ -98,7 +98,7 @@ class LoginController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Login successful!',
-            'redirect' => route('home')  // Hoặc route bạn muốn chuyển hướng sau khi đăng nhập thành công
+            'redirect' => route('index') 
         ]);
     }
 }

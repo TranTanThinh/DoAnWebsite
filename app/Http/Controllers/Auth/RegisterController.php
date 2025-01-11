@@ -17,18 +17,20 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $this->validate($request, [
+
+        $validator = Validator::make($request->all(), [
             'username' => 'required|unique:users,username|max:255',
             'email' => 'required|email|unique:users,email|max:255',
             'phone' => 'nullable|numeric',
             'password' => 'required|min:6|confirmed',
         ]);
+        
 
-        if (User::where('username', $request->username)->exists()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'The username already exists.'
-            ]);
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
         $user = User::create([
@@ -41,7 +43,7 @@ class RegisterController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Registration successful!',
-            'redirect' => route('login') 
+            'redirect' => route('login'),
         ]);
     }
 }
