@@ -5,6 +5,7 @@
     <title>Grocery Store</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap"
         rel="stylesheet">
@@ -14,6 +15,8 @@
     <!-- Bootstrap CSS -->
     <!-- Thêm Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 
     <!-- Thêm jQuery và Popper.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -43,12 +46,7 @@
     <link rel="stylesheet" href="{{ asset('Template/css/style.css') }}">
 
 </head>
-<div id="notificationBar" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-    <strong id="notificationMessage"></strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+
 <body class="goto-here">
     <div class="py-1 bg-primary">
         <div class="container">
@@ -146,6 +144,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div id="notificationBar" class="alert alert-success alert-dismissible fade show" role="alert"
+                        style="display: none;">
+                        <strong id="notificationMessage"></strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <form method="POST" action="{{ route('login') }}" id="loginForm">
                         @csrf
                         <div class="form-group mb-3">
@@ -154,7 +159,12 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" required>
+                                <span class="input-group-text">
+                                    <i id="togglePasswordLogin" class="fas fa-eye" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
@@ -180,10 +190,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div id="notificationBar" class="alert alert-success alert-dismissible fade show" role="alert"
+                        style="display: none;">
+                        <strong id="notificationMessage"></strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <!-- Form Đăng Ký -->
-                    <form action="{{ url('register') }}" method="POST">
+                    <form id="registerForm" action="{{ url('register') }}" method="POST">
                         @csrf
-
                         <div class="mb-3">
                             <label for="username" class="form-label">UserName</label>
                             <input type="text" class="form-control" id="username" name="username" required>
@@ -199,15 +215,28 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" required>
+                                <span class="input-group-text">
+                                    <i id="togglePasswordRegister" class="fas fa-eye" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="password_confirmation"
-                                name="password_confirmation" required>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    name="password_confirmation" required>
+                                <span class="input-group-text">
+                                    <i id="togglePasswordConfirmRegister" class="fas fa-eye"
+                                        style="cursor: pointer;"></i>
+                                </span>
+                            </div>
                         </div>
+                        <div id="error-message" style="color: red; display: none;">Confirm Password do not match.</div>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
+                    
                 </div>
             </div>
         </div>
