@@ -14,7 +14,9 @@ class WishlistController extends Controller
     public function index() {
         $user = auth()->user();
         $wishlists = Wishlist::all();
-        $viewData = [];
+        $viewData = [
+            'data' => []
+        ];
         $viewData['title'] = 'Wishlist';
         // return $wishlists;
         // return $user;
