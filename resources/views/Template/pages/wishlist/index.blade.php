@@ -6,6 +6,7 @@
 
 <section class="ftco-section ftco-cart">
     <div class="container">
+        @if(!empty($viewData['data']))
         <div class="row">
             <div class="col-md-12 ftco-animate">
                 <div class="cart-list">
@@ -51,14 +52,26 @@
                 </div>
             </div>
         </div>
+        
         <div class="row mt-5">
             <div class="col text-center">
                 <div class="block-27">
-                    {{$viewData['data']->links('pagination::bootstrap-5')}}
+                    {{$viewData['data']->links('pagination::bootstrap-5') }}
                 </div>
             </div>
             
         </div>
+        @else
+            <div class="row mt-5">
+                <div class="col text-center font-bold">
+                    <div class="block-27">
+                        {{!empty($viewData['data']) && $viewData['data']->links('pagination::bootstrap-5') }}
+                        {{$viewData['message']}}
+                    </div>
+                </div>
+                
+            </div>
+        @endif
     </div>
 </section>
 
