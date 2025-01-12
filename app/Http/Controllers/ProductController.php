@@ -19,7 +19,9 @@ class ProductController extends Controller
     {
 
         $viewData = [];
-        $products = Product::all();
+        // $products = Product::all();
+        $products = Product::paginate(12);
+        // dd($products);
         $viewData['title'] = 'Shop Products';
         $viewData['products'] = $products;
 
