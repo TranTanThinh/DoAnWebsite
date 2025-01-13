@@ -58,4 +58,3 @@ Route::controller(WishlistController::class)->group(function() {
 
 });
 
-
