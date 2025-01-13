@@ -202,26 +202,22 @@
                 success: function(response) {
                     console.log(response); // In ra để kiểm tra phản hồi từ server
                     if (response.status === 'success') {
-                        $('#notificationBar').removeClass('alert-danger').addClass(
-                            'alert-success');
+                        $('#notificationBar').removeClass('alert-danger').addClass('alert-success');
                         $('#notificationMessage').text(response.message);
                         $('#notificationBar').fadeIn().delay(3000)
                     .fadeOut(); // Hiển thị thông báo và tự động ẩn sau 3 giây
                         setTimeout(function() {
-                            window.location.href = response
-                            .redirect; // Chuyển hướng sau khi đăng nhập thành công
+                            window.location.href = response.redirect; // Chuyển hướng sau khi đăng nhập thành công
                         }, 1500);
                     } else {
-                        $('#notificationBar').removeClass('alert-success').addClass(
-                            'alert-danger');
+                        $('#notificationBar').removeClass('alert-success').addClass('alert-danger');
                         $('#notificationMessage').text(response.message);
                         $('#notificationBar').fadeIn().delay(3000).fadeOut();
                     }
                 },
                 error: function(xhr, status, error) {
                     console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
-                    $('#notificationBar').removeClass('alert-success').addClass(
-                        'alert-danger');
+                    $('#notificationBar').removeClass('alert-success').addClass('alert-danger');
                     $('#notificationMessage').text('An error occurred. Please try again.');
                     $('#notificationBar').fadeIn().delay(3000).fadeOut();
                 }
@@ -248,14 +244,28 @@
                 success: function(response) {
                     console.log(response); // In ra để kiểm tra phản hồi từ server
                     if (response.status === 'success') {
-                        $('#notificationBar').removeClass('alert-danger').addClass(
-                            'alert-success');
+                        $('#notificationBar').removeClass('alert-danger').addClass('alert-success');
                         $('#notificationMessage').text(response.message);
                         $('#notificationBar').fadeIn().delay(3000).fadeOut();
                         setTimeout(function() {
-                            window.location.href = response
-                            .redirect; // Chuyển hướng sau khi đăng ký thành công
+                            window.location.href = response.redirect; // Chuyển hướng sau khi đăng ký thành công
                         }, 1500);
+                    } else {
+                        $('#notificationBar').removeClass('alert-success').addClass('alert-danger');
+                        $('#notificationMessage').text(response.message);
+                        $('#notificationBar').fadeIn().delay(3000).fadeOut();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
+                    if (xhr.status === 422) {
+                        // Nếu có lỗi từ server (ví dụ: validation lỗi)
+                        var errors = JSON.parse(xhr.responseText).errors;
+                        var errorMessage = '';
+                        for (var field in errors) {
+                            errorMessage += errors[field].join(' ') + '\n';
+                        }
+                        $('#notificationMessage').text(errorMessage);
                     } else {
                         $('#notificationBar').removeClass('alert-success').addClass(
                             'alert-danger');
@@ -285,3 +295,5 @@
         });
     });
 </script>
+
+
