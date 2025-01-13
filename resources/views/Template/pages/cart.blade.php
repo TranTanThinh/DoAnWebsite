@@ -4,7 +4,7 @@
 
 @include('Template.components.banner')
 
-{{-- <section class="ftco-section ftco-cart">
+<section class="ftco-section ftco-cart">
     <div class="container">
         <div class="row">
         <div class="col-md-12 ftco-animate">
@@ -127,7 +127,7 @@
         </div>
     </div>
     </div>
-</section> --}}
+</section>
 
 @include('Template.components.subcribe')
 

@@ -1,3 +1,6 @@
+
+
+
 <footer class="ftco-footer ftco-section">
     <div class="container">
         <div class="row">
@@ -204,8 +207,7 @@
                     if (response.status === 'success') {
                         $('#notificationBar').removeClass('alert-danger').addClass('alert-success');
                         $('#notificationMessage').text(response.message);
-                        $('#notificationBar').fadeIn().delay(3000)
-                    .fadeOut(); // Hiển thị thông báo và tự động ẩn sau 3 giây
+                        $('#notificationBar').fadeIn().delay(3000).fadeOut(); // Hiển thị thông báo và tự động ẩn sau 3 giây
                         setTimeout(function() {
                             window.location.href = response.redirect; // Chuyển hướng sau khi đăng nhập thành công
                         }, 1500);
@@ -257,6 +259,15 @@
                     }
                 },
                 error: function(xhr, status, error) {
+                    console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
+                    if (xhr.status === 422) {
+                        // Nếu có lỗi từ server (ví dụ: validation lỗi)
+                        var errors = JSON.parse(xhr.responseText).errors;
+                        var errorMessage = '';
+                        for (var field in errors) {
+                            errorMessage += errors[field].join(' ') + '\n';
+                        }
+                        $('#notificationMessage').text(errorMessage);
                     console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
                     if (xhr.status === 422) {
                         // Nếu có lỗi từ server (ví dụ: validation lỗi)
