@@ -35,88 +35,98 @@
             border-radius: 5px;
         }
 
-        /* Định dạng cho danh sách bài viết */
+        /* Định dạng cho danh sách blog */
         .blog-list {
-            list-style-type: none;
+            display: grid;
+            /* Sử dụng CSS Grid để chia layout */
+            grid-template-columns: repeat(5, 1fr);
+            /* Chia thành 5 cột đều */
+            gap: 20px;
+            /* Khoảng cách giữa các bài viết */
             padding: 0;
             margin: 0;
-            display:flex;
-            /* Khoảng cách giữa các phần tử */
+            list-style-type: none;
+            /* Loại bỏ dấu chấm đầu dòng */
         }
 
-        /* Định dạng cho mỗi bài viết */
+        /* Định dạng mỗi bài viết */
         .blog-item {
-            width: 25%;
-            background-color: #fff;
+            display: flex;
+            /* Sử dụng flexbox trong từng phần tử để căn đều nội dung */
+            flex-direction: column;
+            /* Xếp các phần tử bên trong theo chiều dọc */
+            padding: 15px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Đường viền bao quanh mỗi bài viết */
+            background-color: #f9f9f9;
+            /* Màu nền của mỗi bài viết */
+            border-radius: 5px;
+            /* Bo tròn các góc */
+            transition: background-color 0.3s;
+            /* Hiệu ứng khi di chuột */
+            height: 100%;
+            /* Đảm bảo mỗi phần tử có chiều cao đầy đủ */
         }
 
         /* Hiệu ứng hover cho mỗi bài viết */
         .blog-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background-color: #e9e9e9;
+            /* Đổi màu nền khi di chuột vào bài viết */
         }
 
-        /* Định dạng tiêu đề bài viết */
-        .blog-title {
-            font-size: 20px;
+        /* Định dạng cho tiêu đề bài viết */
+        .blog-item h2 {
+            font-size: 16px;
             font-weight: bold;
             color: #333;
             margin-bottom: 10px;
+            margin-top: 0;
         }
 
-        /* Định dạng tác giả */
-        .blog-author {
-            font-size: 14px;
-            color: #777;
-            margin-bottom: 15px;
-        }
-
-        /* Định dạng ảnh bài viết */
+        /* Định dạng cho hình ảnh bài viết */
         .blog-image {
             width: 100%;
+            /* Đảm bảo ảnh chiếm hết chiều rộng của phần tử */
             height: auto;
-            border-radius: 4px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        /* Định dạng nội dung bài viết */
-        .blog-content {
+        /* Định dạng cho nội dung bài viết */
+        .blog-item p {
             font-size: 14px;
             color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
-        /* Định dạng lượt xem */
-        .blog-view {
-            font-size: 14px;
-            color: #777;
-        }
-
-        /* Định dạng liên kết xem chi tiết */
+        /* Định dạng cho link "Xem chi tiết" */
         .blog-detail-link {
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 14px;
             color: #007bff;
             text-decoration: none;
-            font-weight: bold;
         }
 
         .blog-detail-link:hover {
             text-decoration: underline;
         }
 
-        /* Đảm bảo các cột đều được sắp xếp một cách linh hoạt khi màn hình nhỏ */
+        /* Đảm bảo phân trang nằm dưới danh sách và không bị ảnh hưởng */
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Chuyển thành 3 cột khi màn hình nhỏ (tablet) */
+        @media (max-width: 1024px) {
+            .blog-list {
+                grid-template-columns: repeat(3, 1fr);
+                /* Chuyển thành 3 cột khi màn hình nhỏ */
+            }
+        }
+
+        /* Chuyển thành 1 cột khi màn hình rất nhỏ (mobile) */
         @media (max-width: 768px) {
             .blog-list {
                 grid-template-columns: 1fr;
-                /* Chuyển thành một cột khi màn hình nhỏ */
+                /* Chuyển thành 1 cột khi màn hình rất nhỏ */
             }
         }
     </style>
