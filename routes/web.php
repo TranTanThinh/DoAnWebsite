@@ -55,6 +55,4 @@ Route::controller(CartController::class)->group(function() {
 Route::controller(WishlistController::class)->group(function() {
     route::get('/wishlist', 'index')->name('wislist.index');
     route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
-
-
 });
