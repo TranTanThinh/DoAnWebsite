@@ -1,3 +1,4 @@
+
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -11,6 +12,7 @@
     })();
     </script>
     <!--End of Tawk.to Script-->
+
 <footer class="ftco-footer ftco-section">
     <div class="container">
         <div class="row">
@@ -279,3 +281,90 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        // Đăng nhập AJAX
+        $('#loginForm').on('submit', function(e) {
+            e.preventDefault();
+
+            var formData = {
+                username: $('#username').val(),
+                password: $('#password').val(),
+                _token: $('input[name="_token"]').val(),
+            };
+
+            $.ajax({
+                url: '{{ route('login') }}', // Đảm bảo route đúng
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#notificationBar').removeClass('alert-danger').addClass(
+                            'alert-success');
+                        $('#notificationMessage').text(response.message);
+                        $('#notificationBar').fadeIn().delay(3000)
+                    .fadeOut(); // Hiển thị thông báo và tự động ẩn sau 3 giây
+                        setTimeout(function() {
+                            window.location.href = response
+                            .redirect; // Chuyển hướng sau khi đăng nhập thành công
+                        }, 1500);
+                    } else {
+                        $('#notificationBar').removeClass('alert-success').addClass(
+                            'alert-danger');
+                        $('#notificationMessage').text(response.message);
+                        $('#notificationBar').fadeIn().delay(3000).fadeOut();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#notificationBar').removeClass('alert-success').addClass(
+                        'alert-danger');
+                    $('#notificationMessage').text('An error occurred. Please try again.');
+                    $('#notificationBar').fadeIn().delay(3000).fadeOut();
+                }
+            });
+        });
+
+        // Đăng ký AJAX
+        $('#registerForm').on('submit', function(e) {
+            e.preventDefault();
+
+            var formData = {
+                username: $('#register_username').val(),
+                email: $('#register_email').val(),
+                phone: $('#register_phone').val(),
+                password: $('#register_password').val(),
+                password_confirmation: $('#register_password_confirmation').val(),
+                _token: $('input[name="_token"]').val(),
+            };
+
+            $.ajax({
+                url: '{{ url('register') }}',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#notificationBar').removeClass('alert-danger').addClass(
+                            'alert-success');
+                        $('#notificationMessage').text(response.message);
+                        $('#notificationBar').fadeIn().delay(3000).fadeOut();
+                        setTimeout(function() {
+                            window.location.href = response.redirect;
+                        }, 1500);
+                    } else {
+                        $('#notificationBar').removeClass('alert-success').addClass(
+                            'alert-danger');
+                        $('#notificationMessage').text(response.message);
+                        $('#notificationBar').fadeIn().delay(3000).fadeOut();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    $('#notificationBar').removeClass('alert-success').addClass(
+                        'alert-danger');
+                    $('#notificationMessage').text('An error occurred. Please try again.');
+                    $('#notificationBar').fadeIn().delay(3000).fadeOut();
+                }
+            });
+        });
+    });
+</script>
+
