@@ -59,7 +59,7 @@ Route::controller(ProductController::class)->group(function () {
 
 Route::controller(CartController::class)->group(function() {
     route::get('/cart', 'index')->name('cart.index');
-    route::get('/cart/delete','delete')->name('cart.delete');
+    route::get('/cart/delete','deleteAll')->name('cart.delete');
     route::post('/cart/add/{id}','add')->name('cart.add');
 });
 

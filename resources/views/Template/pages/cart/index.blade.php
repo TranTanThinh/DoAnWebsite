@@ -16,7 +16,7 @@
                                 <th>&nbsp;</th>
                                 <th>Product name</th>
                                 <th>Price</th>
-                                <th>Quantity</th>
+                                <th>Quantity (kg)</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
@@ -34,7 +34,7 @@
                                     <h3>{{$product->getName()}}</h3>
                                 </td>
 
-                                <td class="price">{{$product->getPrice()}}</td>
+                                <td class="price">{{number_format($product->getPrice())}}&#8363</td>
 
                                 <td class="quantity">
                                     <div class="input-group mb-3">
@@ -51,7 +51,7 @@
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
-                                <td class="total">{{ $viewData['total'] }}</td>
+                                <td class="total">{{ number_format($viewData['total']) }}&#8363</td>
                             </tr>
                         </tbody>
                     </table>
