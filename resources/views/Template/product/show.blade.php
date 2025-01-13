@@ -69,7 +69,7 @@
                         </form>
                     </div>
                     @if (Auth::check())
-                    
+
                     <div class="p-2 ml-3">
                         <form action="{{route('wishlist.add', ['id' => $viewData['product']->getProductId()])}}" method="post">
                             @csrf
@@ -83,7 +83,7 @@
                         </form>
 
                     </div>
-                    
+
                     @endif
                 </div>
             </div>
@@ -103,6 +103,71 @@
     </div>
     <div class="container">
         <div class="row" id="related_products"></div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-3 pb-3">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                <span class="subheading">Reviews</span>
+                <h2 class="mb-4">Khách hàng đánh giá</h2>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row" id=""></div>
+        @if (Auth::check())
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="">
+                    @csrf
+                    <div class="form-group">
+                        <label for="rating">Chọn số sao:</label>
+                        <select name="rating" id="rating" class="form-control" required>
+                            <option value="1">1 Sao</option>
+                            <option value="2">2 Sao</option>
+                            <option value="3">3 Sao</option>
+                            <option value="4">4 Sao</option>
+                            <option value="5">5 Sao</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="review">Viết đánh giá của bạn:</label>
+                        <textarea name="review" id="review" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                </form>
+            </div>
+        </div>
+        @else
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p><a href="{{ route('login') }}" class="btn btn-primary">Đăng nhập để đánh giá</a></p>
+            </div>
+        </div>
+        @endif
+
+
+        <div class="row">
+            {{-- @foreach ($viewData['reviews'] as $review) --}}
+            <div class="col-md-12 mb-4">
+                <div class="review">
+                    <h5>{{-- $review->user->name --}}Abusdhfj</h5>
+                    <p>
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= 5)
+                            <span class="ion-ios-star"></span>
+                            @else
+                            <span class="ion-ios-star-outline"></span>
+                            @endif
+                            @endfor
+                    </p>
+                    <p>{{-- $review->review --}}best product</p>
+                </div>
+            </div>
+            {{-- @endforeach --}}
+        </div>
     </div>
 </section>
 
@@ -136,14 +201,14 @@
     $(document).ready(function() {
         function updateQuantity() {
             let id = `{{$viewData['product']->getProductId() }}`;
-           // console.log('id: ', id);
+            // console.log('id: ', id);
 
             $.ajax({
                 url: `http://127.0.0.1:8000/api/products/${id}`,
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    
+
                     if (response.product && response.product.inventories[0].quantity >= 0) {
                         let quantity = response.qty;
                         let status = quantity > 0 ? 'In stock' : 'Out of stock';
