@@ -9,6 +9,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PaymentController;
 
 
 Route::controller(HomeController::class)->group(function () {
@@ -53,6 +54,9 @@ Route::controller(CartController::class)->group(function() {
 
 
 Route::controller(WishlistController::class)->group(function() {
-    route::get('/wishlist', 'index')->name('wislist.index');
+    route::get('/wishlist', 'index')->name('wishlist.index');
     route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
 });
+
+
+Route::post('/payment', [PaymentController::class, 'createPayment']);

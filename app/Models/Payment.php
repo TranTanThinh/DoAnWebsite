@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
+    protected $fillable = ['payment_method', 'amount'];
     public function getId() {
         return $this->attributes['id'];
     }
