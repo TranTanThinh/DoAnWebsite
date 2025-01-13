@@ -57,4 +57,3 @@ Route::controller(WishlistController::class)->group(function() {
     route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
 
 });
-
