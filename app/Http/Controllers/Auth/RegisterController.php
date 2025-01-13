@@ -55,14 +55,14 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users,email|max:255',
             'phone' => 'nullable|numeric',
             'password' => 'required|min:6|confirmed', // 'confirmed' yêu cầu có trường 'password_confirmation'
-
+        ]);
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
 
         ]);
-    }
+    
 
 
         if ($validator->fails()) {
@@ -81,7 +81,7 @@ class RegisterController extends Controller
         //auth()->login($user);
 
         return redirect()->route('index')->with('success', 'Registration successful!');
-
+    }
     /**
      * Create a new user instance after a valid registration.
      *

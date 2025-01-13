@@ -136,19 +136,20 @@
     $(document).ready(function() {
         function updateQuantity() {
             let id = `{{$viewData['product']->getProductId() }}`;
-            console.log('id: ', id);
+           // console.log('id: ', id);
 
             $.ajax({
                 url: `http://127.0.0.1:8000/api/products/${id}`,
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    if (response.product && response.product.inventories[0].quantity > 0) {
+                    
+                    if (response.product && response.product.inventories[0].quantity >= 0) {
                         let quantity = response.qty;
                         let status = quantity > 0 ? 'In stock' : 'Out of stock';
-                        console.log('Qty: ', quantity);
-                        console.log('status: ', status);
-                        console.log('res: ', response);
+                        // console.log('Qty: ', quantity);
+                        // console.log('status: ', status);
+                        // console.log('res: ', response);
                         $('#pStatus').text(status);
                         $('#dquantity').text(quantity + ' kg có sẵn');
 
@@ -156,6 +157,7 @@
                             $('#add_to_cart')
                                 .prop('disabled', true)
                         }
+
                     } else {
                         console.log('No inventories found.');
                     }

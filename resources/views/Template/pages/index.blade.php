@@ -136,7 +136,7 @@
                             <h3><a href="{{ route('product.show', ['slug' => $product->getSlug(), 'id' => $product->getProductId() ]) }}">{{ $product -> getName()}}</a></h3>
                             <div class="d-flex">
                                 <div class="pricing">
-                                    <p class="price"><span class="mr-2 price-dc"></span><span class="price-sale">{{ $product -> getPrice() }}</span></p>
+                                    <p class="price"><span class="mr-2 price-dc"></span><span class="price-sale">{{ number_format($product -> getPrice()) }}&#8363</span></p>
                                 </div>
                             </div>
                             <div class="bottom-area d-flex px-3">
