@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ContactController;
-
+use App\Http\Controllers\PaymentController;
 
 
 Route::controller(HomeController::class)->group(function () {
@@ -98,4 +98,6 @@ Route::middleware('auth')->group(function() {
 });
 
 
+
+Route::post('/payment', [PaymentController::class, 'createPayment']);
 
