@@ -35,10 +35,12 @@ class PaymentController extends Controller
 
     private function handleMoMoPayment($payment)
     {
-
+        // Tích hợp với MoMo API để thực hiện thanh toán
+        // Gửi thông tin đến MoMo và nhận phản hồi (mã giả)
         $momoResponse = $this->processMoMoPayment($payment->amount);
 
         if ($momoResponse['status'] === 'success') {
+            // Cập nhật trạng thái thanh toán
             $payment->update(['status' => 'completed']);
             return response()->json(['message' => 'Thanh toán qua MoMo thành công!', 'payment' => $payment]);
         }
