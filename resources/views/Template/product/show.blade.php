@@ -106,7 +106,7 @@
     </div>
 </section>
 
-<section class="ftco-section">
+<!-- <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-3 pb-3">
             <div class="col-md-12 heading-section text-center ftco-animate">
@@ -153,7 +153,8 @@
             {{-- @foreach ($viewData['reviews'] as $review) --}}
             <div class="col-md-12 mb-4">
                 <div class="review">
-                    <h5>{{-- $review->user->name --}}Abusdhfj</h5>
+                    <h5>{{-- $review->user->name --}}John Nicola</h5>
+                    <p>publish at: <?php echo date('Y-m-d h:i:sa') ?></p>
                     <p>
                         @for ($i = 1; $i <= 5; $i++)
                             @if ($i <= 5)
@@ -169,7 +170,99 @@
             {{-- @endforeach --}}
         </div>
     </div>
+</section> -->
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-3 pb-3">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                <span class="subheading">Reviews</span>
+                <h2 class="mb-4">Khách hàng đánh giá</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {{-- Review Summary --}}
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="review-summary">
+                    <h4>Đánh giá trung bình</h4>
+                    <p>
+                        <strong>{{ number_format(3.4, 1) }}</strong> trên 5 sao
+                        (50 lượt đánh giá)
+                    </p>
+                    <div>
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= 4.5)
+                            <span class="ion-ios-star"></span>
+                            @else
+                            <span class="ion-ios-star-outline"></span>
+                            @endif
+                            @endfor
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="review-distribution">
+                    <h4>Phân bố đánh giá</h4>
+                    <ul class="list-unstyled">
+                       {{-- @foreach ($ratingDistribution as $stars => $count) --}}
+                        <li>
+                            {{-- $stars --}} Sao:
+                            <span>{{-- $count --}}</span> lượt đánh giá
+                            (<strong>{{-- round(($count / $totalReviews) * 100, 1) --}}%</strong>)
+                        </li>
+                        {{--@endforeach--}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        {{-- Individual Reviews --}}
+        <div class="row" id=""></div>
+        @if (Auth::check())
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="">
+                    @csrf
+                    <div class="form-group">
+                        <label for="rating">Chọn số sao:</label>
+                        <select name="rating" id="rating" class="form-control" required>
+                            <option value="1">1 Sao</option>
+                            <option value="2">2 Sao</option>
+                            <option value="3">3 Sao</option>
+                            <option value="4">4 Sao</option>
+                            <option value="5">5 Sao</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="review">Viết đánh giá của bạn:</label>
+                        <textarea name="review" id="review" class="form-control" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                </form>
+            </div>
+        </div>
+        @else
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p><a href="{{ route('login') }}" class="btn btn-primary">Mua hàng để đánh giá</a></p>
+            </div>
+        </div>
+        @endif
+
+        <div class="row mt-4" id="user_reviews"></div>
+        <div class="row mt-4">
+            <div class="col text-center">
+                <div class="block-27" id="pagination">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
 
 @include('Template.components.subcribe')
 
@@ -209,7 +302,7 @@
                 dataType: 'json',
                 success: function(response) {
 
-                    if (response.product && response.product.inventories[0].quantity >= 0) {
+                    if (response.product && response.qty >= 0) {
                         let quantity = response.qty;
                         let status = quantity > 0 ? 'In stock' : 'Out of stock';
                         // console.log('Qty: ', quantity);
@@ -304,6 +397,66 @@
         currency: 'VND',
         trailingZeroDisplay: 'stripIfInteger'
     }).format(price);
+
+    // get reviews
+    $(document).ready(function() {
+        let id = `{{$viewData['product']->getProductId() }}`;
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/userReviews/product/${id}`,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if(response.success) {
+                    // console.log('res: ', response);
+                    $('#related_products').empty();
+                    console.log(typeof(response));
+                    response.data.data.forEach(data => {
+                        console.log('data: ', data)
+                        $('#user_reviews').append(review(data));
+                    });
+
+                    if (response.data.links.length > 0) {
+                        response.data.links.forEach(link => {
+                        if (link.url) {
+                            $('#pagination').append(`
+                                <a href="${link.url}" class="page-link">${link.label}</a>
+                            `);
+                        } else {
+                            $('#pagination').append(`
+                                <span class="page-link disabled">${link.label}</span>
+                            `);
+                        }
+                    });
+                }
+                }
+            },
+            error:function(error) {
+                console.log('Error: ', error);
+            }
+        });
+    });
+
+    const review = (rev) => {
+        let stars = '';
+        for(let i = 1; i <= rev.rating; i++) {
+            stars += `<span class="ion-ios-star"></span>`;
+        }
+        for(let i = rev.rating + 1; i <= 5; i++) {
+            stars += `<span class="ion-ios-star-outline"></span>`;
+        }
+
+        return `
+            <div class="col-md-12 mb-4">
+                <div class="review">
+                    <h5>${rev.user.firstName + ' ' + (rev.user.lastName || '')}</h5>
+                    <p>publish at: ${rev.created_at}</p>
+                    <p>${stars}</p>
+                    <p>${rev.comment}</p>
+                </div>
+            </div>
+        `
+    };
+
 </script>
 
 @endsection
