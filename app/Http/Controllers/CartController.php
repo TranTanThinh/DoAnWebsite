@@ -27,13 +27,18 @@ class CartController extends Controller
 
     public function add(Request $request, $id) {
         $products = request()->session()->get('products');
-        $products[$id] = $request->input('quantity');
+        $products[$id] = '';
+        $value =  $request->input('quantity');
+        if(str_contains($value, ',')) {
+            $products[$id] = str_replace(',', '.', $value);
+        }
+        // dd($products[$id], gettype($products[$id]));
         request()->session()->put('products', $products);
 
         return redirect()->route('cart.index');
     }
 
-    public function delete(Request $request) {
+    public function deleteAll(Request $request) {
         request()->session()->forget('products');
 
         return back();

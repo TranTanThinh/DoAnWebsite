@@ -1,18 +1,19 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdvertisingAndPromotionController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserReviewController;
 
@@ -20,6 +21,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdvertisingAndPromotionController;
 
 
+use App\Http\Controllers\Auth\RegisterController;
 
 
 
@@ -31,13 +33,11 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/cart', 'cart')->name('cart');
 
     Route::get('/blogsingle', 'blogsingle')->name('blogsingle');
-    Route::get('/productsingle', 'productsingle')->name('productsingle');
-
     // Route::get('/productsingle', 'productsingle')->name('productsingle');
 
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/about', 'about')->name('about');
-    Route::get('/wishlist', 'wishlist')->name('wishlist');
+    // Route::get('/wishlist', 'wishlist')->name('wishlist');
 
     Route::get('/search', [ProductController::class, 'search'])->name('product.search');
 
@@ -46,8 +46,6 @@ Route::resource('/admin', AdminController::class);
 
 Route::resource('/orders', OrderController::class);
 Route::resource('/category', CategoryController::class);
-
-
 
 
 Auth::routes();
@@ -68,20 +66,11 @@ Route::controller(ProductController::class)->group(function () {
 
 Route::controller(CartController::class)->group(function() {
     route::get('/cart', 'index')->name('cart.index');
-    route::get('/cart/delete','delete')->name('cart.delete');
+    route::get('/cart/delete','deleteAll')->name('cart.delete');
     route::post('/cart/add/{id}','add')->name('cart.add');
 });
 
 
-
-Route::controller(WishlistController::class)->group(function() {
-    route::get('/wishlist', 'index')->name('wislist.index');
-    route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
-});
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
@@ -91,17 +80,31 @@ Route::post('/products/store', [ProductController::class, 'store'])->name('produ
 
 Route::resource('products', ProductController::class);
 
-Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 
 Route::resource('contacts', ContactController::class);
 
-
-
+Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 Route::get('contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
 
 Route::resource('user_reviews', UserReviewController::class);
 Route::get('/reviews', [UserReviewController::class, 'index'])->name('user_reviews.index');
 
 
+//route slideshow
+Route::get('/advertising-1', [AdvertisingAndPromotionController::class, 'showadvertising1'])->name('advertising-1');
+Route::get('/advertising-2', [AdvertisingAndPromotionController::class, 'showadvertising2'])->name('advertising-2');
+Route::get('/promotion-1', [AdvertisingAndPromotionController::class, 'showpromotion1'])->name('promotion-1');
+Route::get('/promotion-2', [AdvertisingAndPromotionController::class, 'showpromotion2'])->name('promotion-2');
 
+// Route::controller(WishlistController::class)->group(function() {
+//     route::get('/wishlist', 'index')->name('wishlist.index');
+//     route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
+// });
 
+Route::middleware('auth')->group(function() {
+    Route::controller(WishlistController::class)->group(function() {
+        route::get('/wishlist', 'index')->name('wishlist.index');
+        route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
+        route::post('/wishlist/remove/{id}', 'removeProductFromWishlist')->name('wishlist.remove');
+    });
+});

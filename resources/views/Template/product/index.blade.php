@@ -21,15 +21,16 @@
             @foreach ($viewData['products'] as $product)
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
-                        <a href="{{ route('product.show', ['slug' => $product->getSlug(), 'id' => $product->getProductId() ]) }}" class="img-prod"><img class="img-fluid" src="{{ asset('Template/images/'.$product -> getImage()) }}" alt="Colorlib Template">
-                            <span class="status">30%</span>
+                        <a href="{{ route('product.show', ['slug' => $product->getSlug(), 'id' => $product->getProductId() ]) }}" class="img-prod">
+                            <img class="img-fluid" src="{{ asset('Template/images/'.$product -> getImage()) }}" alt="{{ $product -> getImage() }}">
+                            <span class="status"></span>
                             <div class="overlay"></div>
                         </a>
                         <div class="text py-3 pb-4 px-3 text-center">
-                            <h3><a href="#">{{ $product -> getName()}}</a></h3>
+                            <h3><a href="{{ route('product.show', ['slug' => $product->getSlug(), 'id' => $product->getProductId() ]) }}">{{ $product -> getName()}}</a></h3>
                             <div class="d-flex">
                                 <div class="pricing">
-                                    <p class="price"><span class="mr-2 price-dc">{{ $product -> getPrice() }}</span><span class="price-sale">$80.00</span></p>
+                                    <p class="price"><span class="mr-2 price-dc"></span><span class="price-sale">{{ number_format($product -> getPrice()) }}&#8363</span></p>
                                 </div>
                             </div>
                             <div class="bottom-area d-flex px-3">
@@ -40,9 +41,22 @@
                                     <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
                                         <span><i class="ion-ios-cart"></i></span>
                                     </a>
-                                    <a href="{{route('wishlist.add', ['id' => $product->getProductId()])}}" class="heart d-flex justify-content-center align-items-center ">
-                                        <span><i class="ion-ios-heart"></i></span>
+                                    
+                                    @if (Auth::check())
+                                    <a href="#" class="heart d-flex justify-content-center align-items-center ">
+                                        <form action="{{route('wishlist.add', ['id' => $product->getProductId()])}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $product->getProductId() }}">
+                                            <input type="hidden" name="name" value="{{ $product->getName() }}">
+                                            <input type="hidden" name="image" value="{{ $product->getImage() }}">
+                                            <input type="hidden" name="price" value="{{ $product->getPrice() }}">
+                                            <button type="submit" class="heart d-flex justify-content-center align-items-center ">
+                                                <span><i class="ion-ios-heart"></i></span>
+                                            </button>
+                                        </form>
                                     </a>
+                                    
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -398,7 +412,8 @@
         <div class="row mt-5">
             <div class="col text-center">
                 <div class="block-27">
-                    <ul>
+                    {{ $viewData['products']->links('pagination::bootstrap-5') }}
+                    <!-- <ul>
                         <li><a href="#">&lt;</a></li>
                         <li class="active"><span>1</span></li>
                         <li><a href="#">2</a></li>
@@ -406,7 +421,7 @@
                         <li><a href="#">4</a></li>
                         <li><a href="#">5</a></li>
                         <li><a href="#">&gt;</a></li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
         </div>
