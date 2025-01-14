@@ -34,11 +34,11 @@
                         </div>
                         <div class="bottom-area d-flex px-3">
                             <div class="m-auto d-flex">
-                                <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                    <span><i class="ion-ios-menu"></i></span>
+                                <a href="{{ route('cart.add', $product->id) }}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                    <span><i class="ion-ios-cart"></i></span> <!-- Sửa lại liên kết của icon giỏ hàng -->
                                 </a>
-                                <a href="{{ route('cart.add', $product->productId) }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                    <span><i class="ion-ios-cart"></i></span>
+                                <a href="{{ route('product.show', $product->id) }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                    <span><i class="ion-ios-menu"></i></span>
                                 </a>
                                 <a href="#" class="heart d-flex justify-content-center align-items-center ">
                                     <span><i class="ion-ios-heart"></i></span>
