@@ -47,6 +47,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $carts->links("pagination::bootstrap-5") }}
                 </div>
             </div>
         </div>
@@ -107,6 +108,10 @@
                     </p>
                 </div>
                 <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+                <p><a href="route('cart.destroyAll')" class="btn btn-danger py-3 px-4" onclick="event.preventDefault(); document.getElementById('delete-all-form').submit();">Remove All</a></p>
+                <form id="delete-all-form" action="{{ route('cart.destroyAll') }}" method="POST" style="display: none;"> \
+                    @csrf
+                </form>
             </div>
         </div>
     </div>
