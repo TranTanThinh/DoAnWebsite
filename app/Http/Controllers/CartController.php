@@ -67,4 +67,9 @@ class CartController extends Controller
 
         return back();
     }
+    public function destroyAll()
+    {
+        Cart::where('user_id', Auth::id())->delete();
+        return redirect()->route('cart.index')->with('success', 'All products removed from cart');
+    }
 }
