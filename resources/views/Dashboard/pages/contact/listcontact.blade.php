@@ -5,7 +5,16 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center" style="margin-top: 120px;">
                 <div class="d-flex justify-content-end mb-3">
-                     
+                    {{-- <form action="{{ route('products.search') }}" method="GET" class="d-flex">
+                        <input
+                            type="text"
+                            name="query"
+                            class="form-control me-2"
+                            placeholder="Tìm kiếm theo ID, Name hoặc Price..."
+                            value="{{ request('query') }}"
+                        />
+                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    </form> --}}
                 </div>
 
             </div>
@@ -38,11 +47,7 @@
                                 <!-- Group both icons together in a div or span -->
                                 <div class="d-flex justify-content-start">
                                     
-                                    <!-- Nút chỉnh sửa -->
-                                    <a href="{{ route('contacts.edit', $contact->id) }}" class="btn btn-primary btn-sm me-2">
-                                        <i class="fa fa-edit"></i> <!-- Biểu tượng chỉnh sửa -->
-                                    </a>
-                            
+                                    
                                     <!-- Nút xóa -->
                                     <form action="{{ route('contacts.destroy', $contact->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this contact?')">
                                         @csrf

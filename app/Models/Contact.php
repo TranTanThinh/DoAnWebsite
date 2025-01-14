@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
 
 class Contact extends Model
 {
@@ -63,18 +62,19 @@ class Contact extends Model
     public function setUpdatedAt($updatedAt) {
         $this->attributes['updated_at'] = $updatedAt;
     }
-=======
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Contact extends Model
-{
-    use HasFactory;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'subject',
-        'message',
-    ];
->>>>>>> TienDat
+// class Contact extends Model
+// {
+//     use HasFactory;
+
+//     protected $fillable = [
+//         'name',
+//         'email',
+//         'subject',
+//         'message',
+//     ];
+// >>>>>>> TienDat
+// }
 }

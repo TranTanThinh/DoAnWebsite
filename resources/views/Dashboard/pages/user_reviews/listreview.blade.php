@@ -2,10 +2,12 @@
 
 @section('main')
 <div class="container">
-    <h1 class="my-4">Danh sách User Reviews</h1>
+    <h3 class="my-4">Danh sách Bình Luận </h3>
     <table class="table table-bordered">
         <thead>
+            
             <tr>
+                
                 <th>ID</th>
                 <th>User ID</th>
                 <th>Ordered Product ID</th>

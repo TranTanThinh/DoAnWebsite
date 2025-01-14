@@ -13,16 +13,14 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
 
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ProductController;
+
+
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\UserReviewController;
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdvertisingAndPromotionController;
 
-
-use App\Http\Controllers\Auth\RegisterController;
 
 
 
@@ -45,7 +43,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/search', [ProductController::class, 'search'])->name('product.search');
 
 });
-Route::resource('/admin', AdminController::class);
+
 
 Route::resource('/orders', OrderController::class);
 Route::resource('/category', CategoryController::class);
@@ -66,7 +64,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::controller(ProductController::class)->group(function () {
     route::get('/shop', 'index')->name('product.index');
-    route::get('products/{slug}/{id}', 'show')->name('product.show');
+    // route::get('products/{slug}/{id}', 'show')->name('product.show');
 });
 
 Route::controller(CartController::class)->group(function() {
@@ -86,8 +84,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
@@ -106,5 +104,11 @@ Route::resource('user_reviews', UserReviewController::class);
 Route::get('/reviews', [UserReviewController::class, 'index'])->name('user_reviews.index');
 
 
+//route slideshow
+Route::get('/advertising-1', [AdvertisingAndPromotionController::class, 'showadvertising1'])->name('advertising-1');
+Route::get('/advertising-2', [AdvertisingAndPromotionController::class, 'showadvertising2'])->name('advertising-2');
+Route::get('/promotion-1', [AdvertisingAndPromotionController::class, 'showpromotion1'])->name('promotion-1');
+Route::get('/promotion-2', [AdvertisingAndPromotionController::class, 'showpromotion2'])->name('promotion-2');
 
-
+Route::resource('/admin', AdminController::class);
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
