@@ -50,8 +50,11 @@
                 </div>
             @endforeach
         </div>
+        <div>
+            {{$viewData['products']->links("pagination::bootstrap-5")}}
+        </div>
         <!-- <div class="row">
-            
+
             <div class="col-md-6 col-lg-3 ftco-animate">
                 <div class="product">
                     <a href="#" class="img-prod"><img class="img-fluid" src="Template/images/product-1.jpg" alt="Colorlib Template">
@@ -395,7 +398,7 @@
                 </div>
             </div>
         </div> -->
-        <div class="row mt-5">
+        {{-- <div class="row mt-5">
             <div class="col text-center">
                 <div class="block-27">
                     <ul>
@@ -409,7 +412,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </section>
 
