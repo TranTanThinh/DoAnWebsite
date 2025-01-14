@@ -60,7 +60,7 @@ class ProductController extends Controller
         // $viewData['status'] = $status > 0 ? 'In stock' : 'Out of Stock';
         // $viewData['quantity'] = $product->inventories;
         $viewData['qty'] = $product->inventories->sum('quantity');
-
+        
         return response()->json($viewData);
     }
 

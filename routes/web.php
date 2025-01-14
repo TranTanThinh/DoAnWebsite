@@ -10,6 +10,8 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ContactController;
+
 
 
 Route::controller(HomeController::class)->group(function () {
@@ -58,9 +60,42 @@ Route::controller(WishlistController::class)->group(function() {
     route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
 });
 
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+
+Route::resource('products', ProductController::class);
+
+
+Route::resource('contacts', ContactController::class);
+
+Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+Route::get('contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+
+// Route::resource('user_reviews', UserReviewController::class);
+// Route::get('/reviews', [UserReviewController::class, 'index'])->name('user_reviews.index');
+
 
 //route slideshow
 Route::get('/advertising-1', [AdvertisingAndPromotionController::class, 'showadvertising1'])->name('advertising-1');
 Route::get('/advertising-2', [AdvertisingAndPromotionController::class, 'showadvertising2'])->name('advertising-2');
 Route::get('/promotion-1', [AdvertisingAndPromotionController::class, 'showpromotion1'])->name('promotion-1');
 Route::get('/promotion-2', [AdvertisingAndPromotionController::class, 'showpromotion2'])->name('promotion-2');
+
+// Route::controller(WishlistController::class)->group(function() {
+//     route::get('/wishlist', 'index')->name('wishlist.index');
+//     route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
+// });
+
+Route::middleware('auth')->group(function() {
+    Route::controller(WishlistController::class)->group(function() {
+        route::get('/wishlist', 'index')->name('wishlist.index');
+        route::post('/wishlist/add/{id}', 'add')->name('wishlist.add');
+        route::post('/wishlist/remove/{id}', 'removeProductFromWishlist')->name('wishlist.remove');
+    });
+});
+
+
+
