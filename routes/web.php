@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ContactController;
-
+use App\Http\Controllers\PaymentController;
 
 
 Route::controller(HomeController::class)->group(function () {
@@ -35,8 +35,8 @@ Route::resource('/admin', AdminController::class);
 Auth::routes();
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
-Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
+Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register.form');
+Route::post('register', [RegisterController::class, 'register'])->name('register');
 //Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
@@ -98,4 +98,6 @@ Route::middleware('auth')->group(function() {
 });
 
 
+
+Route::post('/payment', [PaymentController::class, 'createPayment']);
 

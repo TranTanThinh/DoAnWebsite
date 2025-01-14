@@ -1,17 +1,5 @@
 
-<!--Start of Tawk.to Script-->
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/6783b39baf5bfec1dbea7568/1ihd7b6bu';
-    s1.charset='UTF-8';
-    s1.setAttribute('crossorigin','*');
-    s0.parentNode.insertBefore(s1,s0);
-    })();
-    </script>
-    <!--End of Tawk.to Script-->
+
 
 <footer class="ftco-footer ftco-section">
     <div class="container">
@@ -105,7 +93,22 @@
         </div>
     </div>
 </footer>
-
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API = Tawk_API || {},
+        Tawk_LoadStart = new Date();
+    (function() {
+        var s1 = document.createElement("script"),
+            s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/6783b39baf5bfec1dbea7568/1ihd7b6bu';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+    })();
+</script>
+<!--End of Tawk.to Script-->
+</body>
 
 <!-- Loader -->
 <div id="ftco-loader" class="show fullscreen">
@@ -136,18 +139,6 @@
 <script src="{{ asset('Template/js/main.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // document.getElementById('registerForm').addEventListener('submit', function(event) {
-    //     const password = document.getElementById('password').value;
-    //     const confirmPassword = document.getElementById('password_confirmation').value;
-
-    //     if (password !== confirmPassword) {
-    //         event.preventDefault();
-    //         document.getElementById('error-message').style.display = 'block';
-    //     } else {
-    //         document.getElementById('error-message').style.display = 'none';
-    //     }
-    // });
-
     // Đăng nhập
     document.getElementById('togglePasswordLogin').addEventListener('click', function() {
         const passwordField = document.querySelector('#loginModal #password');
@@ -212,26 +203,23 @@
                 type: 'POST',
                 data: formData,
                 success: function(response) {
+                    console.log(response); // In ra để kiểm tra phản hồi từ server
                     if (response.status === 'success') {
-                        $('#notificationBar').removeClass('alert-danger').addClass(
-                            'alert-success');
+                        $('#notificationBar').removeClass('alert-danger').addClass('alert-success');
                         $('#notificationMessage').text(response.message);
-                        $('#notificationBar').fadeIn().delay(3000)
-                            .fadeOut(); // Hiển thị thông báo và tự động ẩn sau 3 giây
+                        $('#notificationBar').fadeIn().delay(3000).fadeOut(); // Hiển thị thông báo và tự động ẩn sau 3 giây
                         setTimeout(function() {
-                            window.location.href = response
-                                .redirect; // Chuyển hướng sau khi đăng nhập thành công
+                            window.location.href = response.redirect; // Chuyển hướng sau khi đăng nhập thành công
                         }, 1500);
                     } else {
-                        $('#notificationBar').removeClass('alert-success').addClass(
-                            'alert-danger');
+                        $('#notificationBar').removeClass('alert-success').addClass('alert-danger');
                         $('#notificationMessage').text(response.message);
                         $('#notificationBar').fadeIn().delay(3000).fadeOut();
                     }
                 },
                 error: function(xhr, status, error) {
-                    $('#notificationBar').removeClass('alert-success').addClass(
-                        'alert-danger');
+                    console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
+                    $('#notificationBar').removeClass('alert-success').addClass('alert-danger');
                     $('#notificationMessage').text('An error occurred. Please try again.');
                     $('#notificationBar').fadeIn().delay(3000).fadeOut();
                 }
@@ -256,14 +244,39 @@
                 type: 'POST',
                 data: formData,
                 success: function(response) {
+                    console.log(response); // In ra để kiểm tra phản hồi từ server
                     if (response.status === 'success') {
-                        $('#notificationBar').removeClass('alert-danger').addClass(
-                            'alert-success');
+                        $('#notificationBar').removeClass('alert-danger').addClass('alert-success');
                         $('#notificationMessage').text(response.message);
                         $('#notificationBar').fadeIn().delay(3000).fadeOut();
                         setTimeout(function() {
-                            window.location.href = response.redirect;
+                            window.location.href = response.redirect; // Chuyển hướng sau khi đăng ký thành công
                         }, 1500);
+                    } else {
+                        $('#notificationBar').removeClass('alert-success').addClass('alert-danger');
+                        $('#notificationMessage').text(response.message);
+                        $('#notificationBar').fadeIn().delay(3000).fadeOut();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
+                    if (xhr.status === 422) {
+                        // Nếu có lỗi từ server (ví dụ: validation lỗi)
+                        var errors = JSON.parse(xhr.responseText).errors;
+                        var errorMessage = '';
+                        for (var field in errors) {
+                            errorMessage += errors[field].join(' ') + '\n';
+                        }
+                        $('#notificationMessage').text(errorMessage);
+                    console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
+                    if (xhr.status === 422) {
+                        // Nếu có lỗi từ server (ví dụ: validation lỗi)
+                        var errors = JSON.parse(xhr.responseText).errors;
+                        var errorMessage = '';
+                        for (var field in errors) {
+                            errorMessage += errors[field].join(' ') + '\n';
+                        }
+                        $('#notificationMessage').text(errorMessage);
                     } else {
                         $('#notificationBar').removeClass('alert-success').addClass(
                             'alert-danger');
@@ -272,99 +285,26 @@
                     }
                 },
                 error: function(xhr, status, error) {
+                    console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
+                    if (xhr.status === 422) {
+                        // Nếu có lỗi từ server (ví dụ: validation lỗi)
+                        var errors = JSON.parse(xhr.responseText).errors;
+                        var errorMessage = '';
+                        for (var field in errors) {
+                            errorMessage += errors[field].join(' ') + '\n';
+                        }
+                        $('#notificationMessage').text(errorMessage);
+                    } else {
+                        $('#notificationMessage').text(
+                            'An error occurred. Please try again.');
+                    }
                     $('#notificationBar').removeClass('alert-success').addClass(
                         'alert-danger');
-                    $('#notificationMessage').text('An error occurred. Please try again.');
                     $('#notificationBar').fadeIn().delay(3000).fadeOut();
                 }
             });
         });
     });
 </script>
-<script>
-    $(document).ready(function() {
-        // Đăng nhập AJAX
-        $('#loginForm').on('submit', function(e) {
-            e.preventDefault();
 
-            var formData = {
-                username: $('#username').val(),
-                password: $('#password').val(),
-                _token: $('input[name="_token"]').val(),
-            };
-
-            $.ajax({
-                url: '{{ route('login') }}', // Đảm bảo route đúng
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    if (response.status === 'success') {
-                        $('#notificationBar').removeClass('alert-danger').addClass(
-                            'alert-success');
-                        $('#notificationMessage').text(response.message);
-                        $('#notificationBar').fadeIn().delay(3000)
-                    .fadeOut(); // Hiển thị thông báo và tự động ẩn sau 3 giây
-                        setTimeout(function() {
-                            window.location.href = response
-                            .redirect; // Chuyển hướng sau khi đăng nhập thành công
-                        }, 1500);
-                    } else {
-                        $('#notificationBar').removeClass('alert-success').addClass(
-                            'alert-danger');
-                        $('#notificationMessage').text(response.message);
-                        $('#notificationBar').fadeIn().delay(3000).fadeOut();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    $('#notificationBar').removeClass('alert-success').addClass(
-                        'alert-danger');
-                    $('#notificationMessage').text('An error occurred. Please try again.');
-                    $('#notificationBar').fadeIn().delay(3000).fadeOut();
-                }
-            });
-        });
-
-        // Đăng ký AJAX
-        $('#registerForm').on('submit', function(e) {
-            e.preventDefault();
-
-            var formData = {
-                username: $('#register_username').val(),
-                email: $('#register_email').val(),
-                phone: $('#register_phone').val(),
-                password: $('#register_password').val(),
-                password_confirmation: $('#register_password_confirmation').val(),
-                _token: $('input[name="_token"]').val(),
-            };
-
-            $.ajax({
-                url: '{{ url('register') }}',
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    if (response.status === 'success') {
-                        $('#notificationBar').removeClass('alert-danger').addClass(
-                            'alert-success');
-                        $('#notificationMessage').text(response.message);
-                        $('#notificationBar').fadeIn().delay(3000).fadeOut();
-                        setTimeout(function() {
-                            window.location.href = response.redirect;
-                        }, 1500);
-                    } else {
-                        $('#notificationBar').removeClass('alert-success').addClass(
-                            'alert-danger');
-                        $('#notificationMessage').text(response.message);
-                        $('#notificationBar').fadeIn().delay(3000).fadeOut();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    $('#notificationBar').removeClass('alert-success').addClass(
-                        'alert-danger');
-                    $('#notificationMessage').text('An error occurred. Please try again.');
-                    $('#notificationBar').fadeIn().delay(3000).fadeOut();
-                }
-            });
-        });
-    });
-</script>
 
