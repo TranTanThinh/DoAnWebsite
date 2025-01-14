@@ -87,10 +87,6 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown04">
                             <a class="dropdown-item" href="blog">Blog</a>
-                            <a class="dropdown-item" href="wishlist">Wishlist</a>
-                            <a class="dropdown-item" href="productsingle">Single Product</a>
-                            <a class="dropdown-item" href="cart">Cart</a>
-                            <a class="dropdown-item" href="checkout">Checkout</a>
                         </div>
                     </li>
                     <li class="nav-item"><a href="{{ route('about') }}" class="nav-link">About</a></li>
