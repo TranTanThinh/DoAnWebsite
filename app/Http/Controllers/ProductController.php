@@ -15,9 +15,11 @@ class ProductController extends Controller
     public function index()
     {
         $viewData = [];
-        $products = Product::all();
+        $products = Product::paginate(12);
         $viewData['title'] = 'Shop Products';
         $viewData['products'] = $products;
+
+       // Phân trang với 12 sản phẩm mỗi trang return view('Template.pages.shop', compact('products'));
 
         return view('Template.product.index')->with('viewData', $viewData);
     }
