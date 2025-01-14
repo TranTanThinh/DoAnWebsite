@@ -20,6 +20,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/shop', [ProductController::class, 'index'])->name('shop');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::get('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::post('/cart/destroyAll', [CartController::class, 'destroyAll'])->name('cart.destroyAll');
     Route::get('/blogsingle', 'blogsingle')->name('blogsingle');
     Route::get('/productsingle', 'productsingle')->name('productsingle');
     Route::get('/checkout', 'checkout')->name('checkout');
