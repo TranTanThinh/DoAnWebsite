@@ -1,6 +1,6 @@
 <div class="main-panel">
     <div class="main-header">
-<<<<<<< HEAD
+
       <div class="main-header-logo">
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
@@ -360,7 +360,6 @@
               </ul>
             </li>
           </ul>
-=======
         <div class="main-header-logo">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
@@ -381,7 +380,6 @@
                 </button>
             </div>
             <!-- End Logo Header -->
->>>>>>> 370667e2d9c793ef68da41f30f4bdebe76a604ff
         </div>
         <!-- Navbar Header -->
         <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">

@@ -15,11 +15,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
+       
             return view('Dashboard.pages.index');
-        }
-
-        return redirect('/');
+        
     }
 
     /**
