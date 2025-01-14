@@ -106,71 +106,6 @@
     </div>
 </section>
 
-<!-- <section class="ftco-section">
-    <div class="container">
-        <div class="row justify-content-center mb-3 pb-3">
-            <div class="col-md-12 heading-section text-center ftco-animate">
-                <span class="subheading">Reviews</span>
-                <h2 class="mb-4">Khách hàng đánh giá</h2>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row" id=""></div>
-        @if (Auth::check())
-        <div class="row">
-            <div class="col-md-12">
-                <form method="post" action="">
-                    @csrf
-                    <div class="form-group">
-                        <label for="rating">Chọn số sao:</label>
-                        <select name="rating" id="rating" class="form-control" required>
-                            <option value="1">1 Sao</option>
-                            <option value="2">2 Sao</option>
-                            <option value="3">3 Sao</option>
-                            <option value="4">4 Sao</option>
-                            <option value="5">5 Sao</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="review">Viết đánh giá của bạn:</label>
-                        <textarea name="review" id="review" class="form-control" rows="4"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
-                </form>
-            </div>
-        </div>
-        @else
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <p><a href="{{ route('login') }}" class="btn btn-primary">Đăng nhập để đánh giá</a></p>
-            </div>
-        </div>
-        @endif
-
-
-        <div class="row">
-            {{-- @foreach ($viewData['reviews'] as $review) --}}
-            <div class="col-md-12 mb-4">
-                <div class="review">
-                    <h5>{{-- $review->user->name --}}John Nicola</h5>
-                    <p>publish at: <?php echo date('Y-m-d h:i:sa') ?></p>
-                    <p>
-                        @for ($i = 1; $i <= 5; $i++)
-                            @if ($i <= 5)
-                            <span class="ion-ios-star"></span>
-                            @else
-                            <span class="ion-ios-star-outline"></span>
-                            @endif
-                            @endfor
-                    </p>
-                    <p>{{-- $review->review --}}best product</p>
-                </div>
-            </div>
-            {{-- @endforeach --}}
-        </div>
-    </div>
-</section> -->
 
 <section class="ftco-section">
     <div class="container">
@@ -336,7 +271,7 @@
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                console.log(response);
+                console.log('res related: ', response);
                 if (!response || response.length === 0) {
                     $('#related_products').html('<p>No related products found</p>');
                     return;
@@ -346,6 +281,7 @@
                     if (product.productId == 6) {
                         $('#related_products').append(productHtml(product, price_dc = 200000));
                     } else {
+                        // console.log('product: ', product.name);
                         $('#related_products').append(productHtml(product));
                     }
                 });
@@ -357,7 +293,7 @@
     const productHtml = (product, price_dc) => `
         <div class="col-md-6 col-lg-3">
             <div class="product">
-                <a href="#" class="img-prod">
+                <a href="/products/${product.slug}/${product.productId}" class="img-prod">
                     <img class="img-fluid" src="{{ asset('Template/images') }}/${product.image}" alt=" ${product.name}">
                     <span class="status"></span>
                     <div class="overlay"></div>
@@ -408,8 +344,8 @@
             success: function(response) {
                 if(response.success) {
                     // console.log('res: ', response);
-                    $('#related_products').empty();
-                    console.log(typeof(response));
+                    $('#user_reviews').empty();
+                    // console.log(typeof(response));
                     response.data.data.forEach(data => {
                         console.log('data: ', data)
                         $('#user_reviews').append(review(data));
