@@ -2,9 +2,10 @@
 <html lang="en">
 
 <head>
-    <title>Vegefoods - Free Bootstrap 4 Template by Colorlib</title>
+    <title>Grocery Store</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap"
         rel="stylesheet">
@@ -14,6 +15,8 @@
     <!-- Bootstrap CSS -->
     <!-- Thêm Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 
     <!-- Thêm jQuery và Popper.js -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -53,12 +56,12 @@
                         <div class="col-md pr-4 d-flex topper align-items-center">
                             <div class="icon mr-2 d-flex justify-content-center align-items-center"><span
                                     class="icon-phone2"></span></div>
-                            <span class="text">+ 1235 2355 98</span>
+                            <span class="text">{{ $shops->phone }}</span>
                         </div>
                         <div class="col-md pr-4 d-flex topper align-items-center">
                             <div class="icon mr-2 d-flex justify-content-center align-items-center"><span
                                     class="icon-paper-plane"></span></div>
-                            <span class="text">youremail@email.com</span>
+                            <span class="text">{{ $shops->email }}</span>
                         </div>
                         <div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
                             <span class="text">3-5 Business days delivery &amp; Free Returns</span>
@@ -69,9 +72,8 @@
         </div>
     </div>
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-
         <div class="container">
-            <a class="navbar-brand" href="{{ route('index') }}">Vegefoods</a>
+            <a class="navbar-brand" href="{{ route('index') }}">{{ $shops->shopName }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
                 aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="oi oi-menu"></span> Menu
@@ -80,10 +82,24 @@
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a href="{{ route('index') }}" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="{{ route('index') }}" class="nav-link">Shop</a></li>
+
+                    
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Shop</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown04">
+                            <a class="dropdown-item" href="{{ route('product.index') }}">Shop</a>
+                            <a class="dropdown-item" href="wishlist">Wishlist</a>
+                            <a class="dropdown-item" href="productsingle">Single Product</a>
+                            <a class="dropdown-item" href="cart">Cart</a>
+                            <a class="dropdown-item" href="checkout">Checkout</a>
+                        </div>
+                    </li>
+
                     <li class="nav-item"><a href="{{ route('about') }}" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
-                    <li class="nav-item cta cta-colored"><a href="{{route('cart.index')}}" class="nav-link"><span
+                    <li class="nav-item cta cta-colored"><a href="{{ route('cart.index') }}" class="nav-link"><span
                                 class="icon-shopping_cart"></span>[0]</a></li>
                     @guest
                         {{-- <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#loginModal">Login</a>
@@ -99,6 +115,8 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="">Profile</a>
+                                <a class="dropdown-item" href="{{ route('wishlist.index') }}">Wishlist <span><i
+                                            class="ion-ios-heart"></i></span></a>
                                 <a class="dropdown-item" href=""
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     Logout
@@ -131,18 +149,36 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" id="loginForm">
+                        <div id="notificationBar" class="alert alert-success alert-dismissible fade show"
+                            role="alert" style="display: none;">
+                            <strong id="notificationMessage"></strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                         @csrf
                         <div class="form-group mb-3">
-                            <label for="email">Email address</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <label for="username">UserName</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
                         </div>
                         <div class="form-group mb-3">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" required>
+                                <span class="input-group-text">
+                                    <i id="togglePasswordLogin" class="fas fa-eye" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Login</button>
                     </form>
+                    @if ($errors->has('email'))
+                        <div class="alert alert-danger">
+                            {{ $errors->first('email') }}
+                        </div>
+                    @endif
+                    <div id="responseMessage"></div>
                 </div>
             </div>
         </div>
@@ -159,19 +195,20 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div id="notificationBar" class="alert alert-success alert-dismissible fade show" role="alert"
+                        style="display: none;">
+                        <strong id="notificationMessage"></strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <!-- Form Đăng Ký -->
-                    <form action="{{ url('register') }}" method="POST">
+                    <form id="registerForm" action="{{ url('register') }}" method="POST">
                         @csrf
-
                         <div class="mb-3">
-                            <label for="firstName" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" required>
-                        </div>
-
-                        <!-- <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
+                            <label for="username" class="form-label">UserName</label>
                             <input type="text" class="form-control" id="username" name="username" required>
-                        </div> -->
+                        </div>
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
@@ -183,12 +220,26 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" required>
+                                <span class="input-group-text">
+                                    <i id="togglePasswordRegister" class="fas fa-eye" style="cursor: pointer;"></i>
+                                </span>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="password_confirmation"
-                                name="password_confirmation" required>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password_confirmation"
+                                    name="password_confirmation" required>
+                                <span class="input-group-text">
+                                    <i id="togglePasswordConfirmRegister" class="fas fa-eye"
+                                        style="cursor: pointer;"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                        <div id="error-message" style="color: red; display: none;">Confirm Password do not match.
                         </div>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </form>
@@ -196,4 +247,3 @@
             </div>
         </div>
     </div>
-

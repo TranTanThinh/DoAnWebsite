@@ -3,9 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+
 
 class Contact extends Model
 {
+
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'subject',
+        'message',
+    ];
 
     public function getId() {
         return $this->attributes['id'];
@@ -63,6 +75,7 @@ class Contact extends Model
         $this->attributes['updated_at'] = $updatedAt;
     }
 
+
 // use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 // class Contact extends Model
@@ -77,4 +90,5 @@ class Contact extends Model
 //     ];
 // >>>>>>> TienDat
 // }
+
 }

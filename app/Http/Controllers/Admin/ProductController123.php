@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
+
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Inventory;
 use Illuminate\Support\Facades\DB;
 
 
-class ProductController extends Controller
+class ProductController123 extends Controller
 {
     /**
      * Display a listing of the resource.
+
 
      */
 
@@ -55,64 +58,74 @@ class ProductController extends Controller
     // }
 
 
+
+ 
+
+
+
+    // public function index()
+    // {
+
+    //     $viewData = [];
+    //     // $products = Product::all();
+    //     $products = Product::paginate(12);
+    //     // dd($products);
+    //     $viewData['title'] = 'Shop Products';
+    //     $viewData['products'] = $products;
+
+
+    //     return view('Template.product.index')->with('viewData', $viewData);
+    // }
+
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-
         return view('Dashboard.pages.product.addproduct');
-
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
-    {
-        // Validate incoming request data, excluding 'categoryId'
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'description' => 'required|string',
-            'image' => 'required|image',
-            'slug' => 'required|string|max:255',
-        ]);
+{
+    // Validate incoming request data, excluding 'categoryId'
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'price' => 'required|numeric|min:10000|max:500000', // Điều kiện mới cho price
+        'description' => 'required|string',
+        'image' => 'required|image',
+        'slug' => 'required|string|max:255',
+    ]);
 
-        // Check if the product name already exists in the database
-        $existingProduct = Product::where('name', $validatedData['name'])->first();
+    // Check if the product name already exists in the database
+    $existingProduct = Product::where('name', $validatedData['name'])->first();
 
-        if ($existingProduct) {
-            return redirect()
-                ->back()
-                ->withErrors(['name' => 'The product name already exists.'])
-                ->withInput();
-        }
-
-        // Upload image
-        $imagePath = $request->file('image')->store('products', 'public');
-
-        // Create the new product with categoryId set to 1 by default
-        Product::create([
-            'categoryId' => 1, // Set categoryId to 1 by default
-            'name' => $validatedData['name'],
-            'price' => $validatedData['price'],
-            'description' => $validatedData['description'],
-            'image' => $imagePath,
-            'slug' => $validatedData['slug'],
-        ]);
-
-        return redirect()->route('products.index')->with('success', 'Product added successfully!');
+    if ($existingProduct) {
+        return redirect()
+            ->back()
+            ->withErrors(['name' => 'The product name already exists.'])
+            ->withInput();
     }
 
+    // Upload image
+    $imagePath = $request->file('image')->store('products', 'public');
+
+    // Create the new product with categoryId set to 1 by default
+    Product::create([
+        'categoryId' => 1, // Set categoryId to 1 by default
+        'name' => $validatedData['name'],
+        'price' => $validatedData['price'],
+        'description' => $validatedData['description'],
+        'image' => $imagePath,
+        'slug' => $validatedData['slug'],
+    ]);
+
+    return redirect()->route('products.index')->with('success', 'Product added successfully!');
+}
+
     
 
-
-    /**
-     * Display the specified resource.
-     */
-    
         public function edit($id)
     {
         // Tìm sản phẩm theo productId thay vì id
@@ -148,15 +161,7 @@ class ProductController extends Controller
         return view('Template.product.show')->with('viewData', $viewData);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    
-
-    /**
-     * Update the specified resource in storage.
-     */
-
+   
         public function update(Request $request, $id)
     {
 
@@ -192,11 +197,7 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
-    
 
-    /**
-     * Remove the specified resource from storage.
-     */
 
     public function destroy($id)
 {
@@ -212,5 +213,7 @@ class ProductController extends Controller
 
     return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
 }
+
+
 
 }

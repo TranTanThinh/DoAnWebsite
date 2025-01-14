@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'username',
         'firstName',
         'lastName',
         'dayOfBirth',
@@ -36,6 +37,10 @@ class User extends Authenticatable
 
     public function userReviews() {
         return $this->hasMany(UserReview::class);
+    }
+
+    public function wishlists() {
+        return $this->hasMany(Wishlist::class);
     }
 
     /**

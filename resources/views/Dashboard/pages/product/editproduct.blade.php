@@ -42,4 +42,6 @@
         <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
+
 @endsection

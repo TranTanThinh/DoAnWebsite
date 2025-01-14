@@ -44,33 +44,48 @@
                     </div>
                 </div>
                 <!-- <a href="cart.html" class="btn btn-black py-3 px-5">Add to Cart</a> -->
-                <p>
-                <form method="post" action="{{route('cart.add', ['id' => $viewData['product']->getProductId()]) }}">
-                    @csrf
+                <div class="mt-4">
+                    <div>
+                        <form method="post" action="{{route('cart.add', ['id' => $viewData['product']->getProductId()]) }}">
+                            @csrf
 
-                    <div class="input-group col-md-6 d-flex mb-3">
-                        <span class="input-group-btn mr-2">
-                            <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
-                                <i class="ion-ios-remove"></i>
-                            </button>
-                        </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
-                        <span class="input-group-btn ml-2">
-                            <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
-                                <i class="ion-ios-add"></i>
-                            </button>
-                        </span>
+                            <div class="input-group col-md-6 d-flex mb-3">
+                                <span class="input-group-btn mr-2">
+                                    <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
+                                        <i class="ion-ios-remove"></i>
+                                    </button>
+                                </span>
+                                <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                                <span class="input-group-btn ml-2">
+                                    <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+                                        <i class="ion-ios-add"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="d-flex px-3">
+                                <button id="add_to_cart" type="submit" class="btn bg-black px-5">Add to Cart</button>
+
+                            </div>
+                        </form>
                     </div>
-                    <div class="d-flex px-3">
-                        <button id="add_to_cart" type="submit" class="btn bg-black px-5">Add to Cart</button>
-                        <div class="p-2 ml-3">
-                            <a href="#" class="heart d-flex justify-content-center align-items-center text-center btn">
+                    @if (Auth::check())
+                    
+                    <div class="p-2 ml-3">
+                        <form action="{{route('wishlist.add', ['id' => $viewData['product']->getProductId()])}}" method="post">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $viewData['product']->getProductId() }}">
+                            <input type="hidden" name="name" value="{{ $viewData['product']->getName() }}">
+                            <input type="hidden" name="image" value="{{ $viewData['product']->getImage() }}">
+                            <input type="hidden" name="price" value="{{ $viewData['product']->getPrice() }}">
+                            <button type="submit" class="heart d-flex justify-content-center align-items-center text-center btn">
                                 Add to Wishlist &nbsp;<i class="ion-ios-heart"></i>
-                            </a>
-                        </div>
+                            </button>
+                        </form>
+
                     </div>
-                </form>
-                </p>
+                    
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -87,121 +102,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="row" id="related_products">
-            <!-- <div class="col-md-6 col-lg-3 ftco-animate">
-                <div class="product">
-                    <a href="#" class="img-prod"><img class="img-fluid" src="images/product-1.jpg" alt="Colorlib Template">
-                        <span class="status">30%</span>
-                        <div class="overlay"></div>
-                    </a>
-                    <div class="text py-3 pb-4 px-3 text-center">
-                        <h3><a href="#">Bell Pepper</a></h3>
-                        <div class="d-flex">
-                            <div class="pricing">
-                                <p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span></p>
-                            </div>
-                        </div>
-                        <div class="bottom-area d-flex px-3">
-                            <div class="m-auto d-flex">
-                                <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                    <span><i class="ion-ios-menu"></i></span>
-                                </a>
-                                <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                    <span><i class="ion-ios-cart"></i></span>
-                                </a>
-                                <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                    <span><i class="ion-ios-heart"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3 ftco-animate">
-                <div class="product">
-                    <a href="#" class="img-prod"><img class="img-fluid" src="images/product-2.jpg" alt="Colorlib Template">
-                        <div class="overlay"></div>
-                    </a>
-                    <div class="text py-3 pb-4 px-3 text-center">
-                        <h3><a href="#">Strawberry</a></h3>
-                        <div class="d-flex">
-                            <div class="pricing">
-                                <p class="price"><span>$120.00</span></p>
-                            </div>
-                        </div>
-                        <div class="bottom-area d-flex px-3">
-                            <div class="m-auto d-flex">
-                                <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                    <span><i class="ion-ios-menu"></i></span>
-                                </a>
-                                <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                    <span><i class="ion-ios-cart"></i></span>
-                                </a>
-                                <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                    <span><i class="ion-ios-heart"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3 ftco-animate">
-                <div class="product">
-                    <a href="#" class="img-prod"><img class="img-fluid" src="images/product-3.jpg" alt="Colorlib Template">
-                        <div class="overlay"></div>
-                    </a>
-                    <div class="text py-3 pb-4 px-3 text-center">
-                        <h3><a href="#">Green Beans</a></h3>
-                        <div class="d-flex">
-                            <div class="pricing">
-                                <p class="price"><span>$120.00</span></p>
-                            </div>
-                        </div>
-                        <div class="bottom-area d-flex px-3">
-                            <div class="m-auto d-flex">
-                                <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                    <span><i class="ion-ios-menu"></i></span>
-                                </a>
-                                <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                    <span><i class="ion-ios-cart"></i></span>
-                                </a>
-                                <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                    <span><i class="ion-ios-heart"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3 ftco-animate">
-                <div class="product">
-                    <a href="#" class="img-prod"><img class="img-fluid" src="images/product-4.jpg" alt="Colorlib Template">
-                        <div class="overlay"></div>
-                    </a>
-                    <div class="text py-3 pb-4 px-3 text-center">
-                        <h3><a href="#">Purple Cabbage</a></h3>
-                        <div class="d-flex">
-                            <div class="pricing">
-                                <p class="price"><span>$120.00</span></p>
-                            </div>
-                        </div>
-                        <div class="bottom-area d-flex px-3">
-                            <div class="m-auto d-flex">
-                                <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                    <span><i class="ion-ios-menu"></i></span>
-                                </a>
-                                <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                    <span><i class="ion-ios-cart"></i></span>
-                                </a>
-                                <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                    <span><i class="ion-ios-heart"></i></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        </div>
+        <div class="row" id="related_products"></div>
     </div>
 </section>
 
@@ -235,19 +136,20 @@
     $(document).ready(function() {
         function updateQuantity() {
             let id = `{{$viewData['product']->getProductId() }}`;
-            console.log('id: ', id);
+           // console.log('id: ', id);
 
             $.ajax({
                 url: `http://127.0.0.1:8000/api/products/${id}`,
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {
-                    if (response.product && response.product.inventories[0].quantity > 0) {
+                    
+                    if (response.product && response.product.inventories[0].quantity >= 0) {
                         let quantity = response.qty;
                         let status = quantity > 0 ? 'In stock' : 'Out of stock';
-                        console.log('Qty: ', quantity);
-                        console.log('status: ', status);
-                        console.log('res: ', response);
+                        // console.log('Qty: ', quantity);
+                        // console.log('status: ', status);
+                        // console.log('res: ', response);
                         $('#pStatus').text(status);
                         $('#dquantity').text(quantity + ' kg có sẵn');
 
@@ -255,6 +157,7 @@
                             $('#add_to_cart')
                                 .prop('disabled', true)
                         }
+
                     } else {
                         console.log('No inventories found.');
                     }
@@ -282,10 +185,9 @@
                 }
                 $('#related_products').empty();
                 response.forEach(product => {
-                    if(product.productId == 6) {
+                    if (product.productId == 6) {
                         $('#related_products').append(productHtml(product, price_dc = 200000));
-                    }
-                    else{
+                    } else {
                         $('#related_products').append(productHtml(product));
                     }
                 });
@@ -320,9 +222,11 @@
                             <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
                                 <span><i class="ion-ios-cart"></i></span>
                             </a>
+                            @if(Auth::check())
                             <a href="#" class="heart d-flex justify-content-center align-items-center ">
                                 <span><i class="ion-ios-heart"></i></span>
                             </a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -331,11 +235,10 @@
     `;
 
     const formatMoney = (price) => new Intl.NumberFormat('en-US', {
-        style: 'currency', 
+        style: 'currency',
         currency: 'VND',
         trailingZeroDisplay: 'stripIfInteger'
-    }).format(price); 
-
+    }).format(price);
 </script>
 
 @endsection

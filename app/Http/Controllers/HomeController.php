@@ -4,14 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\InfoShop;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        
-        return view("Template.pages.index");
+        $viewData = [
+            'lastedProducts' => [],
+        ];
+        $lastedProducts = Product::latest()->take(8)->get();
+        // return json_encode($lastedProducts);
+        $viewData['lastedProducts'] = $lastedProducts;
+        return view("Template.pages.index")->with('viewData', $viewData);
     }
     public function about()
     {
@@ -29,20 +35,10 @@ class HomeController extends Controller
     {
         return view("Template.pages.checkout");
     }
-    public function shop()
-    {
-        return view("Template.pages.shop");
-    }
+    
     public function blogsingle()
     {
         return view("Template.pages.blog_single");
     }
-    public function productsingle()
-    {
-        return view("Template.pages.product_single");
-    }
-    public function wishlist()
-    {
-        return view("Template.pages.wishlist");
-        }
+ 
 }
