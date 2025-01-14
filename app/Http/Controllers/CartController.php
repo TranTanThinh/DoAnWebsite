@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Product;
-use Illuminate\Support\Facades\Auth; // Thêm khai báo này
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -28,24 +28,22 @@ class CartController extends Controller
 
     public function cartIndex()
     {
-        $carts = Cart::with('product')->get(); // Tạm thời bỏ điều kiện để kiểm tra
+        $carts = Cart::with('product')->where('user_id', Auth::id())->paginate(5); // Phân trang với 5 sản phẩm mỗi trang
         return view('Template.pages.cart', compact('carts'));
     }
 
     public function addToCart($productId)
     {
-        $product = Product::findOrFail($productId); // Sử dụng productId thay vì id
-
-        $userId = Auth::id(); // Lấy ID người dùng hiện tại
-
+        $product = Product::findOrFail($productId);
+        $userId = Auth::id();
         $cart = Cart::where('product_id', $productId)->where('user_id', $userId)->first();
 
         if ($cart) {
             $cart->quantity += 1;
         } else {
             $cart = new Cart();
-            $cart->product_id = $productId; // Sử dụng productId thay vì id
-            $cart->user_id = $userId; // Đảm bảo người dùng đã đăng nhập
+            $cart->product_id = $productId;
+            $cart->user_id = $userId;
             $cart->quantity = 1;
         }
 
