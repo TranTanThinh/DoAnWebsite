@@ -26,6 +26,17 @@ class ProductSeeder extends Seeder
             ['categoryId' => 1 ,'name'=> 'Apple', 'image' => 'product-10.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'apple', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
             ['categoryId' => 1 ,'name'=> 'Garlic', 'image' => 'product-11.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'garlic', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
             ['categoryId' => 1 ,'name'=> 'Chilli', 'image' => 'product-12.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'chilli', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Potato', 'image' => 'product-13.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'potato', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Spinach', 'image' => 'product-14.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'spinach', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Lettuce', 'image' => 'product-15.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'lettuce', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Cucumber', 'image' => 'product-16.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'cucumber', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Pumpkin', 'image' => 'product-17.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'pumpkin', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Radish', 'image' => 'product-18.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'radish', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Peas', 'image' => 'product-19.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'peas', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Corn', 'image' => 'product-20.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'corn', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Turnip', 'image' => 'product-21.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'turnip', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')],
+            ['categoryId' => 1 ,'name'=> 'Beetroot', 'image' => 'product-22.jpg', 'description' => 'No description', 'price' => 120000, 'slug' => 'beetroot', 'created_at' => Carbon::now('Asia/Ho_Chi_Minh'), 'updated_at' => Carbon::now('Asia/Ho_Chi_Minh')
+        ],
         ]);
     }//
 }
