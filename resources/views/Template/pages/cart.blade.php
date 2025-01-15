@@ -115,6 +115,51 @@
             </div>
         </div>
     </div>
+
+    <td class="quantity">
+        <div class="input-group mb-3">
+            <input type="number" name="quantity" data-cart-id="{{ $cart->id }}" class="quantity form-control input-number" value="{{ $cart->quantity }}" min="1" max="100">
+        </div>
+    </td>
+
+    <td class="total" id="total-{{ $cart->id }}">${{ number_format($cart->product->price * $cart->quantity, 2) }}</td>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quantityInputs = document.querySelectorAll('.quantity input');
+
+            quantityInputs.forEach(input => {
+                input.addEventListener('change', function () {
+                    const cartId = this.dataset.cartId;
+                    const newQuantity = this.value;
+
+                    // Perform AJAX request to update the cart
+                    fetch("{{ route('cart.update') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                        body: JSON.stringify({
+                            cart_id: cartId,
+                            quantity: newQuantity,
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert(data.message);
+                            // Optionally update the total price on the page dynamically
+                            const totalCell = document.querySelector(`#total-${cartId}`);
+                            totalCell.textContent = `$${data.totalPrice.toFixed(2)}`;
+                        }
+                    })
+                    .catch(error => console.error('Error updating cart:', error));
+                });
+            });
+        });
+    </script>
 </section>
 
 @include('Template.components.subcribe')
