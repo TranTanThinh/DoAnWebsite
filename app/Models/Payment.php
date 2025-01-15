@@ -2,10 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Payment extends Model
 {
+    use HasFactory;
+
+    public function order() {
+        return $this->belongsTo(Order::class, 'orderId');
+    }
+
     protected $fillable = ['payment_method', 'amount'];
     public function getId() {
         return $this->attributes['id'];
