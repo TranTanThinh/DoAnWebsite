@@ -31,6 +31,8 @@ class CartController extends Controller
         $value =  $request->input('quantity');
         if(str_contains($value, ',')) {
             $products[$id] = str_replace(',', '.', $value);
+        } else {
+            $products[$id] = $request->input('quantity');
         }
         // dd($products[$id], gettype($products[$id]));
         request()->session()->put('products', $products);

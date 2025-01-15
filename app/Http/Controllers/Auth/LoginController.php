@@ -34,12 +34,13 @@ class LoginController extends Controller
         $role = Auth::user()->role;
 
         if ($role === 'admin') {
-            return '/admin';
-        } elseif ($role === 'user') {
-            return '/index';
-        }
+            return redirect('/admin');
+        } 
+        // elseif ($role === 'user') {
+        //     return redirect('/');
+        // }
 
-        return '/';
+        return redirect('/');
     }
 
 
@@ -95,11 +96,11 @@ class LoginController extends Controller
 
         Cache::forget("login_attempts_$username");
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Login successful!',
-            'redirect' => route('index')
-        ]);
-        
+        // return response()->json([
+        //     'status' => 'success',
+        //     'message' => 'Login successful!',
+        //     'redirect' => route('index')
+        // ]);
+        return $this->redirectTo();
     }
 }
