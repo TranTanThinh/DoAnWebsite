@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Address;
+use App\Models\UserAddress;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class UserAddressFactory extends Factory
 {
+    protected $model = UserAddress::class;
     /**
      * Define the model's default state.
      *
@@ -17,7 +20,9 @@ class UserAddressFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'addressID' => Address::factory(),
+            'userID' => fake()->numberBetween(3, 17), // User::factory(),
+            'isDefault' => $this->faker->boolean(),
         ];
     }
 }
