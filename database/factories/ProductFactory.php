@@ -23,7 +23,7 @@ class ProductFactory extends Factory
         $slug = Str::slug($name);
 
         return [
-            'productId' => $this->faker->unique()->numberBetween(18, 28),
+            'productId' => $this->faker->unique()->numberBetween(12, 28),
             'categoryId' => $this->faker->numberBetween(1, 2), 
             'name' => $name,
             'image' => $this->faker->image('public/Template/images', 640, 480, null, false),
