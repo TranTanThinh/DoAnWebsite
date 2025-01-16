@@ -138,6 +138,7 @@
 <script src="{{ asset('Template/js/google-map.js') }}"></script>
 <script src="{{ asset('Template/js/main.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ asset('Template/js/cart.js') }}"></script>
 <script>
     // Đăng nhập
     document.getElementById('togglePasswordLogin').addEventListener('click', function() {
@@ -306,5 +307,6 @@
         });
     });
 </script>
+
 
 

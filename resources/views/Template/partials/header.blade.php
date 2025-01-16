@@ -92,8 +92,12 @@
                     </li>
                     <li class="nav-item"><a href="{{ route('about') }}" class="nav-link">About</a></li>
                     <li class="nav-item"><a href="{{ route('contact') }}" class="nav-link">Contact</a></li>
-                    <li class="nav-item cta cta-colored"><a href="{{ route('cart.index') }}" class="nav-link"><span
-                                class="icon-shopping_cart"></span>[0]</a></li>
+                    <li class="nav-item cta cta-colored">
+                        <a href="{{ route('cart.index') }}" class="nav-link">
+                            <span class="icon-shopping_cart"></span>
+                            <span id="cart-count">{{ $cartCount ?? 0 }}</span>
+                        </a>
+                    </li>
                     @guest
                         <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#loginModal">Login</a>
                         </li>
@@ -107,7 +111,7 @@
                                     alt="Avatar" class="rounded-circle" style="width: 30px; height: 30px;">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="">Profile</a>
+                                <a class="dropdown-item" href="profile">Profile</a>
                                 <a class="dropdown-item" href="{{ route('wishlist.index') }}">Wishlist <span><i
                                             class="ion-ios-heart"></i></span></a>
                                 <a class="dropdown-item" href=""
