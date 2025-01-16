@@ -147,7 +147,6 @@
                                     <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
                                         <span><i class="ion-ios-cart"></i></span>
                                     </a>
-                                    
                                     @if (Auth::check())
                                     <a href="#" class="heart d-flex justify-content-center align-items-center ">
                                         <form action="{{route('wishlist.add', ['id' => $product->getProductId()])}}" method="post">
