@@ -158,9 +158,12 @@
         <div class="row" id=""></div>
         @if (Auth::check())
         <div class="row">
+            <span class="subheading">Reviews</span>
+            <div id="message"></div>
             <div class="col-md-12">
-                <form method="post" action="">
+                <form id="reviewForm">
                     @csrf
+                    <input type="hidden" name="productId" id="productId" value="{{ $viewData['product']->getProductId() }}">
                     <div class="form-group">
                         <label for="rating">Chọn số sao:</label>
                         <select name="rating" id="rating" class="form-control" required>
@@ -172,8 +175,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="review">Viết đánh giá của bạn:</label>
-                        <textarea name="review" id="review" class="form-control" rows="4"></textarea>
+                        <label for="comment">Viết đánh giá của bạn:</label>
+                        <textarea name="comment" id="comment" class="form-control" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                 </form>
@@ -182,7 +185,7 @@
         @else
         <div class="row">
             <div class="col-md-12 text-center">
-                <p><a href="{{ route('login') }}" class="btn btn-primary">Mua hàng để đánh giá</a></p>
+                <p><a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-primary">Mua hàng để đánh giá</a></p>
             </div>
         </div>
         @endif
@@ -271,7 +274,7 @@
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                console.log('res related: ', response);
+                // console.log('res related: ', response);
                 if (!response || response.length === 0) {
                     $('#related_products').html('<p>No related products found</p>');
                     return;
@@ -347,7 +350,7 @@
                     $('#user_reviews').empty();
                     // console.log(typeof(response));
                     response.data.data.forEach(data => {
-                        console.log('data: ', data)
+                        // console.log('data: ', data)
                         $('#user_reviews').append(review(data));
                     });
 
@@ -393,6 +396,37 @@
         `
     };
 
+    $(document).ready(function() {
+        var reviewfrm = $('#reviewForm');
+
+        reviewfrm.submit(function(e) {
+            e.preventDefault();
+
+            let frmData = {
+                productId: $('#productId').val(),
+                rating: $('#rating').val(),
+                comment: $('#comment').val(),
+            }
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/userReviews',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Accept': 'application/json',
+                },
+                data: frmData,
+                success: function(response) {
+                    $('#message').html('<p style="color:green;">' + response.message + '</p>');
+                    $('#reviewForm')[0].reset();
+                },
+                error: function(xhr) {
+                    let errMessage = xhr.responseJSON?.message || 'An error occurred';
+                    $('#message').html('<p style="color:red;font-size:2em;font-style:italic">' + errMessage + '</p>');
+                }
+            });
+        });
+    });
 </script>
 
 @endsection
