@@ -27,23 +27,25 @@ class ProductController123 extends Controller
     
     public function search(Request $request)
     {
-        $query = $request->input('query'); // Từ khóa tìm kiếm cho ID, Name và Price
+        // Lấy từ khóa tìm kiếm từ input
+        $query = $request->input('query');
     
-        $products = Product::query(); // Khởi tạo truy vấn
-    
+        // Kiểm tra nếu từ khóa tìm kiếm không trống
         if (!empty($query)) {
-            // Tìm kiếm theo ID, Name hoặc Price
-            $products->where(function($q) use ($query) {
-                $q->where('productId', 'LIKE', "%{$query}%")
-                  ->orWhere('name', 'LIKE', "%{$query}%")
-                  ->orWhere('price', 'LIKE', "%{$query}%"); // Tìm kiếm theo Price
-            });
+            // Thực hiện truy vấn tìm kiếm theo ID, Name hoặc Price
+            $products = Product::where('productId', $query) // Tìm kiếm chính xác theo productId
+                ->orWhere('name', 'LIKE', "%{$query}%")    // Tìm kiếm gần đúng theo name
+                ->orWhere('price', $query)                // Tìm kiếm chính xác theo price
+                ->get();
+        } else {
+            // Nếu không có từ khóa, trả về danh sách tất cả sản phẩm
+            $products = Product::all();
         }
     
-        $products = $products->get(); // Thực hiện truy vấn
-    
-        return view('Dashboard.pages.product.searchproduct', compact('products', 'query')); // Trả về kết quả tìm kiếm
+        // Trả về view với kết quả tìm kiếm
+        return view('Dashboard.pages.product.searchproduct', compact('products', 'query'));
     }
+    
     
     // public function index()
     // {

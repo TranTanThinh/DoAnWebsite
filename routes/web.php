@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\ProductController123;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -12,10 +11,12 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\UserReviewController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\UserReviewController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdvertisingAndPromotionController;
+use App\Http\Controllers\Admin\ProductController123;
+
 
 
 
@@ -83,8 +84,8 @@ Route::resource('contacts', ContactController::class);
 Route::get('contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
 
 
-Route::resource('user_reviews', UserReviewController::class);
-Route::get('/reviews', [UserReviewController::class, 'index'])->name('user_reviews.index');
+Route::resource('user_reviews', App\Http\Controllers\Admin\UserReviewController::class);
+Route::get('/reviews', [App\Http\Controllers\Admin\UserReviewController::class, 'index'])->name('user_reviews.index');
 
 
 //route slideshow
@@ -97,10 +98,11 @@ Route::resource('/admin', AdminController::class);
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
 
+Route::controller(ProductController123::class)->group(function() {
 
-Route::get('/products', [ProductController123::class, 'index'])->name('products.index');
-Route::get('/products/search', [ProductController123::class, 'search'])->name('products.search');
-Route::get('/products/create', [ProductController123::class, 'create'])->name('products.create');
-Route::post('/products/store', [ProductController123::class, 'store'])->name('products.store');
-Route::resource('products', ProductController123::class);
-
+    Route::get('admin/products', 'index')->name('products.index');
+    Route::get('admin/products/search', 'search')->name('products.search');
+    Route::get('admin/products/create', 'create')->name('products.create');
+    Route::post('admin/products/store', 'store')->name('products.store');
+    Route::resource('products', ProductController123::class);
+});
