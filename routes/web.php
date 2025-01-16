@@ -26,6 +26,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/about', 'about')->name('about');
     Route::get('/wishlist', 'wishlist')->name('wishlist');
+    Route::get('/profile', 'profile')->name('profile');
 });
 
 Route::resource('/admin', AdminController::class);
@@ -37,7 +38,6 @@ Auth::routes();
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register.form');
 Route::post('register', [RegisterController::class, 'register'])->name('register');
-//Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 
@@ -50,8 +50,9 @@ Route::controller(ProductController::class)->group(function () {
 
 Route::controller(CartController::class)->group(function() {
     route::get('/cart', 'index')->name('cart.index');
-    route::get('/cart/delete','delete')->name('cart.delete');
+    Route::get('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
     route::post('/cart/add/{id}','add')->name('cart.add');
+    Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
 });
 
 

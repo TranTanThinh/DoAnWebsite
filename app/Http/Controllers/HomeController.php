@@ -41,5 +41,8 @@ class HomeController extends Controller
     {
         return view("Template.pages.blog_single");
     }
- 
+    public function profile()
+    {
+        return view("Template.pages.profile");
+    }
 }
