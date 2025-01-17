@@ -30,6 +30,7 @@
                                     <div class="select-wrap">
                                         <div class="icon"><span class="ion-ios-arrow-down"></span></div>
                                         <select name="" id="" class="form-control">
+                                            <option value="">Viet Nam</option>
                                             <option value="">France</option>
                                             <option value="">Italy</option>
                                             <option value="">Philippines</option>
@@ -79,7 +80,7 @@
                                     <input type="text" class="form-control" placeholder="">
                                 </div>
                             </div>
-                            <div class="w-100"></div>
+                            {{-- <div class="w-100"></div>
                             <div class="col-md-12">
                                 <div class="form-group mt-4">
                                     <div class="radio">
@@ -88,48 +89,40 @@
                                         <label><input type="radio" name="optradio"> Ship to different address</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </form><!-- END -->
                 </div>
                 <div class="col-xl-5">
                     <div class="row mt-5 pt-3">
-                        @include('Template.components.carttotal', ['viewData' => $viewData])
+                        <div class="col-md-12 d-flex mb-5">
+                            @include('Template.components.carttotal')
+                        </div>
                         <div class="col-md-12">
                             <div class="cart-detail p-3 p-md-4">
-                                <h3 class="billing-heading mb-4">Payment Method</h3>
-                                <div class="form-group">
-                                    <div class="col-md-12">
+                                <form action="{{ route('order.process') }}" method="POST" id="payment-form">
+                                    @csrf
+                                    <h3 class="billing-heading mb-4">Payment Method</h3>
+                                    <div class="form-group">
                                         <div class="radio">
-                                            <label><input type="radio" name="optradio" class="mr-2"> Direct Bank
-                                                Tranfer</label>
+                                            <label><input type="radio" name="payment_method" value="COD" class="mr-2"
+                                                    required> COD</label>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
+                                    <div class="form-group">
                                         <div class="radio">
-                                            <label><input type="radio" name="optradio" class="mr-2"> Check
-                                                Payment</label>
+                                            <label><input type="radio" name="payment_method" value="VNPAY" class="mr-2"
+                                                    required> VNPAY</label>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <div class="radio">
-                                            <label><input type="radio" name="optradio" class="mr-2"> Paypal</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
+                                    <div class="form-group">
                                         <div class="checkbox">
-                                            <label><input type="checkbox" value="" class="mr-2"> I have read and
-                                                accept the terms and conditions</label>
+                                            <label><input type="checkbox" name="terms" value="1" class="mr-2"
+                                                    required> I have read and accept the terms and conditions</label>
                                         </div>
                                     </div>
-                                </div>
-                                <p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
+                                    <button type="submit" id="place-order-btn" class="btn btn-primary py-3 px-4">Place an order</button>
+                                </form>
                             </div>
                         </div>
                     </div>

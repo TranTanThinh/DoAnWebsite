@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        'orderId',        // ID của đơn hàng
+        'paymentMethod',  // Phương thức thanh toán
+        'paymentStatus',  // Trạng thái thanh toán
+        'amount',         // Số tiền thanh toán
+    ];
     public function order() {
         return $this->belongsTo(Order::class, 'orderId');
     }
 
-    protected $fillable = ['payment_method', 'amount'];
     public function getId() {
         return $this->attributes['id'];
     }

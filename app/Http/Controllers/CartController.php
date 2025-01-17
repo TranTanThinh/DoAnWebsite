@@ -26,15 +26,10 @@ class CartController extends Controller
         'products' => $productsInCart ?? [],  // Đảm bảo 'products' có giá trị mặc định nếu không có sản phẩm
         'cartCount' => count($productsInSession),  // Đếm số lượng sản phẩm trong giỏ
     ];
+    $request->session()->put('cartViewData', $viewData);
 
-    return view('Template.pages.cart.index', compact('viewData'));
+    return view('Template.pages.cart.index');
 }
-
-
-
-
-
-
 
     public function cartIndex()
     {
