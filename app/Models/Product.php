@@ -1,11 +1,17 @@
 <?php
 
 namespace App\Models;
+
 use App\Models\Category;
+
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasFactory;
     /**
      * PRODUCT ATTRIBUTES
      * $this->attributes['productId'] - int - contains the product primary key (id)

@@ -31,7 +31,20 @@ class LoginController extends Controller
      */
     protected function redirectTo()
     {
+<<<<<<< HEAD
        
+=======
+        $role = Auth::user()->role;
+
+        if ($role === 'admin') {
+            return redirect('/admin');
+        } 
+        // elseif ($role === 'user') {
+        //     return redirect('/');
+        // }
+
+        return redirect('/');
+>>>>>>> 03ceee1e5487434150a8a04a260350db3663d49b
     }
 
 
@@ -90,7 +103,8 @@ class LoginController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Login successful!',
-            'redirect' => route('admin') 
+            'redirect' => route('home')
         ]);
+        // return $this->redirectTo();
     }
 }

@@ -27,6 +27,7 @@ class HomeController extends Controller
     {
         return view("Template.pages.cart");
     }
+    
     public function contact()
     {
         return view("Template.pages.contact");
