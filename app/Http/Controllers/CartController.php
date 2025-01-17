@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -74,7 +75,11 @@ class CartController extends Controller
             $products[$id] += $request->input('quantity'); // Cộng dồn số lượng nếu sản phẩm đã có
         } else {
             $products[$id] = $request->input('quantity'); // Nếu chưa có thì thêm mới
+            $products[$id] = $request->input('quantity'); // Nếu chưa có thì thêm mới
         }
+
+        // Lưu lại vào session
+        $request->session()->put('products', $products);
 
         // Lưu lại vào session
         $request->session()->put('products', $products);
