@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Validation\Rule;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
@@ -54,22 +54,30 @@ class ContactController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {
-        $contact = Contact::findOrFail($id);
+{
+    $validatedData = $request->validate([
+        'name' => [
+            'required',
+            Rule::unique('contacts', 'name')->ignore($id),
+        ],
+        'email' => [
+            'required',
+            'email',
+            'regex:/^[\w\.-]+@gmail\.com$/', // Kiểm tra email phải kết thúc bằng @gmail.com
+        ],
+        'subject' => 'required',
+        'message' => 'required',
+    ], [
+        'email.regex' => 'The email must be a valid Gmail address (e.g. example@gmail.com).',
+    ]);
 
-        // Validate input nếu cần
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'subject' => 'nullable|string|max:255',
-            'message' => 'nullable|string',
-        ]);
+    $contact = Contact::findOrFail($id);
+    $contact->update($validatedData);
 
-        // Cập nhật thông tin
-        $contact->update($request->all());
+    return redirect()->route('contacts.index')->with('success', 'Contact updated successfully!');
+}
 
-        return redirect()->route('contacts.index')->with('success', 'Contact updated successfully!');
-    }
+
     
 
     /**
