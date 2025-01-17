@@ -97,7 +97,12 @@
                     </div>
                     <p><a href="checkout" class="btn btn-primary py-3 px-4">Estimate</a></p>
                 </div>
-                @include('Template.components.carttotal', ['viewData' => $viewData])
+                <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+                    @include('Template.components.carttotal', ['viewData' => $viewData])
+                    <p>
+                        <a href="{{ route('checkout') }}" class="btn btn-primary py-3 px-4">Checkout</a>
+                    </p>
+                </div>
             </div>
         </div>
     </section>

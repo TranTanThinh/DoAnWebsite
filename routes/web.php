@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\OrderController;
+
 
 
 Route::controller(HomeController::class)->group(function () {
@@ -68,6 +70,7 @@ Route::get('/products/search', [ProductController::class, 'search'])->name('prod
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 
+
 Route::resource('products', ProductController::class);
 
 
@@ -99,10 +102,9 @@ Route::middleware('auth')->group(function() {
     });
 });
 
-
+Route::post('/order/process', [OrderController::class, 'processOrder'])->name('order.process');
 
 Route::post('/cart/apply-promotion', [CartController::class, 'applyPromotion'])->name('cart.applyPromotion');
-
 
 Route::get('/vnpay_return', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
 
