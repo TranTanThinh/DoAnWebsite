@@ -218,7 +218,16 @@
             </div>
         </div>
     </div>
-   
+    <div>
+        <div class="title-serach">
+            <h1>Danh sách bài viết</h1>
+            <form action ="{{ route('blogs.index') }}" method="GET">
+                <div class="form-ground">
+                    <input type="text" name="keyword_blog" placeholder="Tìm kiếm...">
+                    <button type="submit">Search</button>
+                </div>
+            </form>
+        </div>
 
         <ul class="blog-list">
             @foreach ($blogs as $blog)
