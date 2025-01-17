@@ -198,7 +198,16 @@
                     </ul>
                 </div>
 
-                
+                <div class="policy-section">
+                    <h3>6. Chính Sách Bảo Mật Thông Tin</h3>
+                    <p>Mục tiêu: Bảo vệ thông tin cá nhân và dữ liệu của khách hàng một cách an toàn và bảo mật.</p>
+                    <ul>
+                        <li>Cam kết bảo mật thông tin cá nhân của khách hàng theo quy định của pháp luật.</li>
+                        <li>Không chia sẻ thông tin khách hàng với bất kỳ bên thứ ba nào mà không có sự đồng ý của khách
+                            hàng.</li>
+                        <li>Đảm bảo hệ thống thanh toán an toàn và không lưu trữ thông tin thanh toán của khách hàng.</li>
+                    </ul>
+                </div>
 
                 <!-- Thông tin liên hệ -->
                 <div class="contact-info mt-4">
