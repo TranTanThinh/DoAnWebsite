@@ -229,24 +229,7 @@
             </form>
         </div>
 
-        <ul class="blog-list">
-            @foreach ($blogs as $blog)
-                <li class="blog-item">
-                    <h2>{{ $blog->title }}</h2>
-                    <p><strong>Author:</strong> {{ $blog->author }}</p>
-                    <img src="{{ asset('Template/images/' . $blog->image) }}" alt="{{ $blog->title }}" class="blog-image">
-                    <p>{{ Str::limit($blog->content, 150) }}</p>
-                    <p><strong>Lượt xem:</strong> {{ $blog->view }}</p>
-                    <a href="{{ route('blogs.show', ['slug' => $blog->slug]) }}" class="blog-detail-link">Xem chi tiết</a>
-                </li>
-            @endforeach
-        </ul>
-
-        <!-- Phân trang -->
-        <div>
-            {{ $blogs->appends(request()->all())->links() }}
-        </div>
-    </div>
+     
 
 
 @endsection
