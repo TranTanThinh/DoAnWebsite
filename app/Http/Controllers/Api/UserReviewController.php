@@ -21,7 +21,7 @@ class UserReviewController extends Controller
         $reviews = UserReview::where('orderedProductID', '=', $product_id)
             ->with(['user:id,firstName,lastName'])
             ->latest()
-            ->paginate(4);
+            ->paginate(10);
         // ->get();
 
         $avgRating = UserReview::where('orderedProductID', '=', $product_id)
@@ -103,16 +103,18 @@ class UserReviewController extends Controller
                 ->orderBy('rating', 'desc')
                 ->get();
 
-            if ($ratingDistribution->isEmpty()) {
-                Log::info('Rating Distribution is empty', [
-                    'orderedProductID' => $userReview->getOrderedProductID(),
-                    'ratings' => UserReview::where('orderedProductID', '=', $userReview->getOrderedProductID())->pluck('rating'),
-                ]);
-            }
+            // if ($ratingDistribution->isEmpty()) {
+            //     Log::info('Rating Distribution is empty', [
+            //         'orderedProductID' => $userReview->getOrderedProductID(),
+            //         'ratings' => UserReview::where('orderedProductID', '=', $userReview->getOrderedProductID())->pluck('rating'),
+            //     ]);
+            // }
 
             $totalReviews = UserReview::where('orderedProductID', '=', $userReview->getOrderedProductID())->count();
 
             $newReview = $userReview->load('user:id,firstName,lastName');
+
+            $ratingDistribution = $ratingDistribution->toArray();
 
             broadcast(new ReviewPosted($newReview, $ratingDistribution, $totalReviews, $avgRating));
 

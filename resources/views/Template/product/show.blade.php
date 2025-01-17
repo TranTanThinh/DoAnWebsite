@@ -177,7 +177,7 @@
         <div class="row mt-4" id="user_reviews"></div>
         <div class="row mt-4">
             <div class="col text-center">
-                <div class="block-27" id="pagination">
+                <div class="pagination" id="pagination">
 
                 </div>
             </div>
@@ -348,91 +348,86 @@
                 const totalReviews = event.totalReviews;
 
                 const avgRatingElement = document.getElementById('avgRating');
-                    avgRatingElement.innerHTML = `${event.avgRating.toFixed(1)}`;
+                avgRatingElement.innerHTML = `${event.avgRating.toFixed(1)}`;
 
                 const totalReviewsPerProductElement = document.getElementById('totalReviewsPerProduct');
                 totalReviewsPerProductElement.innerHTML = `${totalReviews}`;
 
-                
+
                 updateRatingDistribution(event.ratingDistribution, event.totalReviews);
 
                 const reviewContainer = document.getElementById('user_reviews');
                 const newReview = event.newReview;
-                
+
                 reviewContainer.insertAdjacentHTML('afterbegin', review(newReview));
             });
     });
 
+
     // get reviews
     $(document).ready(function() {
         let id = `{{$viewData['product']->getProductId() }}`;
+        fetchReviews(`http://127.0.0.1:8000/api/userReviews/product/${id}`);
+
+        $(document).on('click', '.page-link', function(e) {
+            e.preventDefault();
+            const url = $(this).attr('href');
+            if (url) {
+                fetchReviews(url);
+            }
+        });
+    });
+
+    function fetchReviews(url) {
         $.ajax({
-            url: `http://127.0.0.1:8000/api/userReviews/product/${id}`,
+            url: url,
             type: 'GET',
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    // console.log('res: ', response);
-                    // console.log('avgRating: ', response.data.average_rating);
-                    console.log('avgRating: ', response.data.avgRating);
-                    // console.log('ratingDistribution: ', response.data.rating_distribution);
-                    console.log('ratingDistribution: ', response.data.ratingDistribution);
-                    // console.log('totalReviewsPerProduct: ', response.data.total_reviews);
-                    console.log('totalReviewsPerProduct: ', response.data.totalReviews);
-                    console.log('newReview: ', response.data.newReview);
                     $('#user_reviews').empty();
-                    // console.log(typeof(response));
                     response.data.reviews.data.forEach(data => {
-                        // console.log('data: ', data)
                         $('#user_reviews').append(review(data));
                     });
 
-                    
-                    const avgRatingElement = document.getElementById('avgRating');
-                    avgRatingElement.innerHTML = `${response.data.average_rating}`;
+                    $('#avgRating').text(response.data.average_rating);
+                    $('#totalReviewsPerProduct').text(response.data.reviews.total);
 
-                    const totalReviewsPerProductElement = document.getElementById('totalReviewsPerProduct');
-                    totalReviewsPerProductElement.innerHTML = `${response.data.reviews.total}`;
-
-                    const distributionContainer = document.getElementById('ratingDistribution');
+                    const distributionContainer = $('#ratingDistribution');
                     const totalReviews = response.data.total_reviews;
-                    const distribution = response.data.rating_distribution;
-
-                    distributionContainer.innerHTML = distribution.map(item => {
+                    distributionContainer.empty();
+                    response.data.rating_distribution.forEach(item => {
                         const percentage = ((item.count / totalReviews) * 100).toFixed(2);
-                        return `
-                            <li>
-                                ${item.rating} Sao: <span>${item.count}</span> lượt đánh giá
-                                (<strong>${percentage}%</strong>)
-                                <div class="progress">
-                                    <div class="progress-bar" style="width: ${percentage}%;"></div>
-                                </div>
-                            </li>
-                        `;
-                    }).join('');
+                        distributionContainer.append(`
+                        <li>
+                            ${item.rating} Sao: <span>${item.count}</span> lượt đánh giá
+                            (<strong>${percentage}%</strong>)
+                            <div class="progress">
+                                <div class="progress-bar" style="width: ${percentage}%;"></div>
+                            </div>
+                        </li>
+                    `);
+                    });
 
-
-                    if (response.data.reviews.links.length > 0) {
-                        response.data.reviews.links.forEach(link => {
-                            if (link.url) {
-                                $('#pagination').append(`
-                                <a href="${link.url}" class="page-link">${link.label}</a>
-                            `);
-                            } else {
-                                $('#pagination').append(`
-                                <span class="page-link disabled">${link.label}</span>
-                            `);
-                            }
-                        });
-                    }
-
+                    $('#pagination').empty();
+                    response.data.reviews.links.forEach(link => {
+                        if (link.url) {
+                            $('#pagination').append(
+                                `<a href="${link.url}" class="page-link ${link.active ? 'active' : ''}">${link.label}</a>`
+                            );
+                        } else {
+                            $('#pagination').append(`<span class="page-link disabled">${link.label}</span>`);
+                        }
+                    });
                 }
             },
             error: function(error) {
-                console.log('Error: ', error);
+                console.error('Error fetching reviews:', error);
             }
         });
-    });
+    }
+
+
 
     const review = (rev) => {
         let stars = '';
@@ -486,8 +481,6 @@
             });
         });
     });
-
-    
 </script>
 
 @endsection
