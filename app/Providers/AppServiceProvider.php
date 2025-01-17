@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\InfoShop;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $shops = InfoShop::first();
+
+        // Chia sẻ dữ liệu này tới tất cả các view
+        view()->share('shops', $shops);
     }
 }
