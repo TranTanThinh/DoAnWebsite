@@ -7,28 +7,33 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use App\Models\Promotion;
 
 class CartController extends Controller
 {
     public function index(Request $request)
-    {
-        $total = 0;
-        $productsInCart = [];
-        $productsInSession = $request->session()->get('products', []);
+{
+    $total = 0;
+    $productsInSession = $request->session()->get('products', []);  // Sử dụng mảng rỗng mặc định nếu không có key 'products'
 
-        // Nếu có sản phẩm trong session, lấy thông tin sản phẩm
-        if ($productsInSession) {
-            $productsInCart = Product::findMany(array_keys($productsInSession)); // Lấy thông tin sản phẩm
-            $total = Product::sumPricesByQuantities($productsInCart, $productsInSession); // Tính tổng giá trị giỏ hàng
-        }
-
-        $viewData = [];
-        $viewData['total'] = $total;
-        $viewData['products'] = $productsInCart;
-        $viewData['cartCount'] = count($productsInSession); // Đếm số sản phẩm trong giỏ hàng
-
-        return view('Template.pages.cart.index')->with('viewData', $viewData);
+    if ($productsInSession) {
+        $productsInCart = Product::findMany(array_keys($productsInSession));  // Lấy thông tin sản phẩm
+        $total = Product::sumPricesByQuantities($productsInCart, $productsInSession);  // Tính tổng giá trị giỏ hàng
     }
+
+    $viewData = [
+        'total' => $total,
+        'products' => $productsInCart ?? [],  // Đảm bảo 'products' có giá trị mặc định nếu không có sản phẩm
+        'cartCount' => count($productsInSession),  // Đếm số lượng sản phẩm trong giỏ
+    ];
+
+    return view('Template.pages.cart.index', compact('viewData'));
+}
+
+
+
+
+
 
 
     public function cartIndex()
@@ -135,5 +140,39 @@ class CartController extends Controller
         $cartCount = count($productsInSession); // Đếm số sản phẩm trong giỏ hàng
 
         return response()->json(['count' => $cartCount]);
+    }
+
+    public function applyPromotion(Request $request)
+    {
+        $promotionCode = $request->input('promotion_code');
+        $total = $request->session()->get('total', 0);
+
+        // Tìm mã khuyến mãi
+        $promotion = Promotion::where('name', $promotionCode)->first();
+
+        if ($promotion) {
+            if ($promotion->isActive && now()->between($promotion->startDate, $promotion->endDate)) {
+                // Tính giảm giá
+                $discountAmount = ($promotion->discountRate / 100) * $total;
+                $totalAfterDiscount = $total - $discountAmount;
+
+                // Trả về JSON
+                return response()->json([
+                    'success' => true,
+                    'discountAmount' => number_format($discountAmount, 2),
+                    'totalAfterDiscount' => number_format($totalAfterDiscount, 2),
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This promotion is not active or has expired.',
+                ]);
+            }
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid promotion code.',
+            ]);
+        }
     }
 }
