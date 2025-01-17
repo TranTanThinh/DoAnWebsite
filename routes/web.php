@@ -71,9 +71,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('products', ProductController::class);
 
-Route::resource('products', AdminProductController::class);
-
-
 
 
 
@@ -111,6 +108,5 @@ Route::resource('categories', AdminCategoryController::class);
 Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories.index');
 
 Route::get('contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
-
 Route::resource('contacts', ContactController::class);
 

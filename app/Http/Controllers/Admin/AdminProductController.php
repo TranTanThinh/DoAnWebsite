@@ -68,11 +68,6 @@ class AdminProductController extends Controller
     // }
 
 
-
- 
-
-
-
     // public function index()
     // {
 
@@ -144,15 +139,13 @@ class AdminProductController extends Controller
 
     
 
-        public function edit($id)
+    public function edit($id)
     {
-        // Tìm sản phẩm theo productId thay vì id
-    $product = Product::where('productId', $id)->first();
+        $product = Product::findOrFail($id);
+        return view('Dashboard.pages.product.editproduct', compact('product'));
+    }
 
-    if (!$product) {
-        return redirect()->route('products.search')->with('error', 'Product not found.');
-    }
-    }
+    
 
     public function show(string $slug, string $id)
     {

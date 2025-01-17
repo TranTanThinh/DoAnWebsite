@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 class AdminCategoryController extends Controller
 {
     // Hiển thị tất cả danh mục
@@ -24,6 +25,8 @@ class AdminCategoryController extends Controller
 
         return view('Dashboard.pages.product.add', compact('categories'));
     }
+
+
 public function store(Request $request)
 {
     $validatedData = $request->validate([
