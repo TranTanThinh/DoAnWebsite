@@ -1,5 +1,4 @@
 @extends('Dashboard.layouts.app')
-
 @section('main')
 <div class="container content-wrapper">
     <h2>Add New Product</h2>
@@ -16,7 +15,10 @@
                 </div>
             @enderror
         </div>
-        
+
+        <!-- Hidden Input for Slug -->
+        <input type="hidden" id="slug" name="slug" value="{{ old('slug') }}">
+
         <!-- Input for Price -->
         <div class="mb-3">
             <label for="price" class="form-label">Price</label>
@@ -50,11 +52,16 @@
             @enderror
         </div>
         
-        <!-- Input for Slug -->
+        <!-- Input for Category -->
         <div class="mb-3">
-            <label for="slug" class="form-label">Slug</label>
-            <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug') }}" required>
-            @error('slug')
+            <label for="categoryId" class="form-label">Category</label>
+            <select class="form-control @error('categoryId') is-invalid @enderror" id="categoryId" name="categoryId" required>
+                <option value="" disabled selected>Select Category</option>
+                @foreach($categories as $category)
+                    <option value="{{ $category->categoryId }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @error('categoryId')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -63,7 +70,22 @@
 
         <!-- Submit and Cancel buttons -->
         <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancel</a>
+        <a href="{{ route('products.search') }}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById('name').addEventListener('input', function() {
+        const name = this.value;
+        const slug = name.toLowerCase()
+                         .trim()
+                         .normalize('NFD') // Normalize accented characters
+                         .replace(/[\u0300-\u036f]/g, '') // Remove diacritics
+                         .replace(/[^a-z0-9\s-]/g, '') // Remove invalid characters
+                         .replace(/\s+/g, '-') // Replace spaces with hyphens
+                         .replace(/-+/g, '-'); // Remove consecutive hyphens
+        document.getElementById('slug').value = slug;
+    });
+</script>
 @endsection

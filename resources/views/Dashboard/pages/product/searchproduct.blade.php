@@ -48,7 +48,8 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Category</th>
+                            <th>IDCategory</th>
+                            <th>NameCategory</th>
                             <th>Name</th>
                             <th>Image</th>
                             <th>Description</th>
@@ -68,6 +69,7 @@
                                 <tr>
                                     <td>{{ $product->productId }}</td>
                                     <td>{{ $product->categoryId }}</td>
+                                    <td>{{ $product->category ? $product->category->name : 'No Category' }}</td> <!-- Hiển thị tên loại sản phẩm -->
                                     <td>{{ $product->name }}</td>
                                     <td><img src="{{ asset($product->image) }}" alt="{{ $product->name }}"></td>
                                     <td>{{ $product->description }}</td>

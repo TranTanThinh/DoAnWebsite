@@ -76,4 +76,10 @@ class CategoryController extends Controller
 
     return redirect()->route('category.index')->with('success', 'Category deleted successfully!');
     }
+
+    // Phương thức quan hệ với Product
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'categoryId');
+    }
 }

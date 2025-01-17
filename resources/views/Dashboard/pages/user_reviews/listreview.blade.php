@@ -1,6 +1,9 @@
 @extends('Dashboard.layouts.app')
 
 @section('main')
+
+
+
 <div class="container">
     <h3 class="my-4">Danh sách Bình Luận </h3>
     <table class="table table-bordered">

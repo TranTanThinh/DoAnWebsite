@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
-
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Inventory;
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 
 
-class ProductController123 extends Controller
+class AdminProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +17,19 @@ class ProductController123 extends Controller
 
      */
 
+    // public function index()
+    // {
+    //     // return view("Dashboard.pages.addproduct");
+    //     $products = Product::all(); // Lấy tất cả dữ liệu từ bảng products
+    //     return view('Dashboard.pages.product.listproduct', compact('products'));
+    // }
+
     public function index()
     {
-        // return view("Dashboard.pages.addproduct");
-        $products = Product::all(); // Lấy tất cả dữ liệu từ bảng products
-        return view('Dashboard.pages.product.listproduct', compact('products'));
+        // Lấy tất cả sản phẩm kèm theo thông tin loại sản phẩm (category)
+        $products = Product::with('category')->get();
+    
+        return view('Dashboard.pages.product.index', compact('products'));
     }
 
     
@@ -83,11 +91,19 @@ class ProductController123 extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    // public function create()
+    // {
+    //     return view('Dashboard.pages.product.addproduct');
+    //     //
+    // }
+
     public function create()
-    {
-        return view('Dashboard.pages.product.addproduct');
-        //
-    }
+{
+    // Lấy danh sách tất cả các loại sản phẩm
+    $categories = Category::all();
+
+    return view('Dashboard.pages.product.addproduct', compact('categories'));
+}
 
     public function store(Request $request)
 {
@@ -123,7 +139,7 @@ class ProductController123 extends Controller
         'slug' => $validatedData['slug'],
     ]);
 
-    return redirect()->route('products.index')->with('success', 'Product added successfully!');
+    return redirect()->route('products.search')->with('success', 'Product added successfully!');
 }
 
     
@@ -131,12 +147,11 @@ class ProductController123 extends Controller
         public function edit($id)
     {
         // Tìm sản phẩm theo productId thay vì id
-        $product = Product::where('productId', $id)->first();
+    $product = Product::where('productId', $id)->first();
 
-        if (!$product) {
-            return redirect()->route('products.index')->with('error', 'Product not found.');
-        }
-
+    if (!$product) {
+        return redirect()->route('products.search')->with('error', 'Product not found.');
+    }
     }
 
     public function show(string $slug, string $id)
@@ -207,15 +222,16 @@ class ProductController123 extends Controller
     $product = Product::where('productId', $id)->first();
 
     if (!$product) {
-        return redirect()->route('products.index')->with('error', 'Product not found.');
+        return redirect()->route('products.search')->with('error', 'Product not found.');
     }
 
     // Xóa sản phẩm
     $product->delete();
 
-    return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+    return redirect()->route('products.search')->with('success', 'Product deleted successfully.');
 }
 
+    
 
 
 }

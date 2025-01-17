@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -148,6 +148,12 @@ class Product extends Model
     public function setUpdatedAt($updatedAt)
     {
         $this->attributes['updated_at'] = $updatedAt;
+    }
+
+    // Phương thức quan hệ với Category
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'categoryId');
     }
 
 }

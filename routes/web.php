@@ -11,12 +11,12 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\Admin\ContactController;
-use App\Http\Controllers\Admin\UserReviewController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AdvertisingAndPromotionController;
-use App\Http\Controllers\Admin\ProductController123;
-
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\UserReviewController;
 
 
 
@@ -71,13 +71,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('products', ProductController::class);
 
-Route::resource('products', ProductController123::class);
+Route::resource('products', AdminProductController::class);
 
 
 
-Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 
-Route::resource('contacts', ContactController::class);
 
 
 
@@ -94,15 +92,25 @@ Route::get('/advertising-2', [AdvertisingAndPromotionController::class, 'showadv
 Route::get('/promotion-1', [AdvertisingAndPromotionController::class, 'showpromotion1'])->name('promotion-1');
 Route::get('/promotion-2', [AdvertisingAndPromotionController::class, 'showpromotion2'])->name('promotion-2');
 
+
 Route::resource('/admin', AdminController::class);
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
 
-Route::controller(ProductController123::class)->group(function() {
+
+Route::controller(AdminProductController::class)->group(function() {
 
     Route::get('admin/products', 'index')->name('products.index');
     Route::get('admin/products/search', 'search')->name('products.search');
     Route::get('admin/products/create', 'create')->name('products.create');
     Route::post('admin/products/store', 'store')->name('products.store');
-    Route::resource('products', ProductController123::class);
+    Route::resource('products', AdminProductController::class);
 });
+
+Route::resource('categories', AdminCategoryController::class);
+Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories.index');
+
+Route::get('contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
+
+Route::resource('contacts', ContactController::class);
+

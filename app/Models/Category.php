@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\product;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -68,5 +68,11 @@ class Category extends Model
     public function childCategories()
     {
         return $this->hasMany(Category::class, 'parent_id', 'categoryId');
+    }
+
+    // Phương thức quan hệ với Product
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'categoryId');
     }
 }
