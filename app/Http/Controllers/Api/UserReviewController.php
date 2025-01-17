@@ -50,7 +50,11 @@ class UserReviewController extends Controller
     public function index()
     {
         $reviews = UserReview::latest()->get();
-
+        // $existUserReviewed = UserReview::where('userID', '=', 3)
+        //         ->where('orderedProductId', '=', 8)
+        //         ->get();
+        // dd($existUserReviewed);
+        // dd($existUserReviewed->isNotEmpty());
 
         return response()->json($reviews);
     }
@@ -81,6 +85,16 @@ class UserReviewController extends Controller
 
         $status = $existUserPurchased->first()->status ?? "No status";
         $currentUserName = data_get($currentUser, 'username');
+
+        $existUserReviewed = UserReview::where('userID', '=', $userId)
+                    ->where('orderedProductId', '=', $currentProductIdOnWeb)
+                    ->get();
+        if($existUserReviewed->isNotEmpty()) {
+            return response()->json([
+                'message' => 'This product has been reviewed'
+            ], 422);
+        }
+        // dd(gettype(!$existUserReviewed));
         // dd(gettype($existUserPurchased));
         // dd(strtolower($status));
         // dd(!$existUserPurchased -> isEmpty() && strtolower($status) === "completed");
