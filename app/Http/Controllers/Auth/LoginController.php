@@ -31,9 +31,6 @@ class LoginController extends Controller
      */
     protected function redirectTo()
     {
-<<<<<<< HEAD
-       
-=======
         $role = Auth::user()->role;
 
         if ($role === 'admin') {
@@ -44,7 +41,7 @@ class LoginController extends Controller
         // }
 
         return redirect('/');
->>>>>>> 03ceee1e5487434150a8a04a260350db3663d49b
+
     }
 
 
