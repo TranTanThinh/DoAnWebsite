@@ -4,7 +4,7 @@
 <div class="row">
 <div class="col-md-12 text-center">
 
-<<<<<<< HEAD
+
   <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -12,7 +12,7 @@
 </div>
 </div>
 </div>
-=======
+
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -295,9 +295,7 @@
             });
         });
     });
-<<<<<<< HEAD
-</script>
-=======
+
 </script>
 <script>
     $(document).ready(function() {
@@ -386,4 +384,3 @@
     });
 </script>
 
->>>>>>> be0a6e3ebb222252ffc9e3097896303507c53d7b

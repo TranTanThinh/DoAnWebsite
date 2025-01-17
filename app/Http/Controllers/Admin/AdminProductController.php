@@ -224,7 +224,4 @@ class AdminProductController extends Controller
     return redirect()->route('products.search')->with('success', 'Product deleted successfully.');
 }
 
-    
-
-
 }
