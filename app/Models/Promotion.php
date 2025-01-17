@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Promotion extends Model
 {
+    protected $table = 'promotions';
+    protected $fillable = [
+        'name', 'description', 'discountRate', 'startDate', 'endDate', 'isActive'
+    ];
     public function getId() {
         return $this->attributes['id'];
     }

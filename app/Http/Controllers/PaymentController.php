@@ -2,55 +2,77 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Payment;
 
 class PaymentController extends Controller
 {
-    public function createPayment(Request $request)
+    public function vnpayPayment(Request $request)
     {
-        $validated = $request->validate([
-            'payment_method' => 'required|string|in:cash,momo',
-            'amount' => 'required|numeric|min:1',
-        ]);
+        $data = $request->all();
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = route('vnpay.return');
+        $vnp_TmnCode = "PH554RX5";
+        $vnp_HashSecret = "5JKXC8Z7LB90M5VJZ6KP2VC9B36ZOLGW";
 
-        // Tạo thanh toán mới
-        $payment = Payment::create([
-            'payment_method' => $validated['payment_method'],
-            'amount' => $validated['amount'],
-        ]);
+        $vnp_TxnRef = rand(100000, 999999);
+        $vnp_OrderInfo = "Payment for order #" . $vnp_TxnRef;
+        $vnp_Amount = (int) $data['total'] * 100;
+        $vnp_Locale = 'vn';
+        $vnp_BankCode = 'NCB';
+        $vnp_IpAddr = $request->ip();
 
-        // Xử lý thanh toán theo phương thức đã chọn
-        if ($validated['payment_method'] === 'cash') {
-            // Xử lý thanh toán qua tiền mặt (COD)
-            return response()->json(['message' => 'Thanh toán qua tiền mặt thành công!', 'payment' => $payment]);
-        } elseif ($validated['payment_method'] === 'momo') {
-            // Xử lý thanh toán qua MoMo
-            return $this->handleMoMoPayment($payment);
-        }
+        $inputData = [
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => 'billpayment',
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+        ];
+        
 
-        return response()->json(['message' => 'Phương thức thanh toán không hợp lệ!'], 400);
+        ksort($inputData);
+        $hashdata = urldecode(http_build_query($inputData));
+        $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);
+
+        $vnp_Url = $vnp_Url . '?' . http_build_query($inputData) . '&vnp_SecureHash=' . $vnpSecureHash;
+
+        return redirect()->away($vnp_Url);
     }
 
-    private function handleMoMoPayment($payment)
+    public function vnpayReturn(Request $request)
     {
-        // Tích hợp với MoMo API để thực hiện thanh toán
-        // Gửi thông tin đến MoMo và nhận phản hồi (mã giả)
-        $momoResponse = $this->processMoMoPayment($payment->amount);
+        $vnp_HashSecret = "5JKXC8Z7LB90M5VJZ6KP2VC9B36ZOLGW";
+        $inputData = $request->all();
+        dd($inputData);
 
-        if ($momoResponse['status'] === 'success') {
-            // Cập nhật trạng thái thanh toán
-            $payment->update(['status' => 'completed']);
-            return response()->json(['message' => 'Thanh toán qua MoMo thành công!', 'payment' => $payment]);
+        $vnp_SecureHash = $inputData['vnp_SecureHash'];
+        unset($inputData['vnp_SecureHash'], $inputData['vnp_SecureHashType']);
+        ksort($inputData);
+        $hashData = urldecode(http_build_query($inputData));
+        $calculatedHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+        dd([
+            'hashData' => $hashData,
+            'calculatedHash' => $calculatedHash,
+            'vnp_SecureHash' => $vnp_SecureHash,
+        ]);
+
+        if ($calculatedHash === $vnp_SecureHash) {
+            if ($inputData['vnp_ResponseCode'] === "00") {
+                return view('success', ['data' => $inputData]);
+            } else {
+                return view('error', ['data' => $inputData]);
+            }
+        } else {
+            return view('error', ['message' => 'Invalid signature!']);
         }
-
-        return response()->json(['message' => 'Thanh toán MoMo không thành công'], 500);
-    }
-
-    private function processMoMoPayment($amount)
-    {
-        // API call giả lập MoMo
-        return ['status' => 'success', 'transaction_id' => 'MO123456789'];
+        
+        
     }
 }

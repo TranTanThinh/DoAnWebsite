@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PromotionController;
 
 
 Route::controller(HomeController::class)->group(function () {
@@ -100,5 +101,11 @@ Route::middleware('auth')->group(function() {
 
 
 
-Route::post('/payment', [PaymentController::class, 'createPayment']);
+Route::post('/cart/apply-promotion', [CartController::class, 'applyPromotion'])->name('cart.applyPromotion');
+
+
+Route::get('/vnpay_return', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
+
+Route::post('/vnpay_payment', [PaymentController::class, 'vnpayPayment'])->name('vnpay.payment');
+
 

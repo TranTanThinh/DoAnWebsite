@@ -9,6 +9,7 @@ use App\Models\Order_Item;
 
 class OrderController extends Controller
 {
+    
     public function store(Request $request)
     {
         $validated = $request->validate([
