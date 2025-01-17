@@ -45,6 +45,8 @@
     <link rel="stylesheet" href="{{ asset('Template/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('Template/css/style.css') }}">
 
+    <!-- Scripts -->
+    @vite([ 'resources/js/app.js'])
 </head>
 
 <body class="goto-here">

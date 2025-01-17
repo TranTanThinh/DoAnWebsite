@@ -124,32 +124,16 @@
                 <div class="review-summary">
                     <h4>Đánh giá trung bình</h4>
                     <p>
-                        <strong>{{ number_format(3.4, 1) }}</strong> trên 5 sao
-                        (50 lượt đánh giá)
+                        <strong id="avgRating"></strong> trên 5 sao
+                        (<span id="totalReviewsPerProduct"></span> lượt đánh giá)
                     </p>
-                    <div>
-                        @for ($i = 1; $i <= 5; $i++)
-                            @if ($i <= 4.5)
-                            <span class="ion-ios-star"></span>
-                            @else
-                            <span class="ion-ios-star-outline"></span>
-                            @endif
-                            @endfor
-                    </div>
+                    <div></div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="review-distribution">
                     <h4>Phân bố đánh giá</h4>
-                    <ul class="list-unstyled">
-                       {{-- @foreach ($ratingDistribution as $stars => $count) --}}
-                        <li>
-                            {{-- $stars --}} Sao:
-                            <span>{{-- $count --}}</span> lượt đánh giá
-                            (<strong>{{-- round(($count / $totalReviews) * 100, 1) --}}%</strong>)
-                        </li>
-                        {{--@endforeach--}}
-                    </ul>
+                    <ul id="ratingDistribution" class="list-unstyled"></ul>
                 </div>
             </div>
         </div>
@@ -194,7 +178,7 @@
         <div class="row mt-4">
             <div class="col text-center">
                 <div class="block-27" id="pagination">
-                    
+
                 </div>
             </div>
         </div>
@@ -337,6 +321,48 @@
         trailingZeroDisplay: 'stripIfInteger'
     }).format(price);
 
+
+    $(document).ready(function() {
+
+        const updateRatingDistribution = (distribution, tReviews) => {
+            const container = document.getElementById('ratingDistribution');
+
+            container.innerHTML = distribution.map(item => {
+                const percentage = ((item.count / tReviews) * 100).toFixed(2);
+                return `
+                    <li>
+                        ${item.rating} Sao: <span>${item.count}</span> lượt đánh giá
+                        (<strong>${percentage}%</strong>)
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${percentage}%;"></div>
+                        </div>
+                    </li>
+                `;
+            }).join('');
+        };
+
+        Echo.channel('reviews')
+            .listen('ReviewPosted', (event) => {
+                console.log('ReviewPosted', event)
+
+                const totalReviews = event.totalReviews;
+
+                const avgRatingElement = document.getElementById('avgRating');
+                    avgRatingElement.innerHTML = `${event.avgRating.toFixed(1)}`;
+
+                const totalReviewsPerProductElement = document.getElementById('totalReviewsPerProduct');
+                totalReviewsPerProductElement.innerHTML = `${totalReviews}`;
+
+                
+                updateRatingDistribution(event.ratingDistribution, event.totalReviews);
+
+                const reviewContainer = document.getElementById('user_reviews');
+                const newReview = event.newReview;
+                
+                reviewContainer.insertAdjacentHTML('afterbegin', review(newReview));
+            });
+    });
+
     // get reviews
     $(document).ready(function() {
         let id = `{{$viewData['product']->getProductId() }}`;
@@ -345,31 +371,64 @@
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                if(response.success) {
+                if (response.success) {
                     // console.log('res: ', response);
+                    // console.log('avgRating: ', response.data.average_rating);
+                    console.log('avgRating: ', response.data.avgRating);
+                    // console.log('ratingDistribution: ', response.data.rating_distribution);
+                    console.log('ratingDistribution: ', response.data.ratingDistribution);
+                    // console.log('totalReviewsPerProduct: ', response.data.total_reviews);
+                    console.log('totalReviewsPerProduct: ', response.data.totalReviews);
+                    console.log('newReview: ', response.data.newReview);
                     $('#user_reviews').empty();
                     // console.log(typeof(response));
-                    response.data.data.forEach(data => {
+                    response.data.reviews.data.forEach(data => {
                         // console.log('data: ', data)
                         $('#user_reviews').append(review(data));
                     });
 
-                    if (response.data.links.length > 0) {
-                        response.data.links.forEach(link => {
-                        if (link.url) {
-                            $('#pagination').append(`
+                    
+                    const avgRatingElement = document.getElementById('avgRating');
+                    avgRatingElement.innerHTML = `${response.data.average_rating}`;
+
+                    const totalReviewsPerProductElement = document.getElementById('totalReviewsPerProduct');
+                    totalReviewsPerProductElement.innerHTML = `${response.data.reviews.total}`;
+
+                    const distributionContainer = document.getElementById('ratingDistribution');
+                    const totalReviews = response.data.total_reviews;
+                    const distribution = response.data.rating_distribution;
+
+                    distributionContainer.innerHTML = distribution.map(item => {
+                        const percentage = ((item.count / totalReviews) * 100).toFixed(2);
+                        return `
+                            <li>
+                                ${item.rating} Sao: <span>${item.count}</span> lượt đánh giá
+                                (<strong>${percentage}%</strong>)
+                                <div class="progress">
+                                    <div class="progress-bar" style="width: ${percentage}%;"></div>
+                                </div>
+                            </li>
+                        `;
+                    }).join('');
+
+
+                    if (response.data.reviews.links.length > 0) {
+                        response.data.reviews.links.forEach(link => {
+                            if (link.url) {
+                                $('#pagination').append(`
                                 <a href="${link.url}" class="page-link">${link.label}</a>
                             `);
-                        } else {
-                            $('#pagination').append(`
+                            } else {
+                                $('#pagination').append(`
                                 <span class="page-link disabled">${link.label}</span>
                             `);
-                        }
-                    });
-                }
+                            }
+                        });
+                    }
+
                 }
             },
-            error:function(error) {
+            error: function(error) {
                 console.log('Error: ', error);
             }
         });
@@ -377,10 +436,10 @@
 
     const review = (rev) => {
         let stars = '';
-        for(let i = 1; i <= rev.rating; i++) {
+        for (let i = 1; i <= rev.rating; i++) {
             stars += `<span class="ion-ios-star"></span>`;
         }
-        for(let i = rev.rating + 1; i <= 5; i++) {
+        for (let i = rev.rating + 1; i <= 5; i++) {
             stars += `<span class="ion-ios-star-outline"></span>`;
         }
 
@@ -427,6 +486,8 @@
             });
         });
     });
+
+    
 </script>
 
 @endsection

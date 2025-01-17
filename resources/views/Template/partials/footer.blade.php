@@ -1,6 +1,3 @@
-
-
-
 <footer class="ftco-footer ftco-section">
     <div class="container">
         <div class="row">
@@ -199,7 +196,7 @@
             };
 
             $.ajax({
-                url: '{{ route('login') }}', // Đảm bảo route đúng
+                url: '{{ route("login") }}', // Đảm bảo route đúng
                 type: 'POST',
                 data: formData,
                 success: function(response) {
@@ -240,7 +237,7 @@
             };
 
             $.ajax({
-                url: '{{ url('register') }}',
+                url: '{{ url("register") }}',
                 type: 'POST',
                 data: formData,
                 success: function(response) {
@@ -268,43 +265,24 @@
                             errorMessage += errors[field].join(' ') + '\n';
                         }
                         $('#notificationMessage').text(errorMessage);
-                    console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
-                    if (xhr.status === 422) {
-                        // Nếu có lỗi từ server (ví dụ: validation lỗi)
-                        var errors = JSON.parse(xhr.responseText).errors;
-                        var errorMessage = '';
-                        for (var field in errors) {
-                            errorMessage += errors[field].join(' ') + '\n';
+                        console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
+                        if (xhr.status === 422) {
+                            // Nếu có lỗi từ server (ví dụ: validation lỗi)
+                            var errors = JSON.parse(xhr.responseText).errors;
+                            var errorMessage = '';
+                            for (var field in errors) {
+                                errorMessage += errors[field].join(' ') + '\n';
+                            }
+                            $('#notificationMessage').text(errorMessage);
+                        } else {
+                            $('#notificationBar').removeClass('alert-success').addClass(
+                                'alert-danger');
+                            $('#notificationMessage').text(response.message);
+                            $('#notificationBar').fadeIn().delay(3000).fadeOut();
                         }
-                        $('#notificationMessage').text(errorMessage);
-                    } else {
-                        $('#notificationBar').removeClass('alert-success').addClass(
-                            'alert-danger');
-                        $('#notificationMessage').text(response.message);
-                        $('#notificationBar').fadeIn().delay(3000).fadeOut();
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.log(xhr.responseText); // Kiểm tra lỗi chi tiết
-                    if (xhr.status === 422) {
-                        // Nếu có lỗi từ server (ví dụ: validation lỗi)
-                        var errors = JSON.parse(xhr.responseText).errors;
-                        var errorMessage = '';
-                        for (var field in errors) {
-                            errorMessage += errors[field].join(' ') + '\n';
-                        }
-                        $('#notificationMessage').text(errorMessage);
-                    } else {
-                        $('#notificationMessage').text(
-                            'An error occurred. Please try again.');
-                    }
-                    $('#notificationBar').removeClass('alert-success').addClass(
-                        'alert-danger');
-                    $('#notificationBar').fadeIn().delay(3000).fadeOut();
                 }
             });
         });
     });
 </script>
-
-

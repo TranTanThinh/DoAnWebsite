@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\ReviewPosted;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Order_Item;
@@ -10,6 +11,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserReviewController extends Controller
 {
@@ -22,18 +24,34 @@ class UserReviewController extends Controller
             ->paginate(4);
         // ->get();
 
+        $avgRating = UserReview::where('orderedProductID', '=', $product_id)
+            ->average('rating');
+
+        $ratingDistribution = UserReview::where('orderedProductID', '=', $product_id)
+            ->selectRaw('rating, count(*) as count')
+            ->groupBy('rating')
+            ->orderBy('rating', 'desc')
+            ->get();
+
+        $totalReviews = UserReview::where('orderedProductID', '=', $product_id)->count();
+
         return response()->json([
             'success' => true,
             'message' => 'Reviews List',
-            'data' => $reviews
+            'data' => [
+                'reviews' => $reviews,
+                'average_rating' => round($avgRating, 1),
+                'rating_distribution' => $ratingDistribution,
+                'total_reviews' => $totalReviews,
+            ],
         ]);
     }
 
     public function index()
     {
         $reviews = UserReview::latest()->get();
-        
-        
+
+
         return response()->json($reviews);
     }
 
@@ -49,14 +67,11 @@ class UserReviewController extends Controller
 
         // not login => null, use guard web because you call its api from web.
         // If use directly api guard, you must create token
-        // $currentUser = Auth::user();
-        // $userId = data_get($currentUser, 'id');
-        // $currentProductOnWeb = $request->input('productId');
 
         $currentUser = Auth::user();
         $userId = data_get($currentUser, 'id');
         $currentProductIdOnWeb = $request->input('productId');
-        
+
         $existUserPurchased = DB::table('orders')
             ->join('order__items', 'orders.id', '=', 'order__items.orderId')
             ->select('orders.uid', 'orders.id', 'orders.status', 'order__items.productId')
@@ -66,11 +81,11 @@ class UserReviewController extends Controller
 
         $status = $existUserPurchased->first()->status ?? "No status";
         $currentUserName = data_get($currentUser, 'username');
-            // dd(gettype($existUserPurchased));
-            // dd(strtolower($status));
-            // dd(!$existUserPurchased -> isEmpty() && strtolower($status) === "completed");
-        if(!$existUserPurchased -> isEmpty() && strtolower($status) === "completed") {
-           
+        // dd(gettype($existUserPurchased));
+        // dd(strtolower($status));
+        // dd(!$existUserPurchased -> isEmpty() && strtolower($status) === "completed");
+        if (!$existUserPurchased->isEmpty() && strtolower($status) === "completed") {
+
             $userReview = new UserReview();
             $userReview->setUserID($userId);
             $userReview->setOrderedProductID($currentProductIdOnWeb);
@@ -79,12 +94,38 @@ class UserReviewController extends Controller
 
             $userReview->save();
 
+            $avgRating = UserReview::where('orderedProductID', '=', $userReview->getOrderedProductID())
+                ->average('rating');
+
+            $ratingDistribution = UserReview::selectRaw('rating, count(*) as count')
+                ->where('orderedProductID', '=', $userReview->getOrderedProductID()) 
+                ->groupBy('rating')
+                ->orderBy('rating', 'desc')
+                ->get();
+
+            if ($ratingDistribution->isEmpty()) {
+                Log::info('Rating Distribution is empty', [
+                    'orderedProductID' => $userReview->getOrderedProductID(),
+                    'ratings' => UserReview::where('orderedProductID', '=', $userReview->getOrderedProductID())->pluck('rating'),
+                ]);
+            }
+
+            $totalReviews = UserReview::where('orderedProductID', '=', $userReview->getOrderedProductID())->count();
+
+            $newReview = $userReview->load('user:id,firstName,lastName');
+
+            broadcast(new ReviewPosted($newReview, $ratingDistribution, $totalReviews, $avgRating));
+
             return response()->json([
                 'message' => 'Review Successfully',
                 'currentUserId' => $userId,
                 'currentUserName' => $currentUserName,
                 'data' => $existUserPurchased,
                 'currentProductOnWeb' => $currentProductIdOnWeb,
+                'ratingDistribution' => $ratingDistribution,
+                'avgRating' => $avgRating,
+                'totalReviews' => $totalReviews,
+                'newReview' => $newReview,
             ], 200);
         } else {
             return response()->json([
