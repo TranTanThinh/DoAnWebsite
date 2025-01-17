@@ -52,6 +52,14 @@
 
 </style>
 
-
+@if (isset($blog))
+<div class="blog-post">
+    <h3 class="blog-title">{{ $blog->title }}</h3>
+    <p class="blog-author"><strong>Author:</strong> {{ $blog->author }}</p>
+    <img src="{{ asset('Template/images/' . $blog->image) }}" alt="{{ $blog->title }}" class="blog-image">
+    <p class="blog-content">{{ Str::limit($blog->content, 150) }}</p>
+    <p class="blog-view"><strong>Lượt xem:</strong> {{ $blog->view }}</p>
+</div>
+@endif
 
 @endsection
