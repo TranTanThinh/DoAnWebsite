@@ -49,7 +49,15 @@
 
 </style>
 
-
+<div class="blog-post">
+    <img src="{{ asset('Template/images/bg_2.jpg') }}" alt="Description of Image" class="image">
+    
+    <div class="promotional-info">
+        <h3>Rau Quả Organic Tươi Mới 100%</h3>
+        <p>Rau quả nhập khẩu đảm bảo các tiêu chuẩn an toàn quốc tế!</p>
+    </div>
+    
+    
 </div>
 
 
