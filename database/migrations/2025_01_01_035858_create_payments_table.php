@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('paymentMethod');
             $table->string('paymentStatus');
             $table->decimal('amount', total:9, places:2);
-
             $table->timestamps();
             $table->softDeletes()->nullable();
         });

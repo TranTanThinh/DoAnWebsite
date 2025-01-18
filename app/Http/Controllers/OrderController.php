@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Order_Item;
+use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -66,21 +69,50 @@ class OrderController extends Controller
         return view('Template.pages.orders.order_edit', compact('order'));
     }
 
-public function update(Request $request, $id)
-{
-    // Validate dữ liệu từ form
-    $validated = $request->validate([
-        'status' => 'required|string|max:255',
-        'totalPrice' => 'required|numeric',
-    ]);
+    public function update(Request $request, $id)
+    {
+        // Validate dữ liệu từ form
+        $validated = $request->validate([
+            'status' => 'required|string|max:255',
+            'totalPrice' => 'required|numeric',
+        ]);
 
-    // Tìm đơn hàng theo ID và cập nhật thông tin
-    $order = Order::findOrFail($id);
-    $order->status = $request->status;
-    $order->totalPrice = $request->totalPrice;
-    $order->save();
+        // Tìm đơn hàng theo ID và cập nhật thông tin
+        $order = Order::findOrFail($id);
+        $order->status = $request->status;
+        $order->totalPrice = $request->totalPrice;
+        $order->save();
 
-    // Chuyển hướng lại trang danh sách đơn hàng với thông báo thành công
-    return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
-}
+        // Chuyển hướng lại trang danh sách đơn hàng với thông báo thành công
+        return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
+    }
+    public function processOrder(Request $request)
+    {
+        try {
+            DB::beginTransaction(); // Bắt đầu transaction
+
+            // 1. Tạo đơn hàng mới
+            $order = Order::create([
+                'uid' => auth()->id(),
+                'shippingAddressId' => $request->input('shippingAddressId', 0),
+                'status' => 'pending',
+                'totalPrice' => $request->input('totalPrice', 0),
+            ]);
+
+            // 2. Tạo bản ghi thanh toán
+            Payment::create([
+                'orderId' => $order->id,  // ID của đơn hàng vừa tạo
+                'paymentMethod' => $request->input('payment_method', 'COD'),
+                'paymentStatus' => 'pending',
+                'amount' => $request->input('totalPrice', 0),
+            ]);
+
+            DB::commit(); // Commit transaction
+
+            return response()->json(['message' => 'Order and payment created successfully!'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback transaction nếu có lỗi
+            return response()->json(['message' => 'Failed to process the order.'], 500);
+        }
+    }
 }

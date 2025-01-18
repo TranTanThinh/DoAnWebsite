@@ -2,28 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
     /**
      * PRODUCT ATTRIBUTES
      * $this->attributes['productId'] - int - contains the product primary key (id)
      * $this->attributes['name'] - string - contains the product name
-     * $this->attributes['iamge'] - string -  contains the product image 
+     * $this->attributes['image'] - string - contains the product image
      * $this->attributes['description'] - string - contains the product description
      * $this->attributes['price'] - float - contains the product price
      * $this->attributes['slug'] - string - contains the product slug
      * $this->attributes['created_at'] - timestamp - contains the product creation date
      * $this->attributes['updated_at'] - timestamp - contains the product update date
     **/
+    protected $table = 'products';
+    protected $primaryKey = 'productId'; // Đặt khóa chính là productId
 
-     // Nếu bạn không muốn sử dụng timestamps (created_at, updated_at)
-     // bạn có thể tắt timestamps:
-     public $timestamps = true;  // Thực tế là mặc định, nếu bạn không muốn timestamp thì đặt false
-     
     protected $fillable = [
         'name',
         'image',
@@ -31,23 +27,30 @@ class Product extends Model
         'price',
         'slug',
         'categoryId',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
-    protected $primaryKey = 'productId';
+    protected $dates = ['deleted_at'];
 
-    public static function sumPricesByQuantities($products, $productsInSession) {
+    public static function sumPricesByQuantities($products, $productsInSession)
+    {
         $total = 0;
-        foreach($products as $product) {
+        foreach ($products as $product) {
             $total = $total + ($product->getPrice() * $productsInSession[$product->getProductId()]);
         }
 
         return $total;
     }
 
-    public function userReviews() {
+    public function userReviews()
+    {
         return $this->hasMany(UserReview::class);
     }
-    public function user() {
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -55,7 +58,6 @@ class Product extends Model
     {
         return $this->hasMany(Inventory::class, 'productID', 'productId');
     }
-
 
     public function getProductId()
     {
@@ -146,5 +148,4 @@ class Product extends Model
     {
         $this->attributes['updated_at'] = $updatedAt;
     }
-
 }
