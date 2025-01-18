@@ -38,9 +38,14 @@
                                     <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                         <span><i class="ion-ios-menu"></i></span>
                                     </a>
-                                    <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                        <span><i class="ion-ios-cart"></i></span>
-                                    </a>
+                                    <form action="{{ route('cart.add', ['id' => $product->getProductId()]) }}"
+                                        method="post">
+                                        @csrf
+                                        <button type="submit"
+                                            class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                            <span><i class="ion-ios-cart"></i></span>
+                                        </button>
+                                    </form>
                                     
                                     @if (Auth::check())
                                     <a href="#" class="heart d-flex justify-content-center align-items-center ">
