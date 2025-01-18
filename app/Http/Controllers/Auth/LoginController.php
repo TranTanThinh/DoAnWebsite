@@ -96,11 +96,11 @@ class LoginController extends Controller
 
         Cache::forget("login_attempts_$username");
 
-        // return response()->json([
-        //     'status' => 'success',
-        //     'message' => 'Login successful!',
-        //     'redirect' => route('index')
-        // ]);
-        return $this->redirectTo();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Login successful!',
+            'redirect' => route('home')
+        ]);
+        // return $this->redirectTo();
     }
 }

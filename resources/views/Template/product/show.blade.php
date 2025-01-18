@@ -12,15 +12,11 @@
 
                 <div class="rating d-flex">
                     <p class="text-left mr-4">
-                        <a href="#" class="mr-2">5.0</a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
-                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        <a href="#" class="mr-2"><span id="rate"></span></a>
                         <a href="#"><span class="ion-ios-star-outline"></span></a>
                     </p>
                     <p class="text-left mr-4">
-                        <a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>
+                        <a href="#" class="mr-2" style="color: #000;" ><span id="timesRev"></span> <span style="color: #bbb;">Rating</span></a>
                     </p>
                     <p class="text-left">
                         <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
@@ -124,32 +120,16 @@
                 <div class="review-summary">
                     <h4>Đánh giá trung bình</h4>
                     <p>
-                        <strong>{{ number_format(3.4, 1) }}</strong> trên 5 sao
-                        (50 lượt đánh giá)
+                        <strong id="avgRating"></strong> trên 5 sao
+                        (<span id="totalReviewsPerProduct"></span> lượt đánh giá)
                     </p>
-                    <div>
-                        @for ($i = 1; $i <= 5; $i++)
-                            @if ($i <= 4.5)
-                            <span class="ion-ios-star"></span>
-                            @else
-                            <span class="ion-ios-star-outline"></span>
-                            @endif
-                            @endfor
-                    </div>
+                    <div></div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="review-distribution">
                     <h4>Phân bố đánh giá</h4>
-                    <ul class="list-unstyled">
-                       {{-- @foreach ($ratingDistribution as $stars => $count) --}}
-                        <li>
-                            {{-- $stars --}} Sao:
-                            <span>{{-- $count --}}</span> lượt đánh giá
-                            (<strong>{{-- round(($count / $totalReviews) * 100, 1) --}}%</strong>)
-                        </li>
-                        {{--@endforeach--}}
-                    </ul>
+                    <ul id="ratingDistribution" class="list-unstyled"></ul>
                 </div>
             </div>
         </div>
@@ -158,9 +138,12 @@
         <div class="row" id=""></div>
         @if (Auth::check())
         <div class="row">
+            <span class="subheading">Reviews</span>
+            <div id="message"></div>
             <div class="col-md-12">
-                <form method="post" action="">
+                <form id="reviewForm">
                     @csrf
+                    <input type="hidden" name="productId" id="productId" value="{{ $viewData['product']->getProductId() }}">
                     <div class="form-group">
                         <label for="rating">Chọn số sao:</label>
                         <select name="rating" id="rating" class="form-control" required>
@@ -172,8 +155,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="review">Viết đánh giá của bạn:</label>
-                        <textarea name="review" id="review" class="form-control" rows="4"></textarea>
+                        <label for="comment">Viết đánh giá của bạn:</label>
+                        <textarea name="comment" id="comment" class="form-control" rows="4"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
                 </form>
@@ -182,7 +165,7 @@
         @else
         <div class="row">
             <div class="col-md-12 text-center">
-                <p><a href="{{ route('login') }}" class="btn btn-primary">Mua hàng để đánh giá</a></p>
+                <p><a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-primary">Mua hàng để đánh giá</a></p>
             </div>
         </div>
         @endif
@@ -190,8 +173,8 @@
         <div class="row mt-4" id="user_reviews"></div>
         <div class="row mt-4">
             <div class="col text-center">
-                <div class="block-27" id="pagination">
-                    
+                <div class="pagination" id="pagination">
+
                 </div>
             </div>
         </div>
@@ -271,7 +254,7 @@
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                console.log('res related: ', response);
+                // console.log('res related: ', response);
                 if (!response || response.length === 0) {
                     $('#related_products').html('<p>No related products found</p>');
                     return;
@@ -334,50 +317,127 @@
         trailingZeroDisplay: 'stripIfInteger'
     }).format(price);
 
+
+    $(document).ready(function() {
+
+        const updateRatingDistribution = (distribution, tReviews) => {
+            const container = document.getElementById('ratingDistribution');
+
+            container.innerHTML = distribution.map(item => {
+                const percentage = ((item.count / tReviews) * 100).toFixed(2);
+                return `
+                    <li>
+                        ${item.rating} Sao: <span>${item.count}</span> lượt đánh giá
+                        (<strong>${percentage}%</strong>)
+                        <div class="progress">
+                            <div class="progress-bar" style="width: ${percentage}%;"></div>
+                        </div>
+                    </li>
+                `;
+            }).join('');
+        };
+
+        Echo.channel('reviews')
+            .listen('ReviewPosted', (event) => {
+                console.log('ReviewPosted', event)
+
+                const totalReviews = event.totalReviews;
+
+                const avgRatingElement = document.getElementById('avgRating');
+                avgRatingElement.innerHTML = `${event.avgRating.toFixed(1)}`;
+
+                const totalReviewsPerProductElement = document.getElementById('totalReviewsPerProduct');
+                totalReviewsPerProductElement.innerHTML = `${totalReviews}`;
+
+                const timesRev = document.getElementById('timesRev');
+                timesRev.innerHTML = `${totalReviews}`;
+                const rate = document.getElementById('rate');
+                rate.innerHTML = `${event.avgRating.toFixed(1)}`;
+
+
+                updateRatingDistribution(event.ratingDistribution, event.totalReviews);
+
+                const reviewContainer = document.getElementById('user_reviews');
+                const newReview = event.newReview;
+
+                reviewContainer.insertAdjacentHTML('afterbegin', review(newReview));
+            });
+    });
+
+
     // get reviews
     $(document).ready(function() {
         let id = `{{$viewData['product']->getProductId() }}`;
-        $.ajax({
-            url: `http://127.0.0.1:8000/api/userReviews/product/${id}`,
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
-                if(response.success) {
-                    // console.log('res: ', response);
-                    $('#user_reviews').empty();
-                    // console.log(typeof(response));
-                    response.data.data.forEach(data => {
-                        console.log('data: ', data)
-                        $('#user_reviews').append(review(data));
-                    });
+        fetchReviews(`http://127.0.0.1:8000/api/userReviews/product/${id}`);
 
-                    if (response.data.links.length > 0) {
-                        response.data.links.forEach(link => {
-                        if (link.url) {
-                            $('#pagination').append(`
-                                <a href="${link.url}" class="page-link">${link.label}</a>
-                            `);
-                        } else {
-                            $('#pagination').append(`
-                                <span class="page-link disabled">${link.label}</span>
-                            `);
-                        }
-                    });
-                }
-                }
-            },
-            error:function(error) {
-                console.log('Error: ', error);
+        $(document).on('click', '.page-link', function(e) {
+            e.preventDefault();
+            const url = $(this).attr('href');
+            if (url) {
+                fetchReviews(url);
             }
         });
     });
 
+    function fetchReviews(url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $('#user_reviews').empty();
+                    response.data.reviews.data.forEach(data => {
+                        $('#user_reviews').append(review(data));
+                    });
+
+                    $('#avgRating').text(response.data.average_rating);
+                    $('#totalReviewsPerProduct').text(response.data.reviews.total);
+                    $('#timesRev').text(response.data.reviews.total);
+                    $('#rate').text(response.data.average_rating);
+
+                    const distributionContainer = $('#ratingDistribution');
+                    const totalReviews = response.data.total_reviews;
+                    distributionContainer.empty();
+                    response.data.rating_distribution.forEach(item => {
+                        const percentage = ((item.count / totalReviews) * 100).toFixed(2);
+                        distributionContainer.append(`
+                        <li>
+                            ${item.rating} Sao: <span>${item.count}</span> lượt đánh giá
+                            (<strong>${percentage}%</strong>)
+                            <div class="progress">
+                                <div class="progress-bar" style="width: ${percentage}%;"></div>
+                            </div>
+                        </li>
+                    `);
+                    });
+
+                    $('#pagination').empty();
+                    response.data.reviews.links.forEach(link => {
+                        if (link.url) {
+                            $('#pagination').append(
+                                `<a href="${link.url}" class="page-link ${link.active ? 'active' : ''}">${link.label}</a>`
+                            );
+                        } else {
+                            $('#pagination').append(`<span class="page-link disabled">${link.label}</span>`);
+                        }
+                    });
+                }
+            },
+            error: function(error) {
+                console.error('Error fetching reviews:', error);
+            }
+        });
+    }
+
+
+
     const review = (rev) => {
         let stars = '';
-        for(let i = 1; i <= rev.rating; i++) {
+        for (let i = 1; i <= rev.rating; i++) {
             stars += `<span class="ion-ios-star"></span>`;
         }
-        for(let i = rev.rating + 1; i <= 5; i++) {
+        for (let i = rev.rating + 1; i <= 5; i++) {
             stars += `<span class="ion-ios-star-outline"></span>`;
         }
 
@@ -393,6 +453,37 @@
         `
     };
 
+    $(document).ready(function() {
+        var reviewfrm = $('#reviewForm');
+
+        reviewfrm.submit(function(e) {
+            e.preventDefault();
+
+            let frmData = {
+                productId: $('#productId').val(),
+                rating: $('#rating').val(),
+                comment: $('#comment').val(),
+            }
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/api/userReviews',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Accept': 'application/json',
+                },
+                data: frmData,
+                success: function(response) {
+                    $('#message').html('<p style="color:green;">' + response.message + '</p>');
+                    $('#reviewForm')[0].reset();
+                },
+                error: function(xhr) {
+                    let errMessage = xhr.responseJSON?.message || 'An error occurred';
+                    $('#message').html('<p style="color:red;font-size:2em;font-style:italic">' + errMessage + '</p>');
+                }
+            });
+        });
+    });
 </script>
 
 @endsection

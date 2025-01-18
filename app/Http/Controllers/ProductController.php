@@ -12,19 +12,14 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
     */
-
-
-
     public function index()
     {
-
         $viewData = [];
-        // $products = Product::all();
         $products = Product::paginate(12);
-        // dd($products);
         $viewData['title'] = 'Shop Products';
         $viewData['products'] = $products;
 
+       // Phân trang với 12 sản phẩm mỗi trang return view('Template.pages.shop', compact('products'));
 
         return view('Template.product.index')->with('viewData', $viewData);
     }
@@ -34,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -42,33 +37,26 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
-    
+
     /**
      * Display the specified resource.
      */
     public function show(string $slug, string $id)
     {
         $viewData = [];
-        
-        $product = Product::where('slug', 'like',$slug)
-                            ->where('productId','=' , $id)
-                            ->firstOrFail();
-        // $product = Product::where('productId', '=', $id)->firstOrFail();
-        // $relatedProducts = Product::where('categoryId', $product->getCategoryId())
-        //                     ->where('productId', '!=', $product->getProductId())
-        //                     ->limit(4)
-        //                     ->get();
-        // dd($relatedProducts);
+
+        $product = Product::where('slug', 'like', $slug)
+                          ->where('productId', '=', $id)
+                          ->firstOrFail();
+
         $status = $product->inventories->sum('quantity');
-        
+
         $viewData['product'] = $product;
         $viewData['status'] = $status > 0 ? 'In stock' : 'Out of Stock';
         $viewData['quantity'] = $product->inventories;
 
-
-        // dd($viewData);
         return view('Template.product.show')->with('viewData', $viewData);
     }
 
@@ -83,7 +71,6 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-
     public function update(Request $request, string $id)
     {
         //
@@ -92,7 +79,6 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-
     public function destroy(string $id)
     {
         //

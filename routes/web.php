@@ -12,6 +12,9 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\OrderController;
+
 
 
 Route::controller(HomeController::class)->group(function () {
@@ -26,6 +29,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/checkout', 'checkout')->name('checkout');
     Route::get('/about', 'about')->name('about');
     Route::get('/wishlist', 'wishlist')->name('wishlist');
+    Route::get('/profile', 'profile')->name('profile');
 });
 
 Route::resource('/admin', AdminController::class);
@@ -37,7 +41,6 @@ Auth::routes();
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register.form');
 Route::post('register', [RegisterController::class, 'register'])->name('register');
-//Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 
@@ -50,8 +53,9 @@ Route::controller(ProductController::class)->group(function () {
 
 Route::controller(CartController::class)->group(function() {
     route::get('/cart', 'index')->name('cart.index');
-    route::get('/cart/delete','delete')->name('cart.delete');
+    Route::get('/cart/delete/{id}', [CartController::class, 'delete'])->name('cart.delete');
     route::post('/cart/add/{id}','add')->name('cart.add');
+    Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
 });
 
 
@@ -65,6 +69,7 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+
 
 Route::resource('products', ProductController::class);
 
@@ -97,7 +102,12 @@ Route::middleware('auth')->group(function() {
     });
 });
 
+Route::post('/order/process', [OrderController::class, 'processOrder'])->name('order.process');
 
+Route::post('/cart/apply-promotion', [CartController::class, 'applyPromotion'])->name('cart.applyPromotion');
 
-Route::post('/payment', [PaymentController::class, 'createPayment']);
+Route::get('/vnpay_return', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
+
+Route::post('/vnpay_payment', [PaymentController::class, 'vnpayPayment'])->name('vnpay.payment');
+
 

@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        'uid',               // ID người dùng
+        'shippingAddressId', // ID địa chỉ giao hàng
+        'status',            // Trạng thái đơn hàng
+        'totalPrice',        // Tổng giá trị đơn hàng
+    ];
     public function user() {
         return $this->belongsTo(User::class, 'uid');
     }

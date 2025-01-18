@@ -16,7 +16,7 @@ Route::middleware([])->group(function() {
     Route::get('products/{id}/related', [ProductController::class, 'getRelatedProducts']);
 });
 
-Route::apiResource('userReviews', UserReviewController::class);
+Route::apiResource('userReviews', UserReviewController::class)->middleware(['web']);
 Route::middleware([])->group(function() {
     Route::get('userReviews/product/{product_id}', [UserReviewController::class, 'getReviewsByProduct']);
 });

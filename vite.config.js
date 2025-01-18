@@ -5,7 +5,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/sass/app.scss',
+                // 'resources/sass/app.scss',// npm run build get a error with this file not found
                 'resources/js/app.js',
             ],
             refresh: true,
