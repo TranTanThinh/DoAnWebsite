@@ -11,24 +11,23 @@ use App\Models\Promotion;
 
 class CartController extends Controller
 {
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $total = 0;
-        $productsInCart = [];
-        $productsInSession = $request->session()->get('products', []);
+        $productsInSession = $request->session()->get('products', []);  // Sử dụng mảng rỗng mặc định nếu không có key 'products'
 
-        // Nếu có sản phẩm trong session, lấy thông tin sản phẩm
         if ($productsInSession) {
-            $productsInCart = Product::findMany(array_keys($productsInSession)); // Lấy thông tin sản phẩm
-            $total = Product::sumPricesByQuantities($productsInCart, $productsInSession); // Tính tổng giá trị giỏ hàng
+            $productsInCart = Product::findMany(array_keys($productsInSession));  // Lấy thông tin sản phẩm
+            $total = Product::sumPricesByQuantities($productsInCart, $productsInSession);  // Tính tổng giá trị giỏ hàng
         }
 
-        $viewData = [];
-        $viewData['total'] = $total;
-        $viewData['products'] = $productsInCart;
-        $viewData['cartCount'] = count($productsInSession); // Đếm số sản phẩm trong giỏ hàng
+        $viewData = [
+            'total' => $total,
+            'products' => $productsInCart ?? [],  // Đảm bảo 'products' có giá trị mặc định nếu không có sản phẩm
+            'cartCount' => count($productsInSession),  // Đếm số lượng sản phẩm trong giỏ
+        ];
+        $request->session()->put('cartViewData', $viewData);
 
-        return view('Template.pages.cart.index')->with('viewData', $viewData);
+        return view('Template.pages.cart.index');
     }
 
 
@@ -74,7 +73,10 @@ class CartController extends Controller
         if (isset($products[$id])) {
             $products[$id] += $request->input('quantity'); // Cộng dồn số lượng nếu sản phẩm đã có
         } else {
+            
+
             $products[$id] = $request->input('quantity'); // Nếu chưa có thì thêm mới
+
         }
 
         // Lưu lại vào session
