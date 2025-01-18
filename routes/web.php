@@ -105,6 +105,7 @@ Route::middleware('auth')->group(function() {
 Route::post('/order/process', [OrderController::class, 'processOrder'])->name('order.process');
 
 Route::post('/cart/apply-promotion', [CartController::class, 'applyPromotion'])->name('cart.applyPromotion');
+Route::post('/cart/delete-all', [CartController::class, 'deleteAll'])->name('cart.deleteAll');
 
 Route::get('/vnpay_return', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
 

@@ -11,7 +11,8 @@ use App\Models\Promotion;
 
 class CartController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $total = 0;
         $productsInSession = $request->session()->get('products', []);  // Sử dụng mảng rỗng mặc định nếu không có key 'products'
 
@@ -30,7 +31,6 @@ class CartController extends Controller
         return view('Template.pages.cart.index');
     }
 
-
     public function cartIndex()
     {
         if (!Auth::check()) {
@@ -38,6 +38,17 @@ class CartController extends Controller
         }
         $carts = Cart::with('product')->where('user_id', Auth::id())->paginate(5); // Phân trang với 5 sản phẩm mỗi trang
         return view('Template.pages.cart', compact('carts'));
+    }
+    public function deleteAll(Request $request)
+    {
+        // Xóa toàn bộ giỏ hàng khỏi session
+        session()->forget('products');
+
+        // Cập nhật lại tổng giá trị
+        session()->put('total', 0);
+
+        // Điều hướng trở lại trang giỏ hàng với thông báo
+        return redirect()->route('cart.index')->with('success', 'All products have been removed from the cart.');
     }
 
     public function addToCart($productId)
@@ -73,7 +84,7 @@ class CartController extends Controller
         if (isset($products[$id])) {
             $products[$id] += $request->input('quantity'); // Cộng dồn số lượng nếu sản phẩm đã có
         } else {
-            
+
 
             $products[$id] = $request->input('quantity'); // Nếu chưa có thì thêm mới
 
